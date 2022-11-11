@@ -14,6 +14,7 @@
 		4294337B291EE1BA0093F948 /* logininterfaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294337A291EE1BA0093F948 /* logininterfaceTests.swift */; };
 		42943385291EE1BA0093F948 /* logininterfaceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42943384291EE1BA0093F948 /* logininterfaceUITests.swift */; };
 		42943387291EE1BA0093F948 /* logininterfaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42943386291EE1BA0093F948 /* logininterfaceUITestsLaunchTests.swift */; };
+		42943394291EE8930093F948 /* SUImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42943393291EE8930093F948 /* SUImagePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		42943380291EE1BA0093F948 /* logininterfaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = logininterfaceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		42943384291EE1BA0093F948 /* logininterfaceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logininterfaceUITests.swift; sourceTree = "<group>"; };
 		42943386291EE1BA0093F948 /* logininterfaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = logininterfaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		42943393291EE8930093F948 /* SUImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SUImagePickerView.swift; path = "../../../../Downloads/SUImagePickerView-master/SUImagePickerView/SUImagePickerView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		42943368291EE1B80093F948 /* logininterface */ = {
 			isa = PBXGroup;
 			children = (
+				42943393291EE8930093F948 /* SUImagePickerView.swift */,
 				42943369291EE1B80093F948 /* logininterfaceApp.swift */,
 				4294336B291EE1B80093F948 /* ContentView.swift */,
 				4294336D291EE1BA0093F948 /* Assets.xcassets */,
@@ -259,6 +262,7 @@
 			files = (
 				4294336C291EE1B80093F948 /* ContentView.swift in Sources */,
 				4294336A291EE1B80093F948 /* logininterfaceApp.swift in Sources */,
+				42943394291EE8930093F948 /* SUImagePickerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
