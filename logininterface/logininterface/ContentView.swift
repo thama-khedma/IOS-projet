@@ -15,9 +15,7 @@ struct ContentView: View {
         Home()
             // for light status bar...
             .preferredColorScheme(.dark)
-        Home1()
-            // for light status bar...
-            .preferredColorScheme(.dark)
+
 
 
     }
@@ -28,86 +26,7 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-struct Home1 : View{
-    
-    @State var index = 0
 
-    
-    var body: some View{
-        
-        GeometryReader{_ in
-            
-            VStack{
-
-                
-                ZStack{
-                    
-                    SignUP(index: self.$index)
-                        // changing view order...
-                        .zIndex(Double(self.index))
-                    
-                    Login(index: self.$index)
-
-                }
-                
-                HStack(spacing: 15){
-                    
-                    Rectangle()
-                    .fill(Color("Color1"))
-                    .frame(height: 1)
-                    
-                    Text("OR")
-                    
-                    Rectangle()
-                    .fill(Color("Color1"))
-                    .frame(height: 1)
-                }
-                .padding(.horizontal, 30)
-                .padding(.top, 50)
-                // because login button is moved 25 in y axis and 25 padding = 50
-                
-                HStack(spacing: 25){
-                    
-                    Button(action: {
-                        
-                    }) {
-                        
-                        Image("apple")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                    
-                    Button(action: {
-                        
-                    }) {
-                        
-                        Image("fb")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                    
-                    Button(action: {
-                        
-                    }) {
-                        
-                        Image("twitter")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                }
-                .padding(.top, 30)
-            }
-            .padding(.vertical)
-        }
-        .background(Color("Color").edgesIgnoringSafeArea(.all))
-    }
-}
 struct Home : View {
     
     @State var index = 0
@@ -231,6 +150,12 @@ struct Login : View {
     @State var email = ""
     @State var pass = ""
     @Binding var index : Int
+    @State private var isShowingScanner = false
+    @State private var image: Image? = Image("twitter")
+    @State private var shouldPresentImagePicker = false
+    @State private var shouldPresentActionScheet = false
+    @State private var shouldPresentCamera = false
+
     
     var body: some View{
         
@@ -300,6 +225,26 @@ struct Login : View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 30)
+                image!
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 60, height: 60)
+                    .overlay(Rectangle()
+                    .stroke(Color.white, lineWidth: 10))
+                    .shadow(radius: 10)
+                    .onTapGesture { self.shouldPresentActionScheet = true }
+                    .sheet(isPresented: $shouldPresentImagePicker) {
+                        SUImagePickerView(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, image: self.$image, isPresented: self.$shouldPresentImagePicker)
+                }.actionSheet(isPresented: $shouldPresentActionScheet) { () -> ActionSheet in
+                    ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [ActionSheet.Button.default(Text("Camera"), action: {
+                        self.shouldPresentImagePicker = true
+                        self.shouldPresentCamera = true
+                    }), ActionSheet.Button.default(Text("Photo Library"), action: {
+                        self.shouldPresentImagePicker = true
+                        self.shouldPresentCamera = false
+                    }), ActionSheet.Button.cancel()])
+                }
+                
             }
             .padding()
             // bottom padding...
@@ -375,7 +320,25 @@ struct SignUP : View {
                     }
                 }
                 .padding(.top, 30)// for top curve...
-                
+                image!
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 60, height: 60)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 10))
+                    .shadow(radius: 10)
+                    .onTapGesture { self.shouldPresentActionScheet = true }
+                    .sheet(isPresented: $shouldPresentImagePicker) {
+                        SUImagePickerView(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, image: self.$image, isPresented: self.$shouldPresentImagePicker)
+                }.actionSheet(isPresented: $shouldPresentActionScheet) { () -> ActionSheet in
+                    ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [ActionSheet.Button.default(Text("Camera"), action: {
+                        self.shouldPresentImagePicker = true
+                        self.shouldPresentCamera = true
+                    }), ActionSheet.Button.default(Text("Photo Library"), action: {
+                        self.shouldPresentImagePicker = true
+                        self.shouldPresentCamera = false
+                    }), ActionSheet.Button.cancel()])
+                }
                 VStack{
                     
                     HStack(spacing: 15){
@@ -424,25 +387,7 @@ struct SignUP : View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 30)
-                image!
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                    .shadow(radius: 10)
-                    .onTapGesture { self.shouldPresentActionScheet = true }
-                    .sheet(isPresented: $shouldPresentImagePicker) {
-                        SUImagePickerView(sourceType: self.shouldPresentCamera ? .camera : .photoLibrary, image: self.$image, isPresented: self.$shouldPresentImagePicker)
-                }.actionSheet(isPresented: $shouldPresentActionScheet) { () -> ActionSheet in
-                    ActionSheet(title: Text("Choose mode"), message: Text("Please choose your preferred mode to set your profile image"), buttons: [ActionSheet.Button.default(Text("Camera"), action: {
-                        self.shouldPresentImagePicker = true
-                        self.shouldPresentCamera = true
-                    }), ActionSheet.Button.default(Text("Photo Library"), action: {
-                        self.shouldPresentImagePicker = true
-                        self.shouldPresentCamera = false
-                    }), ActionSheet.Button.cancel()])
-                }
+
                 
             }
             .padding()

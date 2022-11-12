@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		420EF9F3291FC8B70001072D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 420EF9F2291FC8B70001072D /* CodeScanner */; };
 		4294336A291EE1B80093F948 /* logininterfaceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42943369291EE1B80093F948 /* logininterfaceApp.swift */; };
 		4294336C291EE1B80093F948 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4294336B291EE1B80093F948 /* ContentView.swift */; };
 		4294336E291EE1BA0093F948 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4294336D291EE1BA0093F948 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				420EF9F3291FC8B70001072D /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +148,9 @@
 			dependencies = (
 			);
 			name = logininterface;
+			packageProductDependencies = (
+				420EF9F2291FC8B70001072D /* CodeScanner */,
+			);
 			productName = logininterface;
 			productReference = 42943366291EE1B80093F948 /* logininterface.app */;
 			productType = "com.apple.product-type.application";
@@ -218,6 +223,9 @@
 				Base,
 			);
 			mainGroup = 4294335D291EE1B80093F948;
+			packageReferences = (
+				420EF9F1291FC8B60001072D /* XCRemoteSwiftPackageReference "CodeScanner" */,
+			);
 			productRefGroup = 42943367291EE1B80093F948 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -581,6 +589,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		420EF9F1291FC8B60001072D /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		420EF9F2291FC8B70001072D /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 420EF9F1291FC8B60001072D /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4294335E291EE1B80093F948 /* Project object */;
 }
