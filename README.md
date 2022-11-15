@@ -1,4 +1,5 @@
 # IOS-projet
+# Hi there, I'm Jesse - aka [codeSTACKr][youtube] 👋 
 IOS-mini-projet
 thamma-khedma
 une application native de ios et android  de Recrutement en ligne
@@ -27,3 +28,5 @@ Notifier le utilisateur/employe par les demandes des offre et notifier les emplo
 ● Gérer entreprise: 
 Le donneur peut consulter son panier, voir l'état de ses offre , 
 ajouter des offre au candidat, modifier son offre et information ou supprimer des offre et information. 
+
+
