@@ -1,5 +1,5 @@
 # IOS-projet
-# Hi there, I'm Jesse - aka [codeSTACKr][youtube] 👋 
+# salut, nous somme monaem et jassser [thamma-khedma][youtube] 👋 
 IOS-mini-projet
 thamma-khedma
 une application native de ios et android  de Recrutement en ligne
