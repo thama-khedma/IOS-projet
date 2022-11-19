@@ -22,16 +22,21 @@ struct profile_Previews: PreviewProvider {
 
 struct Home1 : View {
     @State var index = 0
-    @State var email = ""
-    @State var pass = ""
-    @State private var isShowingScanner = false
-    @State private var image: Image? = Image("twitter")
-    @State private var shouldPresentImagePicker = false
-    @State private var shouldPresentActionScheet = false
-    @State private var shouldPresentCamera = false
-    @State private var isShowingDetailView = false
-    @State private var passwordforget = true
+    @State var username:String = UserViewModel.currentUser?.firstName ?? ""
+    @State var  password:String =  UserViewModel.currentUser?.password ?? ""
     @ObservedObject var viewModel = UserViewModel()
+    @State var   verifpassword:String=""
+    @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
+
+    @State var   email:String = UserViewModel.currentUser?.email ?? ""
+    @State var  description:String = ""
+    @State var selectedImage: UIImage?
+    @State var showImagePicker : Bool = false
+    @State var update : Bool = false
+    @State var isdisabledEmail : Bool = true
+    @State var activateSecurePwd : Bool = false
+    @State var logout : Bool = false
+    
     var body: some View{
         
         VStack{
@@ -120,7 +125,7 @@ struct Home1 : View {
                                 Image(systemName: "envelope.fill")
                                     .foregroundColor(Color("Color1"))
                                 
-                                TextField("First name", text: $viewModel.firstName)
+                                TextField("First name", text: $username)
                             }
                             
                             Divider().background(Color.white.opacity(0.5))
@@ -134,7 +139,7 @@ struct Home1 : View {
                                 Image(systemName: "envelope.fill")
                                     .foregroundColor(Color("Color1"))
                                 
-                                TextField("Last name", text: $viewModel.lastName)
+                                TextField("Last name", text: $lastname)
                             }
                             
                             Divider().background(Color.white.opacity(0.5))
@@ -149,7 +154,7 @@ struct Home1 : View {
                                 Image(systemName: "envelope.fill")
                                     .foregroundColor(Color("Color1"))
                                 
-                                TextField("Email Address", text: $viewModel.email)
+                                TextField("Email Address", text: $email)
                             }
                             
                             Divider().background(Color.white.opacity(0.5))

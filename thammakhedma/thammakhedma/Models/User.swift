@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Alamofire
+
 import SwiftyJSON
 struct User {
     
@@ -14,7 +14,7 @@ struct User {
     var lastName : String
     var password : String
     var email : String
- 
+    var id: String!
     
     init(firstname: String, password: String, email: String, lastName: String) {
        

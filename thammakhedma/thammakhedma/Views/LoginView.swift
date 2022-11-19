@@ -153,7 +153,10 @@ struct Login : View {
     @State private var shouldPresentCamera = false
     @State private var isShowingDetailView = false
     @State private var passwordforget = false
-
+    @State private var isLogin = false
+    @State private var isShowingContentView = false
+    var currentUser: User?
+    @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = UserViewModel()
     var body: some View{
         
@@ -251,13 +254,22 @@ struct Login : View {
             .padding(.horizontal,20)
             
             // Button...
-            NavigationLink(destination: profile(), isActive: $isShowingDetailView){
-                Button("Login",action:  {
-                    viewModel.LogIn(email: viewModel.email , password:viewModel.password , onSuccess: {isShowingDetailView = true} , onError: {
-                        (errorMessage)in
+            NavigationLink(destination: profile().navigationBarBackButtonHidden(true), isActive: $isLogin){
+                Button("Login", action: {
+                    
+                    viewModel.LogIn(email: viewModel.email, password: viewModel.password,complited: {(user ) in
+                        if let  _ = user {
+                           
+                            print("logged in ")
+                            isLogin=true
+                        }else{
+                            print("not loged in ")
+                            isLogin=false
+                        }
                     })
                     
-                })
+                }
+                )
                 .foregroundColor(.white)
                 .fontWeight(.bold)
                 .padding(.vertical)
@@ -287,6 +299,7 @@ struct SignUP : View {
     @State private var shouldPresentCamera = false
     @Binding var index : Int
     @State private var isShowingDetailView = false
+    @State private var redirectLogin = false
     @ObservedObject var viewModel = UserViewModel()
     var body: some View{
         
@@ -394,9 +407,10 @@ struct SignUP : View {
             .cornerRadius(35)
             .padding(.horizontal,20)
             // Button...
-            NavigationLink(destination: profile(), isActive: $isShowingDetailView){
-                Button("signUp", action: {
-                    viewModel.SignUp(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName),onSuccess: {isShowingDetailView = true} )
+            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $redirectLogin){
+                Button("Register", action: {
+                    viewModel.SignUp(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName))
+                    redirectLogin=true
                     
                 })
                 .foregroundColor(.white)

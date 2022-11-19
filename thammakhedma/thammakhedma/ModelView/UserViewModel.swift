@@ -11,24 +11,16 @@ class UserViewModel: ObservableObject {
     @Published var datas = [UserDataModel]()
     var firstName : String = ""
     var lastName : String  = ""
-    var password : String  = ""
-    var email : String  = ""
+    var password : String  = "azerty"
+    var email : String  = "monaem.hmila@esprit.tn"
     var code : String = ""
-    static let sharedInstance = UserViewModel()
+    var newPassword : String = ""
+    static var currentUser: User?
     
-    func Profile(id: Int) {
-        
-        AF.request(Statics.URL+"/user/profile/\(id)").responseData{
-            (data) in
-            let json = try! JSON(data: data.data!)
-            for i in json{
-                self.datas.append(UserDataModel(id: i.1["id"].intValue,firstName: i.1["first_name"].stringValue,lastName: i.1["last_name"].stringValue, password: i.1["password"].stringValue,email: i.1["email"].stringValue))
-            }
-            
-            }
-        
-    }
-    func LogIn(email: String,password: String ,onSuccess: @escaping() -> Void, onError: @escaping(_ errorMessage: String) -> Void) {
+    static let sharedInstance = UserViewModel()
+ 
+    func LogIn(email: String,password: String, complited: @escaping(User?)-> Void )
+    {
         
         AF.request(Statics.URL+"/user/Login" , method: .post, parameters: ["email": email,"password": password] ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
@@ -36,20 +28,29 @@ class UserViewModel: ObservableObject {
             .responseJSON {
                 (response) in
                 switch response.result {
+                    
                 case .success(let JSON):
-                    print("success \(JSON)")
-                    onSuccess()
-                    
+                    let response = JSON as! NSDictionary
+                    let userResponse = response.object(forKey: "user") as! NSDictionary
+                    let email = userResponse.object(forKey: "email") as? String ?? ""
+                    let lastName = userResponse.object(forKey: "last_name") as? String ?? ""
+                    let password = userResponse.object(forKey: "password") as? String ?? ""
+                    let firstName = userResponse.object(forKey: "first_name") as? String ?? ""
+                    let id = userResponse.object(forKey: "_id")  as? String ?? ""
+                    print("success  \(email )")
+                    print("success  \(lastName )")
+                    print("success  \(password )")
+                   var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName)
+                    currentUser.id = id
+                    Self.currentUser = currentUser
+                  
+                    print("success \(JSON )")
+                   
+                    complited(currentUser)
                 case .failure(let error):
-                    //print("request failed \(error)")
-                    onError(error.localizedDescription)
-                    
-                    //response in debugPrint(response)
-                    if error != nil {
-                        onError(error.localizedDescription)
-                        return
-                        
-                    }                }
+                    print("request failed \(error)")
+                    complited(nil)
+                }
             }
         // print("email : ",email)
         //print("password",password)
@@ -109,7 +110,7 @@ class UserViewModel: ObservableObject {
         //print("password",password)
         
     }
-    func SignUp(user: User,onSuccess: @escaping() -> Void) {
+    func SignUp(user: User) {
         print(user)
         let parametres: [String: Any] = [
             "first_name": user.firstName,
@@ -119,21 +120,39 @@ class UserViewModel: ObservableObject {
             
         ]
         AF.request(Statics.URL+"/user/compte" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
-            .validate(statusCode: 200..<300)
+            .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData {
                 response in
                 switch response.result {
                 case .success:
                     print("success")
-                    onSuccess()
                 case let .failure(error):
                     print(error)
-                    
                 }
             }
         
     }
+    func updateUser(user: User) {
+        print(user)
+        let parametres: [String: Any] = [
+            "first_name": user.firstName,
+            "last_name": user.lastName,
+            "email": user.email,
+            "password": user.password,
+            
+        ]
+        AF.request("http://192.168.100.7:3000/user/updateUser/\(user.id ?? "")" , method: .post,parameters:parametres ,encoding: JSONEncoding.default).responseData(completionHandler: {
+            response in
+            switch response.result {
+             case .success:
+
+              print("success image")
+
+             case .failure(let encodingError):
+                 print(encodingError)
+             }
+        })
     
     func VerifyAccount(emailToken: String) {
         let parametres: [String: Any] = [
@@ -151,7 +170,7 @@ class UserViewModel: ObservableObject {
             }
     
     }
-    
+    }
     /*
     func Update(user: User) {
         
