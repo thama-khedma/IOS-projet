@@ -18,10 +18,11 @@
 		42264F9929228A1F00D0978E /* ResetCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264F9829228A1F00D0978E /* ResetCodeView.swift */; };
 		42264F9B29228ACE00D0978E /* HomePageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264F9A29228ACE00D0978E /* HomePageView.swift */; };
 		42264F9E2922910100D0978E /* Statics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264F9D2922910100D0978E /* Statics.swift */; };
-		42264FA02922B19300D0978E /* SUImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264F9F2922B19300D0978E /* SUImagePickerView.swift */; };
 		42264FA32922BACC00D0978E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA22922BACC00D0978E /* User.swift */; };
 		42264FA52922CA7A00D0978E /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA42922CA7A00D0978E /* UserViewModel.swift */; };
 		42264FA72922EA5700D0978E /* profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA62922EA5700D0978E /* profile.swift */; };
+		6936367B2929245E005FC679 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367A2929245E005FC679 /* SwiftyJSON */; };
+		6936367E29292517005FC679 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367D29292517005FC679 /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,7 +39,6 @@
 		42264F9829228A1F00D0978E /* ResetCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetCodeView.swift; sourceTree = "<group>"; };
 		42264F9A29228ACE00D0978E /* HomePageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageView.swift; sourceTree = "<group>"; };
 		42264F9D2922910100D0978E /* Statics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statics.swift; sourceTree = "<group>"; };
-		42264F9F2922B19300D0978E /* SUImagePickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SUImagePickerView.swift; path = "../../../../Downloads/SUImagePickerView-master/SUImagePickerView/SUImagePickerView.swift"; sourceTree = "<group>"; };
 		42264FA22922BACC00D0978E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		42264FA42922CA7A00D0978E /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		42264FA62922EA5700D0978E /* profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile.swift; sourceTree = "<group>"; };
@@ -50,6 +50,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6936367E29292517005FC679 /* SDWebImageSwiftUI in Frameworks */,
+				6936367B2929245E005FC679 /* SwiftyJSON in Frameworks */,
 				0ECE7B7B534D9261ED8F9F89 /* Pods_thammakhedma.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -109,7 +111,6 @@
 		42264F8E2922869400D0978E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				42264F9F2922B19300D0978E /* SUImagePickerView.swift */,
 				42264F90292286F000D0978E /* GettingStartedView.swift */,
 				42264F922922876D00D0978E /* LoginView.swift */,
 				42264F962922896E00D0978E /* ForgetView.swift */,
@@ -171,6 +172,10 @@
 			dependencies = (
 			);
 			name = thammakhedma;
+			packageProductDependencies = (
+				6936367A2929245E005FC679 /* SwiftyJSON */,
+				6936367D29292517005FC679 /* SDWebImageSwiftUI */,
+			);
 			productName = thammakhedma;
 			productReference = 42264F7C292285FD00D0978E /* thammakhedma.app */;
 			productType = "com.apple.product-type.application";
@@ -199,6 +204,10 @@
 				Base,
 			);
 			mainGroup = 42264F73292285FD00D0978E;
+			packageReferences = (
+				693636792929245E005FC679 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				6936367C29292517005FC679 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			productRefGroup = 42264F7D292285FD00D0978E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -269,7 +278,6 @@
 			files = (
 				42264F9929228A1F00D0978E /* ResetCodeView.swift in Sources */,
 				42264F82292285FD00D0978E /* ContentView.swift in Sources */,
-				42264FA02922B19300D0978E /* SUImagePickerView.swift in Sources */,
 				42264F972922896E00D0978E /* ForgetView.swift in Sources */,
 				42264F91292286F000D0978E /* GettingStartedView.swift in Sources */,
 				42264F932922876D00D0978E /* LoginView.swift in Sources */,
@@ -479,6 +487,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		693636792929245E005FC679 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		6936367C29292517005FC679 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6936367A2929245E005FC679 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 693636792929245E005FC679 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		6936367D29292517005FC679 /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6936367C29292517005FC679 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 42264F74292285FD00D0978E /* Project object */;
 }

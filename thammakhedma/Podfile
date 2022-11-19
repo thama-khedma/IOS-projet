@@ -7,5 +7,5 @@ target 'thammakhedma' do
 
   # Pods for thammakhedma
   pod 'Alamofire'
-
+  pod 'FBSDKLoginKit'
 end

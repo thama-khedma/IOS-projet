@@ -21,7 +21,6 @@ struct profile_Previews: PreviewProvider {
 }
 
 struct Home1 : View {
-    
     @State var index = 0
     @State var email = ""
     @State var pass = ""
@@ -41,7 +40,9 @@ struct Home1 : View {
 
             }
             .padding()
-            
+            .onAppear{
+                
+            }
             HStack{
                 
                 VStack(spacing: 0){
@@ -67,12 +68,12 @@ struct Home1 : View {
                 
                 VStack(alignment: .leading, spacing: 12){
                     
-                    Text("name")
+                    Text(viewModel.firstName)
                         .font(.title)
                         .foregroundColor(Color.black.opacity(0.8))
                     
 
-                    Text("reply.kavsoft@gmail.com")
+                    Text(viewModel.email)
                         .foregroundColor(Color.black.opacity(0.7))
                 }
                 .padding(.leading, 20)

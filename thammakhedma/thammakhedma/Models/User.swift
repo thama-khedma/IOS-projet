@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import Alamofire
+import SwiftyJSON
 struct User {
     
     var firstName : String
@@ -16,6 +17,7 @@ struct User {
  
     
     init(firstname: String, password: String, email: String, lastName: String) {
+       
         self.firstName = firstname
         self.password = password
         self.email = email
@@ -25,12 +27,15 @@ struct User {
     
 }
 
-struct UserDataModel: Decodable {
+
+struct UserDataModel: Identifiable {
+    let id: Int
     let firstName: String
     let lastName: String
     let password: String
     let email : String
     enum CodingKeys: String, CodingKey {
+        case id
         case firstName
         case lastName
         case password

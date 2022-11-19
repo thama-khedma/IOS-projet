@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ResetCodeView: View {
     @State var Code:String = ""
-   
-    
-    @State private var isShowingRegisterView = false
+    @State var password:String = ""
+    @ObservedObject var viewModel = UserViewModel()
+    @State private var Reset = false
     var body: some View {
         
         VStack(alignment: .leading ,spacing: 150){
@@ -25,20 +25,32 @@ struct ResetCodeView: View {
                                 .font(.callout)
                                 .bold()
                                 
-                            TextField("Enter CODE...", text: $Code)
+                        TextField("Enter CODE...", text: $viewModel.code)
                                 .padding()
                                 .background()
                                 .cornerRadius(20.0)
+                        Text("new password")
+                                .font(.callout)
+                                .bold()
+                                
+                        TextField("new password...", text: $viewModel.password)
+                                .padding()
+                                .background()
+                                .cornerRadius(20.0)
+                        
                         
                         
                     }.padding([.leading,.trailing],27.5)
                     
                     
                 
-            HStack{
-                NavigationLink(destination: LoginView(),isActive: $isShowingRegisterView){
-                    Button("enter", action: {
-                        isShowingRegisterView = true
+            HStack{	
+                NavigationLink(destination: LoginView(),isActive: $Reset){
+                    Button("enter",action:  {
+                        viewModel.ResetCode(code: viewModel.code ,password: viewModel.password , onSuccess: {Reset = true} , onError: {
+                            (errorMessage)in
+                        })
+                        
                     })
                     .foregroundColor(.white)
                     .fontWeight(.bold)

@@ -216,7 +216,7 @@ struct Login : View {
                     Button(action: {
                         
                     }) {
-                            NavigationLink(destination: ResetCodeView(), isActive: $passwordforget){
+                            NavigationLink(destination: ForgetView(), isActive: $passwordforget){
                             Button("Forget Password?",action:  {
                                 passwordforget = true
                                 })

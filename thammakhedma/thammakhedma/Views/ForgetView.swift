@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ForgetView: View {
     @State var email:String = ""
-    
+    @ObservedObject var viewModel = UserViewModel()
     @State private var isShowingRegisterView = false
     var body: some View {
         
@@ -24,7 +24,7 @@ struct ForgetView: View {
                             .font(.title)
                             .fontWeight(.bold)
                                 
-                            TextField("Enter Email...", text: $email)
+                        TextField("Enter Email...", text: $viewModel.email)
                                 .padding()
                                 .background()
                                 .cornerRadius(20.0)
@@ -36,8 +36,11 @@ struct ForgetView: View {
                 
             HStack{
                 NavigationLink(destination: ResetCodeView(),isActive: $isShowingRegisterView){
-                    Button("enter", action: {
-                        isShowingRegisterView = true
+                    Button("Enter",action:  {
+                        viewModel.ForgetPassword(email: viewModel.email , onSuccess: {isShowingRegisterView = true} , onError: {
+                            (errorMessage)in
+                        })
+                        
                     })
                     .foregroundColor(.white)
                     .fontWeight(.bold)

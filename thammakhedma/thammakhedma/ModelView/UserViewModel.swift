@@ -6,19 +6,31 @@
 //
 import Foundation
 import Alamofire
-
+import SwiftyJSON
 class UserViewModel: ObservableObject {
+    @Published var datas = [UserDataModel]()
     var firstName : String = ""
     var lastName : String  = ""
     var password : String  = ""
     var email : String  = ""
-    
+    var code : String = ""
     static let sharedInstance = UserViewModel()
     
-    
+    func Profile(id: Int) {
+        
+        AF.request(Statics.URL+"/user/profile/\(id)").responseData{
+            (data) in
+            let json = try! JSON(data: data.data!)
+            for i in json{
+                self.datas.append(UserDataModel(id: i.1["id"].intValue,firstName: i.1["first_name"].stringValue,lastName: i.1["last_name"].stringValue, password: i.1["password"].stringValue,email: i.1["email"].stringValue))
+            }
+            
+            }
+        
+    }
     func LogIn(email: String,password: String ,onSuccess: @escaping() -> Void, onError: @escaping(_ errorMessage: String) -> Void) {
         
-        AF.request("http://172.20.10.3:3000/user/Login" , method: .post, parameters: ["email": email,"password": password] ,encoding: JSONEncoding.default)
+        AF.request(Statics.URL+"/user/Login" , method: .post, parameters: ["email": email,"password": password] ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
             .responseJSON {
@@ -43,7 +55,60 @@ class UserViewModel: ObservableObject {
         //print("password",password)
         
     }
-    
+    func ForgetPassword(email: String,onSuccess: @escaping() -> Void, onError: @escaping(_ errorMessage: String) -> Void) {
+        
+        AF.request(Statics.URL+"/user/resetpwd" , method: .post, parameters: ["email": email] ,encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .validate(contentType: ["application/json"])
+            .responseJSON {
+                (response) in
+                switch response.result {
+                case .success(let JSON):
+                    print("success \(JSON)")
+                    onSuccess()
+                    
+                case .failure(let error):
+                    //print("request failed \(error)")
+                    onError(error.localizedDescription)
+                    
+                    //response in debugPrint(response)
+                    if error != nil {
+                        onError(error.localizedDescription)
+                        return
+                        
+                    }                }
+            }
+        // print("email : ",email)
+        //print("password",password)
+        
+    }
+    func ResetCode(code: String,password: String ,onSuccess: @escaping() -> Void, onError: @escaping(_ errorMessage: String) -> Void) {
+        
+        AF.request(Statics.URL+"/user/resetpassword" , method: .post, parameters: ["code": code,"password": password] ,encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<300)
+            .validate(contentType: ["application/json"])
+            .responseJSON {
+                (response) in
+                switch response.result {
+                case .success(let JSON):
+                    print("success \(JSON)")
+                    onSuccess()
+                    
+                case .failure(let error):
+                    //print("request failed \(error)")
+                    onError(error.localizedDescription)
+                    
+                    //response in debugPrint(response)
+                    if error != nil {
+                        onError(error.localizedDescription)
+                        return
+                        
+                    }                }
+            }
+        // print("email : ",email)
+        //print("password",password)
+        
+    }
     func SignUp(user: User,onSuccess: @escaping() -> Void) {
         print(user)
         let parametres: [String: Any] = [
@@ -53,7 +118,7 @@ class UserViewModel: ObservableObject {
             "password": user.password,
             
         ]
-        AF.request("http://172.20.10.3:3000/user/compte" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
+        AF.request(Statics.URL+"/user/compte" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
             .responseData {
@@ -74,7 +139,7 @@ class UserViewModel: ObservableObject {
         let parametres: [String: Any] = [
             "token":emailToken
         ]
-        AF.request("http://172.20.10.3:3000/user/verify" , method: .post,parameters: parametres,encoding: JSONEncoding.default)
+        AF.request(Statics.URL+"/user/verify" , method: .post,parameters: parametres,encoding: JSONEncoding.default)
             .responseJSON {
                 (response) in
                 switch response.result {
@@ -84,9 +149,10 @@ class UserViewModel: ObservableObject {
                     print("request failed \(error)")
                 }
             }
-        
+    
     }
     
+    /*
     func Update(user: User) {
         
         print(user)
@@ -96,7 +162,7 @@ class UserViewModel: ObservableObject {
             "email": user.email,
             "password": user.password,
         ]
-        AF.request("http://172.20.10.3:3000/api/user/Update", method: .put, parameters: parametres, headers: nil).validate(statusCode: 200 ..< 299).responseData { response in
+        AF.request(Statics.URL+"/user/Update", method: .put, parameters: parametres, headers: nil).validate(statusCode: 200 ..< 299).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -124,7 +190,7 @@ class UserViewModel: ObservableObject {
     }
     
     func deleteAccount() {
-        AF.request("http://172.20.10.3:3000/api/user/Delete", method: .delete, parameters: nil, headers: nil).validate(statusCode: 200 ..< 299).responseData { response in
+        AF.request(Statics.URL+"/user/Delete", method: .delete, parameters: nil, headers: nil).validate(statusCode: 200 ..< 299).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -164,7 +230,7 @@ class UserViewModel: ObservableObject {
 
             }
         }
-    
+    */
     
     
 }
