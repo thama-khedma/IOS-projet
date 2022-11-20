@@ -408,7 +408,7 @@ struct SignUP : View {
             .padding(.horizontal,20)
             // Button...
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $redirectLogin){
-                Button("Register", action: {
+                Button("SignUp", action: {
                     viewModel.SignUp(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName))
                     redirectLogin=true
                     

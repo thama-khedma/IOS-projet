@@ -142,17 +142,22 @@ class UserViewModel: ObservableObject {
             "password": user.password,
             
         ]
-        AF.request("http://192.168.100.7:3000/user/updateUser/\(user.id ?? "")" , method: .post,parameters:parametres ,encoding: JSONEncoding.default).responseData(completionHandler: {
+        AF.request(Statics.URL+"/user/updateUser/\(user.id ?? "")" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<500)
+            .validate(contentType: ["application/json"])
+            .responseData(completionHandler: {
             response in
             switch response.result {
-             case .success:
-
-              print("success image")
-
-             case .failure(let encodingError):
-                 print(encodingError)
-             }
+            case .success:
+                
+                print("success update")
+                
+            case .failure(let encodingError):
+                print(encodingError)
+            }
         })
+        
+    }
     
     func VerifyAccount(emailToken: String) {
         let parametres: [String: Any] = [
@@ -170,7 +175,7 @@ class UserViewModel: ObservableObject {
             }
     
     }
-    }
+    
     /*
     func Update(user: User) {
         

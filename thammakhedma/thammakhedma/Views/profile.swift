@@ -27,7 +27,7 @@ struct Home1 : View {
     @ObservedObject var viewModel = UserViewModel()
     @State var   verifpassword:String=""
     @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
-
+    @State var  id:String =  UserViewModel.currentUser?.id ?? ""
     @State var   email:String = UserViewModel.currentUser?.email ?? ""
     @State var  description:String = ""
     @State var selectedImage: UIImage?
@@ -73,7 +73,7 @@ struct Home1 : View {
                 
                 VStack(alignment: .leading, spacing: 12){
                     
-                    Text(viewModel.firstName)
+                    Text(username)
                         .font(.title)
                         .foregroundColor(Color.black.opacity(0.8))
                     
@@ -171,7 +171,7 @@ struct Home1 : View {
                                 Image(systemName: "eye.slash.fill")
                                     .foregroundColor(Color("Color1"))
                                 
-                                SecureField("Password", text: $viewModel.password)
+                                SecureField("Password", text: $password)
                             }
                             
                             
@@ -203,8 +203,12 @@ struct Home1 : View {
                     // Button...
                     
       
-                        Button("update profile", action: {
-// here to add update action
+                    Button("update profile", action: {                                     UserViewModel.currentUser?.email = email
+                        UserViewModel.currentUser?.firstName = username
+                        UserViewModel.currentUser?.lastName = lastname
+                        UserViewModel.currentUser?.password = password
+                        
+                        viewModel.updateUser(user: UserViewModel.currentUser!)
                         })
                         .foregroundColor(.white)
                         .fontWeight(.bold)
@@ -224,7 +228,18 @@ struct Home1 : View {
                 }
             }
             .padding(.top,20)
+            NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $logout ){
+                Button{
+                    UserViewModel.currentUser = nil
+                    logout=true
+                    
+                }label:{Text("LOG OUT").frame(width:350, height: 50).foregroundColor(.white).background(.gray).cornerRadius(15).shadow(radius: 3).padding()}
             
+            
+            
+            
+            
+        }
             
             Spacer(minLength: 0)
         }
