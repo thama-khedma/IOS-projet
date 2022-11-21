@@ -7,18 +7,77 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import Combine
 class UserViewModel: ObservableObject {
     @Published var datas = [UserDataModel]()
+    
     var firstName : String = ""
     var lastName : String  = ""
-    var password : String  = "azerty"
-    var email : String  = "monaem.hmila@esprit.tn"
+    @Published var password : String  = "azerty"
+    @Published var email : String  = "monaem.hmila@esprit.tn"
     var code : String = ""
-    var newPassword : String = ""
+    @Published var newPassword : String = ""
+    @Published var isEmailCriteriaValid = false
+    @Published var isPasswordCriteriaValid = false
+    @Published var isPasswordConfirmValid = false
+    @Published var canSubmit = false
+    @Published var confirmPw = ""
     static var currentUser: User?
-    
+    private var cancellableSet: Set<AnyCancellable> = []
     static let sharedInstance = UserViewModel()
- 
+    let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
+    let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
+    
+    init() {
+        $email
+            .map { email in
+                return self.emailPredicate.evaluate(with: email)
+            }
+            .assign(to: \.isEmailCriteriaValid, on: self)
+            .store(in: &cancellableSet)
+        
+        $password
+            .map { password in
+                return self.passwordPredicate.evaluate(with: password)
+            }
+            .assign(to: \.isPasswordCriteriaValid, on: self)
+            .store(in: &cancellableSet)
+        
+        Publishers.CombineLatest($password, $confirmPw)
+            .map { password, confirmPw in
+                return password == confirmPw
+            }
+            .assign(to: \.isPasswordConfirmValid, on: self)
+            .store(in: &cancellableSet)
+    
+        Publishers.CombineLatest3($isEmailCriteriaValid, $isPasswordCriteriaValid, $isPasswordConfirmValid)
+            .map { isEmailCriteriaValid, isPasswordCriteriaValid, isPasswordConfirmValid  in
+                return (isEmailCriteriaValid && isPasswordCriteriaValid && isPasswordConfirmValid )
+            }
+            .assign(to: \.canSubmit, on: self)
+            .store(in: &cancellableSet)
+    }
+    var confirmPwPrompt: String {
+        isPasswordConfirmValid ?
+            ""
+            :
+            "Password fields to not match"
+    }
+    
+    var emailPrompt: String {
+        isEmailCriteriaValid ?
+            ""
+            :
+            "Enter a valid email address"
+    }
+    
+    var passwordPrompt: String {
+        isPasswordCriteriaValid ?
+            ""
+            :
+            "Must be at least 8 characters containing at least one number and one letter and one special character."
+    }
+    
     func LogIn(email: String,password: String, complited: @escaping(User?)-> Void )
     {
         

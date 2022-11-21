@@ -48,45 +48,7 @@ struct Home1 : View {
             .onAppear{
                 
             }
-            HStack{
-                
-                VStack(spacing: 0){
-                    
-                    Rectangle()
-                    .fill(Color("Color"))
-                    .frame(width: 80, height: 3)
-                    .zIndex(1)
-                    
-                    
-                    // going to apply shadows to look like neuromorphic feel...
-                    
-                    Image("profile")
-                    .resizable()
-                    .frame(width: 100, height: 100)
-                    .padding(.top, 6)
-                    .padding(.bottom, 4)
-                    .padding(.horizontal, 8)
-                    .background(Color("Color"))
-                    .cornerRadius(10)
-                    
-                }
-                
-                VStack(alignment: .leading, spacing: 12){
-                    
-                    Text(username)
-                        .font(.title)
-                        .foregroundColor(Color.black.opacity(0.8))
-                    
 
-                    Text(viewModel.email)
-                        .foregroundColor(Color.black.opacity(0.7))
-                }
-                .padding(.leading, 20)
-                
-                Spacer(minLength: 0)
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 10)
             
             // Tab Items...
             
@@ -131,7 +93,7 @@ struct Home1 : View {
                             Divider().background(Color.white.opacity(0.5))
                         }
                         .padding(.horizontal)
-                        .padding(.top, 40)
+                        .padding(.top, 60)
                         VStack{
                             
                             HStack(spacing: 15){
@@ -145,7 +107,7 @@ struct Home1 : View {
                             Divider().background(Color.white.opacity(0.5))
                         }
                         .padding(.horizontal)
-                        .padding(.top, 40)
+                        .padding(.top, 60)
                         
                         VStack{
                             
@@ -160,7 +122,7 @@ struct Home1 : View {
                             Divider().background(Color.white.opacity(0.5))
                         }
                         .padding(.horizontal)
-                        .padding(.top, 40)
+                        .padding(.top, 60)
                         // replacing forget password with reenter password...
                         // so same height will be maintained...
                         
@@ -178,7 +140,7 @@ struct Home1 : View {
                             Divider().background(Color.white.opacity(0.5))
                         }
                         .padding(.horizontal)
-                        .padding(.top, 30)
+                        .padding(.top, 60)
                         
                         
                     }
@@ -186,9 +148,9 @@ struct Home1 : View {
                     // bottom padding...
                     .padding(.bottom, 65)
                     .background(Color("Color2"))
-                    .clipShape(CShape1())
+                    .clipShape(CShape2())
                     // clipping the content shape also for tap gesture...
-                    .contentShape(CShape1())
+                    .contentShape(CShape2())
                     // shadow...
                     .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
                     .onTapGesture {
@@ -227,13 +189,29 @@ struct Home1 : View {
                     .opacity(self.index == 1 ? 1 : 0)
                 }
             }
-            .padding(.top,20)
+            .padding(.top,35)
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $logout ){
                 Button{
                     UserViewModel.currentUser = nil
                     logout=true
                     
-                }label:{Text("LOG OUT").frame(width:350, height: 50).foregroundColor(.white).background(.gray).cornerRadius(15).shadow(radius: 3).padding()}
+                }label:{Text("LOG OUT")
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(.vertical)
+                        .padding(.horizontal, 50)
+                        
+                        .background(Color("Color2"))
+                        .clipShape(Capsule())
+                        // shadow...
+                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                        
+                    
+                    // moving view down..
+                    .offset(y: 25)
+                    // hiding view when its in background...
+                    // only button...
+                    .opacity(self.index == 1 ? 1 : 0)}
             
             
             

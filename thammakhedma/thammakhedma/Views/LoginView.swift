@@ -123,7 +123,22 @@ struct CShape : Shape {
     }
 }
 
+struct CShape2 : Shape {
+    
+    func path(in rect: CGRect) -> Path {
+        
+        return Path{path in
 
+            // left side curve...
+            
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: 0))
+            
+        }
+    }
+}
 struct CShape1 : Shape {
     
     func path(in rect: CGRect) -> Path {
@@ -186,7 +201,7 @@ struct Login : View {
                     
                     HStack(spacing: 15){
                         
-                        Image(systemName: "envelope.fill")
+                        Image(systemName: "envelope")
                         .foregroundColor(Color("Color1"))
                         
                         TextField("Email Address", text:$viewModel.email)
@@ -195,19 +210,21 @@ struct Login : View {
                     Divider().background(Color.white.opacity(0.5))
                 }
                 .padding(.horizontal)
-                .padding(.top, 40)
+                .padding(.top, 190)
                 
                 VStack{
-                    
                     HStack(spacing: 15){
                         
-                        Image(systemName: "eye.slash.fill")
+                        Image(systemName: "eye.slash")
                         .foregroundColor(Color("Color1"))
                         
-                        SecureField("Password", text: $viewModel.password)
+                        SecureField("Password", text:$viewModel.password)
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
+                    
+                    /*
+                    EntryField(sfSymbolName: "eye.slash.fill", placeholder: "Password", prompt: viewModel.passwordPrompt, field: $viewModel.password, isSecure: true)*/
                 }
                 .padding(.horizontal)
                 .padding(.top, 30)
@@ -234,7 +251,7 @@ struct Login : View {
                     }
                 
                 .padding(.horizontal)
-                .padding(.top, 30)
+                .padding(.top, 100)
 
                 
             }
@@ -329,7 +346,7 @@ struct SignUP : View {
                     
                     HStack(spacing: 15){
                         
-                        Image(systemName: "envelope.fill")
+                        Image(systemName: "person.fill")
                             .foregroundColor(Color("Color1"))
                         
                         TextField("First name", text: $viewModel.firstName)
@@ -343,7 +360,7 @@ struct SignUP : View {
                     
                     HStack(spacing: 15){
                         
-                        Image(systemName: "envelope.fill")
+                        Image(systemName: "person.fill")
                             .foregroundColor(Color("Color1"))
                         
                         TextField("Last name", text: $viewModel.lastName)
@@ -357,15 +374,7 @@ struct SignUP : View {
                 
                 VStack{
                     
-                    HStack(spacing: 15){
-                        
-                        Image(systemName: "envelope.fill")
-                            .foregroundColor(Color("Color1"))
-                        
-                        TextField("Email Address", text: $viewModel.email)
-                    }
-                    
-                    Divider().background(Color.white.opacity(0.5))
+                    EntryField(sfSymbolName: "envelope", placeholder: "Email Address", prompt: viewModel.emailPrompt, field: $viewModel.email)
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)
@@ -373,21 +382,16 @@ struct SignUP : View {
                 // so same height will be maintained...
                 
                 VStack{
-                    
-                    HStack(spacing: 15){
-                        
-                        Image(systemName: "eye.slash.fill")
-                            .foregroundColor(Color("Color1"))
-                        
-                        SecureField("Password", text: $viewModel.password)
-                    }
-                    
-                    
-                    Divider().background(Color.white.opacity(0.5))
+                    EntryField(sfSymbolName: "lock", placeholder: "Password", prompt: viewModel.passwordPrompt, field: $viewModel.password, isSecure: true)
                 }
                 .padding(.horizontal)
                 .padding(.top, 30)
-                
+
+                VStack{
+                    EntryField(sfSymbolName: "lock", placeholder: "Confirm", prompt: viewModel.confirmPwPrompt, field: $viewModel.confirmPw, isSecure: true)
+                }
+                .padding(.horizontal)
+                .padding(.top, 30)
                 
             }
             .padding()
