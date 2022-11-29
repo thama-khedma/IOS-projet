@@ -9,7 +9,7 @@ import Foundation
 
 import SwiftyJSON
 struct User {
-    
+    //680958295481-6kdi05n9cccfnrcp7doq8fus11k4msgu.apps.googleusercontent.com
     var firstName : String
     var lastName : String
     var password : String
@@ -17,12 +17,10 @@ struct User {
     var id: String!
     
     init(firstname: String, password: String, email: String, lastName: String) {
-       
         self.firstName = firstname
         self.password = password
         self.email = email
         self.lastName = lastName
-   
     }
     
 }

@@ -23,6 +23,18 @@
 		42264FA72922EA5700D0978E /* profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA62922EA5700D0978E /* profile.swift */; };
 		6936367B2929245E005FC679 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367A2929245E005FC679 /* SwiftyJSON */; };
 		6936367E29292517005FC679 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367D29292517005FC679 /* SDWebImageSwiftUI */; };
+		69483FAA2933CD9400B847EC /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69483FA92933CD9400B847EC /* test.swift */; };
+		695A784A2934C61B001BF867 /* EntrepriseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A78492934C61B001BF867 /* EntrepriseView.swift */; };
+		6979F189292CA33300846977 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6979F188292CA33300846977 /* credentials.plist */; };
+		69A972A029316A430006CD4F /* AddEntreprise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9729F29316A430006CD4F /* AddEntreprise.swift */; };
+		69A972A229316F4D0006CD4F /* Entreprises.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972A129316F4D0006CD4F /* Entreprises.swift */; };
+		69A972A4293175340006CD4F /* EntrepriseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972A3293175340006CD4F /* EntrepriseViewModel.swift */; };
+		69A972A6293175440006CD4F /* Entreprise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972A5293175440006CD4F /* Entreprise.swift */; };
+		69A972AC2932197C0006CD4F /* EntrepriseLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972AB2932197C0006CD4F /* EntrepriseLocation.swift */; };
+		69A972AE293219E70006CD4F /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972AD293219E70006CD4F /* MapView.swift */; };
+		69A972B029321A1F0006CD4F /* Loader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972AF29321A1F0006CD4F /* Loader.swift */; };
+		69A972B229321A4D0006CD4F /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972B129321A4D0006CD4F /* SearchView.swift */; };
+		69A972B42932803E0006CD4F /* bottombar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972B32932803E0006CD4F /* bottombar.swift */; };
 		69AEEAEE292C1F64002CF68E /* EntryField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AEEAED292C1F64002CF68E /* EntryField.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +55,19 @@
 		42264FA22922BACC00D0978E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		42264FA42922CA7A00D0978E /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		42264FA62922EA5700D0978E /* profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile.swift; sourceTree = "<group>"; };
+		69483FA92933CD9400B847EC /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
+		695A78492934C61B001BF867 /* EntrepriseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrepriseView.swift; sourceTree = "<group>"; };
+		6979F188292CA33300846977 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = credentials.plist; path = ../../../../Downloads/credentials.plist; sourceTree = "<group>"; };
+		6979F18C292CB28D00846977 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		69A9729F29316A430006CD4F /* AddEntreprise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntreprise.swift; sourceTree = "<group>"; };
+		69A972A129316F4D0006CD4F /* Entreprises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entreprises.swift; sourceTree = "<group>"; };
+		69A972A3293175340006CD4F /* EntrepriseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrepriseViewModel.swift; sourceTree = "<group>"; };
+		69A972A5293175440006CD4F /* Entreprise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entreprise.swift; sourceTree = "<group>"; };
+		69A972AB2932197C0006CD4F /* EntrepriseLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrepriseLocation.swift; sourceTree = "<group>"; };
+		69A972AD293219E70006CD4F /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		69A972AF29321A1F0006CD4F /* Loader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loader.swift; sourceTree = "<group>"; };
+		69A972B129321A4D0006CD4F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		69A972B32932803E0006CD4F /* bottombar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bottombar.swift; sourceTree = "<group>"; };
 		69AEEAED292C1F64002CF68E /* EntryField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryField.swift; sourceTree = "<group>"; };
 		FDE0305D6897162ADBD1518F /* Pods_thammakhedma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_thammakhedma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -90,6 +115,8 @@
 		42264F7E292285FD00D0978E /* thammakhedma */ = {
 			isa = PBXGroup;
 			children = (
+				6979F18C292CB28D00846977 /* Info.plist */,
+				6979F188292CA33300846977 /* credentials.plist */,
 				42264FA12922BABC00D0978E /* Models */,
 				42264F8F292286A600D0978E /* ModelView */,
 				42264F8E2922869400D0978E /* Views */,
@@ -120,6 +147,15 @@
 				42264F9A29228ACE00D0978E /* HomePageView.swift */,
 				42264FA62922EA5700D0978E /* profile.swift */,
 				69AEEAED292C1F64002CF68E /* EntryField.swift */,
+				69A9729F29316A430006CD4F /* AddEntreprise.swift */,
+				69A972A129316F4D0006CD4F /* Entreprises.swift */,
+				69A972AB2932197C0006CD4F /* EntrepriseLocation.swift */,
+				69A972AD293219E70006CD4F /* MapView.swift */,
+				69A972AF29321A1F0006CD4F /* Loader.swift */,
+				69A972B129321A4D0006CD4F /* SearchView.swift */,
+				69A972B32932803E0006CD4F /* bottombar.swift */,
+				69483FA92933CD9400B847EC /* test.swift */,
+				695A78492934C61B001BF867 /* EntrepriseView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -128,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				42264FA42922CA7A00D0978E /* UserViewModel.swift */,
+				69A972A3293175340006CD4F /* EntrepriseViewModel.swift */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -144,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				42264FA22922BACC00D0978E /* User.swift */,
+				69A972A5293175440006CD4F /* Entreprise.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -225,6 +263,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6979F189292CA33300846977 /* credentials.plist in Resources */,
 				42264F87292285FE00D0978E /* Preview Assets.xcassets in Resources */,
 				42264F84292285FE00D0978E /* Assets.xcassets in Resources */,
 			);
@@ -279,18 +318,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				695A784A2934C61B001BF867 /* EntrepriseView.swift in Sources */,
+				69A972B229321A4D0006CD4F /* SearchView.swift in Sources */,
+				69A972AC2932197C0006CD4F /* EntrepriseLocation.swift in Sources */,
 				42264F9929228A1F00D0978E /* ResetCodeView.swift in Sources */,
 				69AEEAEE292C1F64002CF68E /* EntryField.swift in Sources */,
 				42264F82292285FD00D0978E /* ContentView.swift in Sources */,
 				42264F972922896E00D0978E /* ForgetView.swift in Sources */,
+				69A972A229316F4D0006CD4F /* Entreprises.swift in Sources */,
+				69A972A029316A430006CD4F /* AddEntreprise.swift in Sources */,
+				69A972B029321A1F0006CD4F /* Loader.swift in Sources */,
+				69A972B42932803E0006CD4F /* bottombar.swift in Sources */,
+				69A972AE293219E70006CD4F /* MapView.swift in Sources */,
 				42264F91292286F000D0978E /* GettingStartedView.swift in Sources */,
 				42264F932922876D00D0978E /* LoginView.swift in Sources */,
 				42264F9B29228ACE00D0978E /* HomePageView.swift in Sources */,
 				42264F9E2922910100D0978E /* Statics.swift in Sources */,
 				42264FA32922BACC00D0978E /* User.swift in Sources */,
 				42264FA72922EA5700D0978E /* profile.swift in Sources */,
+				69A972A6293175440006CD4F /* Entreprise.swift in Sources */,
+				69A972A4293175340006CD4F /* EntrepriseViewModel.swift in Sources */,
 				42264F80292285FD00D0978E /* thammakhedmaApp.swift in Sources */,
 				42264FA52922CA7A00D0978E /* UserViewModel.swift in Sources */,
+				69483FAA2933CD9400B847EC /* test.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +472,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"thammakhedma/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = thammakhedma/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -451,6 +506,11 @@
 				DEVELOPMENT_ASSET_PATHS = "\"thammakhedma/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = thammakhedma/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

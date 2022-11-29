@@ -13,5 +13,7 @@ struct thammakhedmaApp: App {
         WindowGroup {
             ContentView()
         }
+        
     }
+    
 }

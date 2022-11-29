@@ -10,7 +10,6 @@ import SwiftyJSON
 import Combine
 class UserViewModel: ObservableObject {
     @Published var datas = [UserDataModel]()
-    
     var firstName : String = ""
     var lastName : String  = ""
     @Published var password : String  = "azerty"
@@ -87,7 +86,6 @@ class UserViewModel: ObservableObject {
             .responseJSON {
                 (response) in
                 switch response.result {
-                    
                 case .success(let JSON):
                     let response = JSON as! NSDictionary
                     let userResponse = response.object(forKey: "user") as! NSDictionary
@@ -99,12 +97,11 @@ class UserViewModel: ObservableObject {
                     print("success  \(email )")
                     print("success  \(lastName )")
                     print("success  \(password )")
-                   var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName)
+                    var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName)
                     currentUser.id = id
                     Self.currentUser = currentUser
                   
                     print("success \(JSON )")
-                   
                     complited(currentUser)
                 case .failure(let error):
                     print("request failed \(error)")
@@ -192,6 +189,7 @@ class UserViewModel: ObservableObject {
             }
         
     }
+    
     func updateUser(user: User) {
         print(user)
         let parametres: [String: Any] = [

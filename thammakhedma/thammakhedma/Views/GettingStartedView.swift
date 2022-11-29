@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
-
+import SwiftyJSON
 struct GettingStartedView: View {
     @State private var isShowingDetailView = false
+    @ObservedObject var viewModel = EntrepriseViewModel()
+
     var body: some View {
+        
                 NavigationView{
-            
+                    
             
         VStack{
             
@@ -31,7 +34,9 @@ struct GettingStartedView: View {
                         Spacer()
                         NavigationLink(destination: LoginView(), isActive: $isShowingDetailView){
                             Button("Get Started") {
+                                
                                 isShowingDetailView = true
+                                print(viewModel.datas)
                             }
                             .foregroundColor(.white)
                             .fontWeight(.bold)
@@ -46,7 +51,7 @@ struct GettingStartedView: View {
                       
                         
                     }.padding(50)
-                
+          
         }
         .background(Color("Color").edgesIgnoringSafeArea(.all))
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -1,5 +1,11 @@
 PODS:
   - Alamofire (5.6.2)
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
+    - AppAuth/Core
   - FBAEMKit (15.1.0):
     - FBSDKCoreKit_Basics (= 15.1.0)
   - FBSDKCoreKit (15.1.0):
@@ -8,26 +14,48 @@ PODS:
   - FBSDKCoreKit_Basics (15.1.0)
   - FBSDKLoginKit (15.1.0):
     - FBSDKCoreKit (= 15.1.0)
+  - GoogleSignIn (6.2.4):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (~> 1.3)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+  - GoogleSignInSwiftSupport (6.2.4):
+    - GoogleSignIn (~> 6.2)
+  - GTMAppAuth (1.3.1):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+  - GTMSessionFetcher/Core (2.3.0)
 
 DEPENDENCIES:
   - Alamofire
   - FBSDKLoginKit
+  - GoogleSignIn
+  - GoogleSignInSwiftSupport
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - AppAuth
     - FBAEMKit
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
+    - GoogleSignIn
+    - GoogleSignInSwiftSupport
+    - GTMAppAuth
+    - GTMSessionFetcher
 
 SPEC CHECKSUMS:
   Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
   FBAEMKit: c7f82b5145d446bcbbcd50485c032689032fc6a2
   FBSDKCoreKit: 7542746fc63a2a38dd6a865eeb54268341f37b83
   FBSDKCoreKit_Basics: 92d6b26c0bed30ab09bbdd96dccaa26e6c9978d1
   FBSDKLoginKit: 4e275d30cf90e92bdf3a7c82857a8642abf23037
+  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+  GoogleSignInSwiftSupport: 565fa830a18d4d26d78c7a7c77be096fea7cf22b
+  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
 
-PODFILE CHECKSUM: 3ab118ec195a3a4f09b145680e4c41d01b0678ed
+PODFILE CHECKSUM: 5a1a2b9175e96115fa8d1ad99fd09c9fe79a981f
 
 COCOAPODS: 1.11.3

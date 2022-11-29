@@ -9,10 +9,26 @@ import SwiftUI
 
 struct profile: View {
     var body: some View {
+        TabView{
+            Home1()
+                .preferredColorScheme(.dark)
+                .tabItem (){
+                    Image(systemName: "person.text.rectangle")
+                }
+            Home2()
+                .preferredColorScheme(.dark)
+                .tabItem (){
+                    Image(systemName: "mappin.and.ellipse")
+                }
+            test()
+                .preferredColorScheme(.dark)
+                .tabItem (){
+                    Image(systemName: "building.2.crop.circle.fill")
+                }
+        }
         
-        Home1()
-            .preferredColorScheme(.dark)
-    }}
+    }
+}
 
 struct profile_Previews: PreviewProvider {
     static var previews: some View {
@@ -36,26 +52,19 @@ struct Home1 : View {
     @State var isdisabledEmail : Bool = true
     @State var activateSecurePwd : Bool = false
     @State var logout : Bool = false
-    
     var body: some View{
+        
         
         VStack{
             
             HStack(spacing: 15){
-
             }
             .padding()
             .onAppear{
                 
             }
-
-            
             // Tab Items...
-            
-
-            
             // Cards...
-            
             HStack(spacing: 20){
 
                 ZStack(alignment: .bottom) {
@@ -84,7 +93,7 @@ struct Home1 : View {
                             
                             HStack(spacing: 15){
                                 
-                                Image(systemName: "envelope.fill")
+                                Image(systemName: "person.circle.fill")
                                     .foregroundColor(Color("Color1"))
                                 
                                 TextField("First name", text: $username)
@@ -98,7 +107,7 @@ struct Home1 : View {
                             
                             HStack(spacing: 15){
                                 
-                                Image(systemName: "envelope.fill")
+                                Image(systemName: "person.circle")
                                     .foregroundColor(Color("Color1"))
                                 
                                 TextField("Last name", text: $lastname)
@@ -158,7 +167,9 @@ struct Home1 : View {
                         
                         self.index = 1
                         
-                    }
+                    }.overlay(
+                        RoundedRectangle(cornerRadius: 56)
+                    .stroke(Color("Color1"), lineWidth: 4))
                     .cornerRadius(35)
                     .padding(.horizontal,20)
                     
@@ -178,14 +189,8 @@ struct Home1 : View {
                         .padding(.horizontal, 50)
                         .background(Color("Color1"))
                         .clipShape(Capsule())
-                        // shadow...
                         .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                        
-                    
-                    // moving view down..
                     .offset(y: 25)
-                    // hiding view when its in background...
-                    // only button...
                     .opacity(self.index == 1 ? 1 : 0)
                 }
             }
