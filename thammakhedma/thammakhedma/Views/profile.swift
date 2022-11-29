@@ -198,9 +198,7 @@ struct Home1 : View {
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $logout ){
                 Button{
                     UserViewModel.currentUser = nil
-                    logout=true
-                    
-                }label:{Text("LOG OUT")
+                    logout=true}label:{Text("LOG OUT")
                         .foregroundColor(.white)
                         .fontWeight(.bold)
                         .padding(.vertical)

@@ -10,13 +10,14 @@ import SwiftyJSON
 import Combine
 class UserViewModel: ObservableObject {
     @Published var datas = [UserDataModel]()
-    var firstName : String = ""
-    var lastName : String  = ""
-    @Published var password : String  = "azerty"
-    @Published var email : String  = "monaem.hmila@esprit.tn"
+    @Published var firstName : String = ""
+    @Published var lastName : String  = ""
+    @Published var password : String  = ""
+    @Published var email : String  = ""
     var code : String = ""
     @Published var newPassword : String = ""
     @Published var isEmailCriteriaValid = false
+    @Published var isNameCriteriaValid = false
     @Published var isPasswordCriteriaValid = false
     @Published var isPasswordConfirmValid = false
     @Published var canSubmit = false
@@ -26,8 +27,15 @@ class UserViewModel: ObservableObject {
     static let sharedInstance = UserViewModel()
     let emailPredicate = NSPredicate(format: "SELF MATCHES %@", "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
     let passwordPredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")
-    
+    let namePredicate = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[A-Za-z])$")
+
     init() {
+        $firstName
+            .map { firstName in
+                return self.namePredicate.evaluate(with: firstName)
+            }
+            .assign(to: \.isNameCriteriaValid, on: self)
+            .store(in: &cancellableSet)
         $email
             .map { email in
                 return self.emailPredicate.evaluate(with: email)
@@ -55,6 +63,12 @@ class UserViewModel: ObservableObject {
             }
             .assign(to: \.canSubmit, on: self)
             .store(in: &cancellableSet)
+    }
+    var NamePrompt: String {
+        isNameCriteriaValid ?
+            ""
+            :
+            "name model is not correct"
     }
     var confirmPwPrompt: String {
         isPasswordConfirmValid ?

@@ -41,6 +41,7 @@ struct Home5 : View {
     @State var doc = ""
     @State var data : Data = .init(count: 0)
     @State var search = false
+    @State var next : Bool = false
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = EntrepriseViewModel()
     @State var  id:String =  UserViewModel.currentUser?.id ?? ""
@@ -107,7 +108,7 @@ struct Home5 : View {
                                     
                                     Text("Distance - "+self.distance+" KM")
                                     
-
+                                    
                                     Text("latitud - "+self.latitud + "sex")
                                     Text("longitud - "+self.longitud + "sex")
                                 }
@@ -133,7 +134,7 @@ struct Home5 : View {
                                     }
                                 }
                                 .padding(.top, 30)// for top curve...
-
+                                
                                 VStack{
                                     
                                     HStack(spacing: 15){
@@ -148,7 +149,7 @@ struct Home5 : View {
                                     
                                     HStack(spacing: 15){
                                         
-                                       
+                                        
                                         
                                         TextField("company Email", text: $viewModel.email)
                                     }
@@ -186,7 +187,7 @@ struct Home5 : View {
                             // shadow...
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
                             .onTapGesture {
-                            
+                                
                                 
                                 self.index = 1
                                 
@@ -195,12 +196,12 @@ struct Home5 : View {
                             .padding(.horizontal,20)
                             
                             // Button...
-                            
+                            NavigationLink(destination: test().navigationBarBackButtonHidden(true),isActive: $next ){
                                 Button(action: {
                                     print(self.latitud,String(self.longitud),viewModel.name,viewModel.email,id)
                                     
                                     viewModel.AddEntreprise(name: viewModel.name, email: viewModel.email,id: id,latitud: String(self.longitud),longitud:String(self.latitud) )
-                                    
+                                     next = true
                                     print(self.latitud,String(self.longitud))
                                     
                                 }) {
@@ -212,7 +213,8 @@ struct Home5 : View {
                                 }
                                 .background(Color("Color1"))
                                 .clipShape(Capsule())
-                            
+                                
+                            }
                         }
                         
 

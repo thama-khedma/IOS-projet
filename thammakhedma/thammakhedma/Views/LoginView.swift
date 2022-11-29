@@ -343,31 +343,13 @@ struct SignUP : View {
                 .padding(.top, 30)// for top curve...
 
                 VStack{
-                    
-                    HStack(spacing: 15){
-                        
-                        Image(systemName: "person.fill")
-                            .foregroundColor(Color("Color1"))
-                        
-                        TextField("First name", text: $viewModel.firstName)
-                    }
-                    
-                    Divider().background(Color.white.opacity(0.5))
+                        EntryField(sfSymbolName: "person.fill", placeholder: "First Name", prompt: viewModel.NamePrompt, field: $viewModel.firstName)
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)
                 VStack{
                     
-                    HStack(spacing: 15){
-                        
-                        Image(systemName: "person.fill")
-                            .foregroundColor(Color("Color1"))
-                        
-                        TextField("Last name", text: $viewModel.lastName)
-                        
-                    }
-                    
-                    Divider().background(Color.white.opacity(0.5))
+                    EntryField(sfSymbolName: "person.fill", placeholder: "Last Name", prompt: viewModel.NamePrompt, field: $viewModel.lastName)
                 }
                 .padding(.horizontal)
                 .padding(.top, 40)
