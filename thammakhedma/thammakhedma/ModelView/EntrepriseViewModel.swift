@@ -44,16 +44,10 @@ class EntrepriseViewModel: ObservableObject {
             }
         
     }
-    func updateUser(name: String,email: String,user: String,latitud: String,longitud: String) {
+    func updateentreprise(id : String,name: String,email: String) {
         let parametres: [String: Any] = [
             "name":name,
-            "email":email,
-            "user":user,
-            "location":[
-               "type": "Point",
-               "coordinates" : [latitud,longitud]
-            ]
-            
+            "email":email
         ]
         AF.request(Statics.URL+"/entreprise/update/\(id ?? "")" , method: .patch,parameters:parametres ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)

@@ -40,12 +40,9 @@ struct Home3: View {
     @ObservedObject var obs = EntrepriseViewModel()
     @State var hero = false
     var body: some View{
-        
-        VStack{
+            VStack{
             ScrollView(.vertical, showsIndicators: false) {
-                
                 VStack{
-                    
                     HStack{
                         
                         VStack(alignment: .leading, spacing: 12) {
@@ -130,7 +127,7 @@ struct Home3: View {
         }
         NavigationView {
             List(obs.datas) { i in
-                NavigationLink(destination: PlayerView(name: i.name,user: i.user,email: i.email)) {
+                NavigationLink(destination: PlayerView(name: i.name,id: i.id,email: i.email)) {
                     ZStack(alignment: .leading){
                         RoundedRectangle(cornerRadius: 10.0)
                             .fill(Color("Color2"))

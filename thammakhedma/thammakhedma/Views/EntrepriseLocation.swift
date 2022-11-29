@@ -109,8 +109,8 @@ struct Home5 : View {
                                     Text("Distance - "+self.distance+" KM")
                                     
                                     
-                                    Text("latitud - "+self.latitud + "sex")
-                                    Text("longitud - "+self.longitud + "sex")
+                                    Text("latitud - "+self.latitud )
+                                    Text("longitud - "+self.longitud )
                                 }
                                 
                                 Spacer()

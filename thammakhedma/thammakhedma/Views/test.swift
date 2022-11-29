@@ -8,16 +8,15 @@
 import SwiftUI
 struct PlayerView: View {
     @State var name: String
-    @State var user: String
+    @State var id: String
     @State var index = 0
     @State var username:String = UserViewModel.currentUser?.firstName ?? ""
     @State var  password:String =  UserViewModel.currentUser?.password ?? ""
     @ObservedObject var viewModel = UserViewModel()
     @State var   verifpassword:String=""
     @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
-    @State var  id:String =  UserViewModel.currentUser?.id ?? ""
     @State var   email:String
-    
+    @ObservedObject var obs = EntrepriseViewModel ()
     @State var  description:String = ""
     @State var selectedImage: UIImage?
     @State var showImagePicker : Bool = false
@@ -51,7 +50,7 @@ struct PlayerView: View {
                             
                             VStack(spacing: 10){
                                 
-                                Text("Company")
+                                Text(id)
                                     .foregroundColor(self.index == 1 ? .white : .gray)
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -124,8 +123,7 @@ struct PlayerView: View {
                     .stroke(Color("Color1"), lineWidth: 4))
       
                     Button("update company", action: {
-                        
-                        })
+                        obs.updateentreprise(id: id, name: name, email: email)                        })
                         .foregroundColor(.white)
                         .fontWeight(.bold)
                         .padding(.vertical)
@@ -189,7 +187,7 @@ struct PlayerView: View {
                                                     .clipShape(Capsule())
                                                     .offset(x: 0.0, y: 70)
                                                     .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                                                    NavigationLink(destination: PlayerView(name: i.name,user: i.user,email: i.email),isActive: $showupdate) {
+                                                    NavigationLink(destination: PlayerView(name: i.name,id: i.id,email: i.email),isActive: $showupdate) {
                                                         Button("update", action: {
                                                             showupdate = true
                                                         }

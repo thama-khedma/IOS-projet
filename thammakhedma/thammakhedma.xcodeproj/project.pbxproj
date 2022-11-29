@@ -25,7 +25,6 @@
 		6936367E29292517005FC679 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367D29292517005FC679 /* SDWebImageSwiftUI */; };
 		69483FAA2933CD9400B847EC /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69483FA92933CD9400B847EC /* test.swift */; };
 		695A784A2934C61B001BF867 /* EntrepriseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A78492934C61B001BF867 /* EntrepriseView.swift */; };
-		6979F189292CA33300846977 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6979F188292CA33300846977 /* credentials.plist */; };
 		69A972A029316A430006CD4F /* AddEntreprise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A9729F29316A430006CD4F /* AddEntreprise.swift */; };
 		69A972A229316F4D0006CD4F /* Entreprises.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972A129316F4D0006CD4F /* Entreprises.swift */; };
 		69A972A4293175340006CD4F /* EntrepriseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972A3293175340006CD4F /* EntrepriseViewModel.swift */; };
@@ -57,7 +56,6 @@
 		42264FA62922EA5700D0978E /* profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile.swift; sourceTree = "<group>"; };
 		69483FA92933CD9400B847EC /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		695A78492934C61B001BF867 /* EntrepriseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrepriseView.swift; sourceTree = "<group>"; };
-		6979F188292CA33300846977 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = credentials.plist; path = ../../../../Downloads/credentials.plist; sourceTree = "<group>"; };
 		6979F18C292CB28D00846977 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		69A9729F29316A430006CD4F /* AddEntreprise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntreprise.swift; sourceTree = "<group>"; };
 		69A972A129316F4D0006CD4F /* Entreprises.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entreprises.swift; sourceTree = "<group>"; };
@@ -116,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				6979F18C292CB28D00846977 /* Info.plist */,
-				6979F188292CA33300846977 /* credentials.plist */,
 				42264FA12922BABC00D0978E /* Models */,
 				42264F8F292286A600D0978E /* ModelView */,
 				42264F8E2922869400D0978E /* Views */,
@@ -263,7 +260,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6979F189292CA33300846977 /* credentials.plist in Resources */,
 				42264F87292285FE00D0978E /* Preview Assets.xcassets in Resources */,
 				42264F84292285FE00D0978E /* Assets.xcassets in Resources */,
 			);
