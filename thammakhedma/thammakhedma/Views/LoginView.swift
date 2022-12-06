@@ -170,6 +170,7 @@ struct Login : View {
     @State private var passwordforget = false
     @State private var isLogin = false
     @State private var isShowingContentView = false
+    
     var currentUser: User?
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = UserViewModel()
@@ -271,7 +272,7 @@ struct Login : View {
             .padding(.horizontal,20)
             
             // Button...
-            NavigationLink(destination: profile().navigationBarBackButtonHidden(true), isActive: $isLogin){
+            NavigationLink(destination: Entreprises().navigationBarBackButtonHidden(true), isActive: $isLogin){
                 Button("Login", action: {
                     
                     viewModel.LogIn(email: viewModel.email, password: viewModel.password,complited: {(user ) in

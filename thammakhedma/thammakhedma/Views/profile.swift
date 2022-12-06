@@ -9,24 +9,8 @@ import SwiftUI
 
 struct profile: View {
     var body: some View {
-        TabView{
             Home1()
                 .preferredColorScheme(.dark)
-                .tabItem (){
-                    Image(systemName: "person.text.rectangle")
-                }
-            Home2()
-                .preferredColorScheme(.dark)
-                .tabItem (){
-                    Image(systemName: "mappin.and.ellipse")
-                }
-            test()
-                .preferredColorScheme(.dark)
-                .tabItem (){
-                    Image(systemName: "building.2.crop.circle.fill")
-                }
-        }
-        
     }
 }
 

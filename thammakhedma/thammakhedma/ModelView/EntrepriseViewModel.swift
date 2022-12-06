@@ -10,6 +10,13 @@ import Alamofire
 import SwiftyJSON
 import Combine
 import SwiftUI
+struct Card : Identifiable {
+    var id : String
+    var name : String
+    var email : String
+    var user : String
+    var expand : Bool
+}
 class EntrepriseViewModel: ObservableObject {
     static var Location: Entrepris?
     @Published var datas = [Card]()
@@ -17,14 +24,17 @@ class EntrepriseViewModel: ObservableObject {
     @Published var name : String  = ""
     @Published var email : String  = ""
     @Published var id : String  = ""
-    @Published var latitud : String  = ""
+    @Published var adresse : String  = ""
     @Published var description : String  = ""
+    @Published var latitud : String  = ""
     @Published var longitud : String  = ""
-    func AddEntreprise(name: String,email: String,id: String,latitud: String,longitud: String) {
+    func AddEntreprise(name: String,email: String,id: String,adresse: String,description: String,latitud: String,longitud: String) {
         let parametres: [String: Any] = [
             "name":name,
             "email":email,
             "user":id,
+            "adresse":adresse,
+            "description":description,
             "location":[
                "type": "Point",
                "coordinates" : [latitud,longitud]
@@ -44,10 +54,15 @@ class EntrepriseViewModel: ObservableObject {
             }
         
     }
-    func updateentreprise(id : String,name: String,email: String) {
+    func updateUser(name: String,email: String,user: String,latitud: String,longitud: String) {
         let parametres: [String: Any] = [
             "name":name,
-            "email":email
+            "email":email,
+            "user":user,
+            "location":[
+               "type": "Point",
+               "coordinates" : [latitud,longitud]
+            ]
         ]
         AF.request(Statics.URL+"/entreprise/update/\(id ?? "")" , method: .patch,parameters:parametres ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
@@ -74,26 +89,5 @@ class EntrepriseViewModel: ObservableObject {
     }
 
     init() {
-        self.datas = [Card]()
-        AF.request(Statics.URL+"/entreprise/").responseData{
-            (data) in
-            let json = try! JSON(data: data.data!)
-            for i in json{
-                self.datas.append(Card(id:i.1["_id"].stringValue,name: i.1["name"].stringValue,email: i.1["email"].stringValue,user:i.1["user"].stringValue,expand: false))
-                
-            }
-            
-        }
-        self.currentlocation = [Card]()
-        AF.request(Statics.URL+"/entreprise/find/139.781/35.698").responseData{
-            (data) in
-            let json = try! JSON(data: data.data!)
-            for i in json{
-                self.currentlocation.append(Card(id:i.1["_id"].stringValue,name: i.1["name"].stringValue,email: i.1["email"].stringValue,user:i.1["user"].stringValue,expand: false))
-            }
-            print("LEEEEEE",self.currentlocation)
-            
-        }
-        
     }
 }

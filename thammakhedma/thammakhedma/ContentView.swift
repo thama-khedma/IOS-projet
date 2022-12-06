@@ -9,12 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        GettingStartedView()
+        GettingStartedView(show: .constant(true))
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Home2()
+        GettingStartedView(show: .constant(true))
     }
 }

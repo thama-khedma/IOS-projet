@@ -6,64 +6,69 @@
 //
 
 import SwiftUI
-import SwiftyJSON
+import RiveRuntime
+
 struct GettingStartedView: View {
-    @State private var isShowingDetailView = false
-    @ObservedObject var viewModel = EntrepriseViewModel()
-
+    @State var showModal = false
+    @Binding var show: Bool
+    @State private var nextpage = false
     var body: some View {
-        
-                NavigationView{
-                    
-            
-        VStack{
-            
-            // Top View
-
-                    
-                        Spacer()
-                        Image("logo")
-                            .scaledToFit()
-                    
+        NavigationView{
+            ZStack {
+                Color("Color").ignoresSafeArea()
+                    .opacity(showModal ? 0.4 : 0)
                 
-          
-            // Bottom View
+                content
+                    .offset(y: showModal ? -50 : 0)
+                
+                NavigationLink(destination: LoginView(), isActive: $nextpage){
+                    Button("Login", action: {nextpage = true})
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .padding(.vertical)
+                        .padding(.horizontal, 50)
+                        .background(Color("Color"))
+                        .clipShape(Capsule())
+                        .navigationBarBackButtonHidden(true)
+                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                     
-                  HStack {
-                        
-                        Spacer()
-                        NavigationLink(destination: LoginView(), isActive: $isShowingDetailView){
-                            Button("Get Started") {
-                                
-                                isShowingDetailView = true
-                                print(viewModel.datas)
-                            }
-                            .foregroundColor(.white)
-                            .fontWeight(.bold)
-                            .padding(.vertical)
-                            .padding(.horizontal, 50)
-                            .background(Color("Color1"))
-                            .clipShape(Capsule())
-                            // shadow...
-                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                            
-                        }
-                      
-                        
-                    }.padding(50)
-          
+                }
+                
+                
+            }
         }
-        .background(Color("Color").edgesIgnoringSafeArea(.all))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
-
     }
-    
-}}
+    var content: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Thamma Khedma ?")
+                .font(.custom("Poppins Bold", size: 60))
+                .frame(width: 260, alignment: .leading)
+
+            
+            Spacer()
+            
+
+            
+
+        }
+        .padding(40)
+        .padding(.top, 40)
+        .background(
+            RiveViewModel(fileName: "shapes").view()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
+                .blur(radius: 30)
+                .blendMode(.hardLight)
+        )
+        .background(
+            Color("Color")
+                .blur(radius: 50)
+        )
+    }}
 
 
 struct GettingStartView_Previews: PreviewProvider {
     static var previews: some View {
-        GettingStartedView()
+        GettingStartedView(show: .constant(true))
     }
 }

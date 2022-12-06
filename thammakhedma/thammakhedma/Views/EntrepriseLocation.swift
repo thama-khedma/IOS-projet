@@ -109,8 +109,8 @@ struct Home5 : View {
                                     Text("Distance - "+self.distance+" KM")
                                     
                                     
-                                    Text("latitud - "+self.latitud )
-                                    Text("longitud - "+self.longitud )
+                                    Text("latitud - "+self.latitud + "sex")
+                                    Text("longitud - "+self.longitud + "sex")
                                 }
                                 
                                 Spacer()
@@ -196,11 +196,11 @@ struct Home5 : View {
                             .padding(.horizontal,20)
                             
                             // Button...
-                            NavigationLink(destination: test().navigationBarBackButtonHidden(true),isActive: $next ){
+                            NavigationLink(destination: Entreprises().navigationBarBackButtonHidden(true),isActive: $next ){
                                 Button(action: {
-                                    print(self.latitud,String(self.longitud),viewModel.name,viewModel.email,id)
-                                    
-                                    viewModel.AddEntreprise(name: viewModel.name, email: viewModel.email,id: id,latitud: String(self.longitud),longitud:String(self.latitud) )
+                                    print(self.latitud,String(self.longitud),viewModel.name,viewModel.email,id,String(self.name))
+                                
+                                    viewModel.AddEntreprise(name: viewModel.name, email: viewModel.email,id: id,adresse:String(self.name),description:viewModel.description,latitud: String(self.longitud),longitud:String(self.latitud) )
                                      next = true
                                     print(self.latitud,String(self.longitud))
                                     

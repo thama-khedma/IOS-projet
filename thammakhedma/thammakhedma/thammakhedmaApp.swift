@@ -11,7 +11,7 @@ import SwiftUI
 struct thammakhedmaApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Entreprises()
         }
         
     }

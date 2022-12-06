@@ -6,237 +6,78 @@
 //
 
 import SwiftUI
-struct PlayerView: View {
-    @State var name: String
-    @State var id: String
-    @State var index = 0
-    @State var username:String = UserViewModel.currentUser?.firstName ?? ""
-    @State var  password:String =  UserViewModel.currentUser?.password ?? ""
-    @ObservedObject var viewModel = UserViewModel()
-    @State var   verifpassword:String=""
-    @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
-    @State var   email:String
-    @ObservedObject var obs = EntrepriseViewModel ()
-    @State var  description:String = ""
-    @State var selectedImage: UIImage?
-    @State var showImagePicker : Bool = false
-    @State var update : Bool = false
-    @State var isdisabledEmail : Bool = true
-    @State var activateSecurePwd : Bool = false
-    @State var logout : Bool = false
-    
-    var body: some View{
-        
-        
-        VStack{
+import RiveRuntime
+
+struct testView: View {
+    @State var show = false
+    @State var isOpen = false
+  
+    var body: some View {
+        ZStack {
             
-            HStack(spacing: 15){
-            }
-            .padding()
-            .onAppear{
+          SideMenu()
+                .padding(.top, 50)
+                .opacity(isOpen ? 1 : 0)
+                .offset(x: isOpen ? 0 : -300)
+                .rotation3DEffect(.degrees(isOpen ? 0 : 30), axis: (x: 0, y: 1, z: 0))
+                .ignoresSafeArea(.all, edges: .top)
+            
+            TabView2()
                 
-            }
-            // Tab Items...
-            // Cards...
-            HStack(spacing: 20){
-
-                ZStack(alignment: .bottom) {
-                    
-                    VStack{
-                        
-                        HStack{
-                            
-                            Spacer(minLength: 0)
-                            
-                            VStack(spacing: 10){
-                                
-                                Text(id)
-                                    .foregroundColor(self.index == 1 ? .white : .gray)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                
-                                Capsule()
-                                    .fill(self.index == 1 ? Color.blue : Color.clear)
-                                    .frame(width: 100, height: 5)
-                            }
-                        }
-                        .padding(.top, 30)// for top curve...
-
-                        VStack{
-                            
-                            HStack(spacing: 15){
-                                
-                                Image(systemName: "person.3.sequence.fill")
-                                    .foregroundColor(Color("Color1"))
-                                
-                                TextField("Company name", text: $name)
-                            }
-                            
-                            Divider().background(Color.white.opacity(0.5))
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 60)
-
-                        
-                        VStack{
-                            
-                            HStack(spacing: 15){
-                                
-                                Image(systemName: "mail.stack.fill")
-                                    .foregroundColor(Color("Color1"))
-                                
-                                TextField("Company Email", text: $email)
-                            }
-                            
-                            Divider().background(Color.white.opacity(0.5))
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 60)
-                        // replacing forget password with reenter password...
-                        // so same height will be maintained...
-                        
-
-                        
-                        
-                    }
-                    .padding()
-                    // bottom padding...
-                    .padding(.bottom, 65)
-                    .background(Color("Color2"))
-                    .clipShape(CShape2())
-                    // clipping the content shape also for tap gesture...
-                    .contentShape(CShape2())
-                    // shadow...
-                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
-                    .onTapGesture {
-                    
-                        
-                        self.index = 1
-                        
-                    }
-                    .cornerRadius(35)
-                    .padding(.horizontal,20)
-                    
-                    // Button...
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 56)
-                    .stroke(Color("Color1"), lineWidth: 4))
-      
-                    Button("update company", action: {
-                        obs.updateentreprise(id: id, name: name, email: email)                        })
-                        .foregroundColor(.white)
-                        .fontWeight(.bold)
-                        .padding(.vertical)
-                        .padding(.horizontal, 50)
-                        .background(Color("Color1"))
-                        .clipShape(Capsule())
-                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                    .offset(y: 25)
-                    .opacity(self.index == 1 ? 1 : 0)
+                .safeAreaInset(edge: .top) {
+                    Color.clear.frame(height: 104)
                 }
+                .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z: 0), perspective: 1)
+                .offset(x: isOpen ? 265 : 0)
+                .scaleEffect(isOpen ? 0.9 : 1)
+                .scaleEffect(show ? 0.92 : 1)
+                .ignoresSafeArea()
+                        
+            Button(action: {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
+                    isOpen.toggle()
+                }
+            }) {
+                
+                Image(systemName:"line.horizontal.3")
+                    .resizable()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.primary)
             }
-            .padding(.top,35)
-            
-            Spacer(minLength: 0)
-        }
-        .background(Color("Color").edgesIgnoringSafeArea(.all))
-    }
-    
-}
-    struct test: View {
-        @State var index = 0
-        @ObservedObject var obs = EntrepriseViewModel ()
-        @State var showupdate : Bool = false
-
-        var body: some View {
-            NavigationView {
-                ScrollView {
-                    VStack{
-                        ForEach(obs.currentlocation) { i in
-                            
-                                VStack{
-                                    HStack(spacing: 20){
-                                        ZStack(alignment: .bottom) {
-                                            VStack{
-                                                
-                                                
-                                                    HStack{
-                                                        Spacer(minLength: 0)
-                                                        Image(systemName: "briefcase.fill")
-                                                        .foregroundColor(Color("Color1"))
-                                                        Text(i.name)
-                                                            .foregroundColor(self.index == 1 ? .white : .gray)
-                                                            .font(.title)
-                                                            .fontWeight(.bold)
-                                                        
-                                                        
-                                                    }
-                                                    
-                                                
-                                                .padding(.top, 30)
-                                                VStack{
-                                                    Button("delete", action: {
-                                                        
-                                                    }
-                                                    )
-                                                    .foregroundColor(.white)
-                                                    .fontWeight(.bold)
-                                                    .padding(.vertical,5)
-                                                    .padding(.horizontal, 60)
-                                                    .background(Color("Color1"))
-                                                    .clipShape(Capsule())
-                                                    .offset(x: 0.0, y: 70)
-                                                    .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                                                    NavigationLink(destination: PlayerView(name: i.name,id: i.id,email: i.email),isActive: $showupdate) {
-                                                        Button("update", action: {
-                                                            showupdate = true
-                                                        }
-                                                        )}
-                                                    .foregroundColor(.white)
-                                                    .fontWeight(.bold)
-                                                    .padding(.vertical,5)
-                                                    .padding(.horizontal, 60)
-                                                    .background(Color.blue)
-                                                    .clipShape(Capsule())
-                                                    // shadow...
-                                                    .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                                                    .offset(x: 0.0, y: 70)
-                                                
-                                                }                                   .padding(.top, 20)
-                                                
-
-                                            }
-                                            .padding()
-                                            // bottom padding...
-                                            .padding(.bottom, 65)
-                                            .background(Color("Color2"))
-                                            .clipShape(CShape1())
-                                            // clipping the content shape also for tap gesture...
-                                            .contentShape(CShape2())
-                                            // shadow...
-                                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
-                                            .onTapGesture {self.index = 1}
-                                            .cornerRadius(35)
-                                            .padding(.horizontal,4)}.overlay(
-                                                RoundedRectangle(cornerRadius: 56)
-                                            .stroke(Color("Color1"), lineWidth: 4))
-                                    }
-                                    .padding(.top,35)
-                                    Spacer(minLength: 0)}
-                            
-                            
-                        }
-                    }
-
+                .frame(width: 44, height: 44)
+                .mask(Circle())
+                .shadow(color: Color("Shadow").opacity(0.2), radius: 5, x: 0, y: 5)
+                .frame(maxWidth: .infinity, maxHeight: 700, alignment: .topLeading)
+                .padding()
+                .offset(x: isOpen ? 216 : 0)
+                .onTapGesture {
                     
-                }.background(Color("Color").edgesIgnoringSafeArea(.all))
+                }
+                .onChange(of: isOpen) { newValue in
+                    if newValue {
+                        UIApplication.shared.setStatusBarStyle(.lightContent, animated: true)
+                    } else {
+                        UIApplication.shared.setStatusBarStyle(.darkContent, animated: true)
+                    }
+                }
+            
+ 
+        }
+    }
+}
 
-                .frame(height:900 )
-            }
-        }}
+extension UIViewController {
+    func setStatusBarStyle(_ style: UIStatusBarStyle) {
+        if let statusBar = UIApplication.shared.value(forKey: "statusBar") as? UIView {
+            statusBar.backgroundColor = style == .lightContent ? UIColor.black : .white
+            statusBar.setValue(style == .lightContent ? UIColor.white : .black, forKey: "foregroundColor")
+        }
+    }
+}
 
-struct test_Previews: PreviewProvider {
+struct testView_Previews: PreviewProvider {
     static var previews: some View {
-        test()
+        testView()
     }
 }
