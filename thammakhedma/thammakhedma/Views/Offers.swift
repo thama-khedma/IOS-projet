@@ -16,6 +16,7 @@ struct offerdata : Identifiable {
     var image : String
     var name : String
     var description : String
+    var entreprise_name : String
 }
 
 var data = [offerdata]()
@@ -45,7 +46,7 @@ struct offerView: View {
                  case .success:
                      data = []
                      for i in JSON(response.data!){
-                         data.append(offerdata(id: i.1["_id"].stringValue, image: "g3", name: i.1["name"].stringValue, description: i.1["description"].stringValue))
+                         data.append(offerdata(id: i.1["_id"].stringValue, image: "g3", name: i.1["name"].stringValue, description: i.1["description"].stringValue,entreprise_name: i.1["entreprise"].stringValue))
                      }
                      complited(true,data)
                  case let .failure(error):
@@ -69,78 +70,100 @@ struct offreDetail : View {
     @State var id: String
     @State var email: String
     @State var description: String
-    @State var destination: String
+    @State var userid: String = UserViewModel.currentUser?.email ?? ""
+    @State var entreprise_name:String
     @State var showupdate : Bool = false
+    @State var apply : Bool = false
+    @ObservedObject var viewModel = CondidatureViewModel()
 
     var body : some View{
-       
-            VStack(spacing: 8){
-                
-                Image("main").resizable().aspectRatio(1, contentMode: .fill).frame(width:UIScreen.main.bounds.width,height: 500).offset(y: -200).padding(.bottom, -200)
+        NavigationView{
+            
+            VStack{
                 
                 GeometryReader{geo in
                     
                     VStack(alignment: .leading){
-                        
                         VStack(alignment: .leading, spacing: 10){
                             
                             HStack{
                                 
+                                
                                 VStack(alignment: .leading){
                                     
+                                    Text("name").fontWeight(.heavy).font(.largeTitle)
                                     Text(name).fontWeight(.heavy).font(.largeTitle)
                                     
-                                    
-                                }
+                                }.padding()
                                 
                                 Spacer()
                                 
-                                Text("$299").foregroundColor(Color("Color")).font(.largeTitle)
                             }
                             
                         }.padding()
-                        ScrollView{
-                            VStack(alignment: .leading, spacing: 15){
-                                
-                                
-
-                                
-
-                                
-                                Text("contact").fontWeight(.heavy)
-                                
-                                Text(email).foregroundColor(.gray)
-                                
-                               /* HStack(spacing: 6){
-                                    
-                                    ForEach(0..<5){i in
-                                        
-                                        Button(action: {
-                                            
-                                        }) {
-                                            Text("\(i + 1)").foregroundColor(.white).padding(20)
-                                        }.background(Color("bg"))
-                                            .cornerRadius(8)
-                                    }
-                                }*/
-                                
-                                
-                            }.padding(.horizontal,15)
+                        
+                        VStack(alignment: .leading, spacing: 10){
                             
-                            VStack(alignment: .leading, spacing: 10){
-                                
-                                Text("Description").fontWeight(.heavy)
-                                Text(description).foregroundColor(.gray)
-
-                            }.padding()
-                        }
+                            Text("Description").fontWeight(.heavy)
+                            Text(description).foregroundColor(.gray)
+                            
+                            HStack(spacing: 8){
+                                NavigationLink(destination: UpdateOfferView(name: name,id: id,description: description), isActive: $showupdate){
+                                    Button(action: {
+                                        showupdate=true
+                                    }) {
+                                        
+                                        Image(systemName: "gear.circle") .resizable()
+                                            .frame(width: 50.0, height: 50.0)
+                                    }
+                                }
+                                NavigationLink(destination: QRcodeView(offre: name, entreprise: entreprise_name, user: userid), isActive: $apply){
+                                    Button(action: {
+                                    apply=true
+                                        viewModel.AddCondidature(entreprise_name: entreprise_name, offre_decription: description, user: userid, offre: name)
+                                    }) {
+                                        
+                                        HStack(spacing: 6){
+                                            
+                                            Text("apply for the offer")
+                                            Image("arrow").renderingMode(.original)
+                                            
+                                        }.foregroundColor(.white)
+                                            .padding()
+                                        
+                                    }.background(Color("Color"))
+                                        .cornerRadius(8)
+                                    
+                                }.padding(.top, 6)
+                            }
+                        }.padding()
+                        
                     }
                     
                 }.background(Color("Color"))
                     .padding(.top, -75)
                 
             }
-        
+            /*  VStack(spacing: 8){
+             GeometryReader{geo in
+             VStack(alignment: .leading){
+             ScrollView{
+             VStack(alignment: .leading, spacing: 15){
+             Text("contact").fontWeight(.heavy)
+             Text(email).foregroundColor(.gray)
+             }.padding(.horizontal,15)
+             VStack(alignment: .leading, spacing: 10){
+             Text("Description").fontWeight(.heavy)
+             Text(description).foregroundColor(.gray)
+             }.padding()
+             }
+             }
+             
+             }.background(Color("Color"))
+             .padding(.top, -75)
+             
+             }*/
+        }
     }
 }
 struct offer : View {
@@ -182,8 +205,6 @@ struct offer : View {
                             Spacer()
                             
                             Button(action: {
-                                
-                                
                                 UIApplication.shared.windows.first?.rootViewController?.overrideUserInterfaceStyle = self.scheme == .dark ? .light : .dark
                                 
                             }) {
@@ -213,7 +234,106 @@ struct offer : View {
         .edgesIgnoringSafeArea(.top)
     }
 }
+struct UpdateOfferView: View {
+    @State var name: String
+    @State var index = 0
+    @ObservedObject var viewModel = OffreViewModel()
+    @State var   id:String
+    @State var   description:String
+    @State var selectedImage: UIImage?
+    @State var showImagePicker : Bool = false
+    @State var update : Bool = false
+    @State var isdisabledEmail : Bool = true
+    @State var activateSecurePwd : Bool = false
+    @State var logout : Bool = false
+    
+    var body: some View{
+        
+        
+        VStack{
+            HStack(spacing: 15){
+            }
+            .padding()
+            .onAppear{
+            }
+            // Tab Items...
+            // Cards...
+            HStack(spacing: 20){
+                ZStack(alignment: .bottom) {
+                    VStack{
+                        VStack{
+                            HStack(spacing: 15){
+                                Image(systemName: "person.3.sequence.fill")
+                                    .foregroundColor(Color("Color1"))
+                                TextField("Company name", text: $name)
+                            }
+                            
+                            Divider().background(Color.white.opacity(0.5))
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 60)
+                        VStack{
+                            HStack(spacing: 15){
+                                Image(systemName: "mail.stack.fill")
+                                    .foregroundColor(Color("Color1"))
+                                TextField("Company description", text: $description)
+                            }
+                            Divider().background(Color.white.opacity(0.5))
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 60)
+                        Button("update company", action: {
+                            viewModel.updateOffre(name: name,description: description,id: id)
+                            })
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(.vertical)
+                            .padding(.horizontal, 50)
+                            .background(Color("Color1"))
+                            .clipShape(Capsule())
+                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                        .offset(y: 25)
+                        .opacity(self.index == 1 ? 1 : 0)
+                        Button("Delete company", action: {viewModel.DeleteOffre(id: id)})
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(.vertical)
+                            .padding(.horizontal, 50)
+                            .background(Color("Color1"))
+                            .clipShape(Capsule())
+                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                        .offset(y: 25)
+                        .opacity(self.index == 1 ? 1 : 0)
+                    }
+                    .padding()
+                    
+                    // bottom padding...
+                    .padding(.bottom, 65)
+                    .background(Color("Color2"))
+                    .clipShape(CShape2())
+                    // clipping the content shape also for tap gesture...
+                    .contentShape(CShape2())
+                    // shadow...
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
+                    .onTapGesture {
+                    self.index = 1 }
+                    .cornerRadius(35)
+                    .padding(.horizontal,20)
+                    
+                    // Button...
+                    
+      
 
+                }
+            }
+            .padding(.top,35)
+            
+            Spacer(minLength: 0)
+        }
+        .background(Color("Color").edgesIgnoringSafeArea(.all))
+    }
+    
+}
 // CardView...
 
 struct CardView : View {
@@ -229,6 +349,9 @@ struct CardView : View {
             VStack(alignment: .leading, spacing: 6) {
                 
                 Text(self.data.name)
+                    .fontWeight(.bold)
+              
+                Text(self.data.entreprise_name+"aaa")
                     .fontWeight(.bold)
                 
                 Text(self.data.description)
@@ -249,11 +372,10 @@ struct CardView : View {
                             // for adapting to dark mode...
                             .background(Color.primary.opacity(0.06))
                             .clipShape(Capsule())
-                            
-                    
                     }
                     .sheet(isPresented: $showupdate) {
-                        offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description,destination:"self.destination")}
+                        offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description, entreprise_name: self.data.entreprise_name)
+                    }
                     Text("In-App\nPurchases")
                         .font(.caption)
                         .foregroundColor(.gray)
@@ -262,7 +384,8 @@ struct CardView : View {
             }
             
             Spacer(minLength: 0)
-        }
+        }.background(Color("Color2"))
+            .cornerRadius(23)
     }
 }
 

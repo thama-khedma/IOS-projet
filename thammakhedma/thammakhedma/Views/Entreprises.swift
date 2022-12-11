@@ -11,14 +11,9 @@ import SwiftyJSON
 import RiveRuntime
 struct PlayerView: View {
     @State var name: String
-    @State var user: String
     @State var index = 0
-    @State var username:String = UserViewModel.currentUser?.firstName ?? ""
-    @State var  password:String =  UserViewModel.currentUser?.password ?? ""
-    @ObservedObject var viewModel = UserViewModel()
-    @State var   verifpassword:String=""
-    @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
-    @State var  id:String =  UserViewModel.currentUser?.id ?? ""
+    @ObservedObject var viewModel = EntrepriseViewModel()
+    @State var   id:String
     @State var   email:String
     @State var   description:String
     @State var selectedImage: UIImage?
@@ -36,7 +31,6 @@ struct PlayerView: View {
             }
             .padding()
             .onAppear{
-                
             }
             // Tab Items...
             // Cards...
@@ -68,6 +62,7 @@ struct PlayerView: View {
                             HStack(spacing: 15){
                                 Image(systemName: "mail.stack.fill")
                                     .foregroundColor(Color("Color1"))
+                                Text(id)
                                 TextField("Company description", text: $description)
                             }
                             Divider().background(Color.white.opacity(0.5))
@@ -75,8 +70,18 @@ struct PlayerView: View {
                         .padding(.horizontal)
                         .padding(.top, 60)
                         Button("update company", action: {
-                            
+                            viewModel.updateEntreprise(name: name, email: email, description: description, id:id)
                             })
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(.vertical)
+                            .padding(.horizontal, 50)
+                            .background(Color("Color1"))
+                            .clipShape(Capsule())
+                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                        .offset(y: 25)
+                        .opacity(self.index == 1 ? 1 : 0)
+                        Button("Delete company", action: {viewModel.DeleteEntreprise(id: id)})
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                             .padding(.vertical)
@@ -88,6 +93,7 @@ struct PlayerView: View {
                         .opacity(self.index == 1 ? 1 : 0)
                     }
                     .padding()
+                    
                     // bottom padding...
                     .padding(.bottom, 65)
                     .background(Color("Color2"))
@@ -141,7 +147,7 @@ struct Entreprises: View {
             }
             
         })
-        print("ahyaaaaa",furnitures)
+       
     }
     func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
         AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
@@ -171,7 +177,6 @@ struct Entreprises: View {
     @State var show = false
     @State var isOpen = false
     @AppStorage("selectedMenu") var selectedMenu: SelectedMenu = .home
-
    /* var button = RiveViewModel(fileName: "menu_button", stateMachineName: "State Machine", autoplay: false, animationName: "open")*/
     var body: some View {
         
@@ -186,8 +191,8 @@ struct Entreprises: View {
             ZStack{
                     switch selectedMenu {
                     case .home:
-                        TabView2()
-                            
+                        
+                            TabView2()
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -197,8 +202,9 @@ struct Entreprises: View {
                             .scaleEffect(isOpen ? 0.9 : 1)
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
+                        
                     case .search:
-                        offerView()
+                        AddEntreprise()
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -209,7 +215,7 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .favorites:
-                        offer()
+                        offerView()
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -234,8 +240,7 @@ struct Entreprises: View {
                         
             Button(action: {
                 withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                    isOpen.toggle()
-                }
+                    isOpen.toggle()}
             }) {
                 
                 Image(systemName:"line.horizontal.3")
@@ -265,125 +270,56 @@ struct Entreprises: View {
 
 struct TabView2 : View {
     
-
+    @AppStorage("selectedTab") var selectedTab: Tab = .chat
     @State var index = 0
     @Environment(\.colorScheme) var scheme
+    @State var show = false
+    @State var isOpen = false
     
     var body: some View{
         
-        VStack(spacing: 0){
+        VStack(){
             
-            ZStack{
-                
-                Ent()
-                    .opacity(self.index == 0 ? 1 : 0)
-
-                
-                offerView()
-                    .opacity(self.index == 1 ? 1 : 0)
-                
-                
-                
-                profile()
-                    .opacity(self.index == 3 ? 1 : 0)
-                
-            }
-            
+    
            
-            HStack{
-                
-                Button(action: {
-                    
-                    self.index = 0
-                    
-                }) {
-                    
-                    HStack(spacing: 6){
-                     
-                        Image("home")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(self.index == 0 ? .white : .primary)
-                        
-                        if self.index == 0{
-                            
-                            Text("Home")
-                                .foregroundColor(.white)
-                        }
-                        
-                    }
-                    .padding(.vertical,3)
-                    .padding(.horizontal)
-                    .background(self.index == 0 ? Color("Color1") : Color.clear)
-                    .clipShape(Capsule())
+            ZStack{
+                switch selectedTab {
+                case .chat:
+                    Ent()
+                case .search:
+                    AddEntreprise()
+                case .timer:
+                    offerView()
+                case .bell:
+                    Text("chat")
+                case .user:
+                    profile()
+
                 }
                 
-                Spacer(minLength: 0)
                 
-                Button(action: {
-                    
-                    self.index = 1
-                    
-                }) {
-                    
-                    HStack(spacing: 6){
-                     
-                        Image("search")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(self.index == 1 ? .white : .primary)
-                        
-                        if self.index == 1{
-                            
-                            Text("Search")
-                                .foregroundColor(.white)
-                        }
-                        
-                    }
-                    .padding(.vertical,3)
-                    .padding(.horizontal)
-                    .background(self.index == 1 ? Color("Color1") : Color.clear)
-                    .clipShape(Capsule())
-                }
-                
-                Spacer(minLength: 0)
-                
-                
-                Button(action: {
-                    
-                    self.index = 3
-                    
-                }) {
-                    
-                    HStack(spacing: 6){
-                     
-                        Image("account")
-                            .resizable()
-                            .frame(width: 24, height: 24)
-                            .foregroundColor(self.index == 3 ? .white : .primary)
-                        
-                        if self.index == 3{
-                            
-                            Text("Account")
-                                .foregroundColor(.white)
-                        }
-                        
-                    }
-                    .padding(.vertical,3)
-                    .padding(.horizontal)
-                    .background(self.index == 3 ? Color("Color1") : Color.clear)
-                    .clipShape(Capsule())
-                }
-            }
-            .padding(.horizontal,25)
-            .padding(.vertical,1)
-            .padding(.bottom,UIApplication.shared.windows.first?.safeAreaInsets.bottom == 0 ? 10 : UIApplication.shared.windows.first?.safeAreaInsets.bottom)
-            .background(self.scheme == .dark ? Color("Color2") : Color("Color"))
-            .shadow(color: Color.primary.opacity(0.08), radius: 5, x: 5, y: -5)
         }
-        .edgesIgnoringSafeArea(.bottom)
-    }
-}
+               
+                        
+                    
+                    
+                }
+        TabBar()
+        .offset(y:-18)
+               .background(
+                   LinearGradient(colors: [Color("Background").opacity(0), Color("Background")], startPoint: .top, endPoint: .bottom)
+                       .frame(height: 150)
+                       .frame(maxHeight: .infinity, alignment: .bottom)
+                       .allowsHitTesting(false)
+               )
+               .ignoresSafeArea()
+               .offset(y: isOpen ? 300 : 0)
+               .offset(y: show ? 200 : 0)
+            }
+            
+        }
+       
+
 struct Detail : View {
     @State var name: String
     @State var id: String
@@ -391,94 +327,106 @@ struct Detail : View {
     @State var description: String
     @State var destination: String
     @State var showupdate : Bool = false
+    @State var showaddoffre : Bool = false
+    @State var refresh: Bool = false
 
     var body : some View{
-       
+        NavigationView{
             VStack(spacing: 8){
                 
-                Image("main").resizable().aspectRatio(1, contentMode: .fill).frame(width:UIScreen.main.bounds.width,height: 500).offset(y: -200).padding(.bottom, -200)
+                
                 
                 GeometryReader{geo in
                     
                     VStack(alignment: .leading){
                         
-                        VStack(alignment: .leading, spacing: 10){
-                            
-                            HStack{
-                                
-                                VStack(alignment: .leading){
-                                    
-                                    Text(name).fontWeight(.heavy).font(.largeTitle)
-                                    
-                                    
-                                }
-                                
-                                Spacer()
-                                
-                                Text("$299").foregroundColor(Color("Color")).font(.largeTitle)
-                            }
-                            
-                        }.padding()
+
+                        
                         ScrollView{
-                            VStack(alignment: .leading, spacing: 15){
+                            VStack(alignment: .leading, spacing: 10){
                                 
-                                
-                                HStack(spacing: 5){
+                                HStack{
                                     
-                                    Image("map").renderingMode(.original)
-                                    Text(destination).foregroundColor(Color("Color"))
-                                    
-                                }
-                                
-                                HStack(spacing : 8){
-                                    
-                                    ForEach(0..<5){_ in
+                                    VStack(alignment: .leading){
                                         
-                                        Image(systemName: "star.fill").font(.body).foregroundColor(.yellow)
+                                        Text(name).fontWeight(.heavy).font(.largeTitle)
                                     }
+                                    Spacer()
+                                    Text("$299").foregroundColor(Color("Color1")).font(.largeTitle)}
+                            }.padding()
+                            VStack(alignment: .leading, spacing: 15){
+
+                                HStack(spacing: 5){
+                                    Text(destination).foregroundColor(Color("Color1"))
                                 }
                                 
                                 Text("contact").fontWeight(.heavy)
                                 
-                                Text(email).foregroundColor(.gray)
+                                Text(email).foregroundColor(Color("Color1"))
                                 
-                               /* HStack(spacing: 6){
-                                    
-                                    ForEach(0..<5){i in
-                                        
-                                        Button(action: {
-                                            
-                                        }) {
-                                            Text("\(i + 1)").foregroundColor(.white).padding(20)
-                                        }.background(Color("bg"))
-                                            .cornerRadius(8)
-                                    }
-                                }*/
-                                
-                                
+                                /* HStack(spacing: 6){
+                                 
+                                 ForEach(0..<5){i in
+                                 
+                                 Button(action: {
+                                 
+                                 }) {
+                                 Text("\(i + 1)").foregroundColor(.white).padding(20)
+                                 }.background(Color("bg"))
+                                 .cornerRadius(8)
+                                 }
+                                 }*/
                             }.padding(.horizontal,15)
                             
                             VStack(alignment: .leading, spacing: 10){
                                 
                                 Text("Description").fontWeight(.heavy)
                                 Text(description).foregroundColor(.gray)
-                                NavigationView{
-                                    NavigationLink(destination: PlayerView(name: name,user: id,email:email,description: description), isActive: $showupdate){
+                              
+                                    NavigationLink(destination: PlayerView(name: name,id: id,email:email,description: description), isActive: $showupdate){
                                         HStack(spacing: 8){
                                             
                                             Button(action: {
                                                 showupdate = true
+                                                refresh = true
                                             }) {
                                                 
                                                 Image(systemName: "gear.circle")
                                                     .resizable()
                                                     .frame(width: 50.0, height: 50.0)
                                                 
-                                            }
+                                            }.background(Color("Color"))
                                             
                                         }.padding(.top, 6)
-                                    }}
-                            }.padding()
+                                    }.background(Color("Color"))
+                                    
+                               
+                            }.background(Color("Color")).padding()
+                            NavigationLink(destination: Addoffre(entreprise: name), isActive: $showaddoffre){
+                                HStack(spacing: 8){
+                                    
+                                   /* Button(action: {
+                                        showupdate = true
+                                    }) {
+                                        
+                                        Image(systemName: "gear.circle")
+                                            .resizable()
+                                            .frame(width: 50.0, height: 50.0)
+                                        
+                                    }*/
+                                    Button("Add offre", action: {showaddoffre = true}
+                                    )
+                                    .foregroundColor(.white)
+                                    .fontWeight(.bold)
+                                    .padding(.vertical)
+                                    .padding(.horizontal, 50)
+                                    .background(Color("Color1"))
+                                    .clipShape(Capsule())
+                                    // shadow...
+                                    .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                                    
+                                }.padding(.top, 6)
+                            }
                         }
                     }
                     
@@ -486,7 +434,7 @@ struct Detail : View {
                     .padding(.top, -75)
                 
             }
-        
+        }
     }
 }
 struct Cart : View {
@@ -534,7 +482,8 @@ struct Ent : View {
     @State var op : CGFloat = 0
     @State var destination : String = ""
     @State var description : String = ""
-
+    @State var refresh: Bool = false
+    
     var body: some View{
         
         VStack{
@@ -638,17 +587,18 @@ struct Ent : View {
                             ForEach(furniture){i in
                                 Button(action: {
                                     self.showupdate.toggle()
+                                    
                                     self.name = i.name
                                     self.id = i.id
                                     self.email = i.email
                                     self.destination=i.destination
                                     self.description=i.description
-                                    print(name,destination,description)
+                                    
                                 }) {
                                     VStack{
                                         Image(i.image)
                                             .resizable()
-                                            .frame(width: 400, height: 200)
+                                            .frame(width: 420, height: 250)
                                         
                                         
                                         Text(i.name)
@@ -659,11 +609,12 @@ struct Ent : View {
                                             .sheet(isPresented: $showupdate) {
                                                 Detail(name:self.name,id:self.id,email:self.email,description:self.description,destination:self.destination)}
                                     }
-                                    .padding()
+                                    .padding(30)
                                     .frame(width: UIScreen.main.bounds.width)
                                     .offset(x: self.op)
                                     .background(Color.primary.opacity(0.06))
                                     .cornerRadius(10)
+                                    
                                 }
                                 
                             }
@@ -672,7 +623,6 @@ struct Ent : View {
                     }
                     
                 }
-                .padding()
             }
             
             Spacer()

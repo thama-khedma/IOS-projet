@@ -12,7 +12,8 @@ import RiveRuntime
 struct SideMenu: View {
     @State var isDarkMode = false
     @AppStorage("selectedMenu") var selectedMenu: SelectedMenu = .home
-    
+    @State var username:String = UserViewModel.currentUser?.firstName ?? ""
+    @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -21,8 +22,8 @@ struct SideMenu: View {
                     .background(.white.opacity(0.2))
                     .mask(Circle())
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Meng To")
-                    Text("UI Designer")
+                    Text(username)
+                    Text(lastname)
                         .font(.subheadline)
                         .opacity(0.7)
                 }

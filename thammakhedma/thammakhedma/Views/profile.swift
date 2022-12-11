@@ -199,11 +199,7 @@ struct Home1 : View {
                     // hiding view when its in background...
                     // only button...
                     .opacity(self.index == 1 ? 1 : 0)}
-            
-            
-            
-            
-            
+ 
         }
             
             Spacer(minLength: 0)

@@ -1,8 +1,8 @@
 //
-//  OffreViewModel.swift
+//  CondidatureViewModel.swift
 //  thammakhedma
 //
-//  Created by Monaem Hmila on 5/12/2022.
+//  Created by Monaem Hmila on 11/12/2022.
 //
 
 import Foundation
@@ -10,18 +10,19 @@ import Alamofire
 import SwiftyJSON
 
 
-class OffreViewModel: ObservableObject {
+class CondidatureViewModel: ObservableObject {
     @Published var name : String  = ""
     @Published var user : String  = ""
     @Published var description : String  = ""
     @Published var entreprise : String  = ""
-    func AddOffre(name: String,description: String,entreprise: String,userid: String) {
+    func AddCondidature(entreprise_name: String,offre_decription: String,user: String,offre: String) {
         let parametres: [String: Any] =
-        [       "name":name,
-                "description":description,
-                "entreprise":entreprise,
-                "user":userid]
-        AF.request(Statics.URL+"/offre/Add" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
+        [       "entreprise_name":entreprise_name,
+                "offre_decription":offre_decription,
+                "user":user,
+                "offre":offre
+        ]
+        AF.request(Statics.URL+"/condidature/Add" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData {
@@ -34,25 +35,22 @@ class OffreViewModel: ObservableObject {
                 }
             }
     }
-    func DeleteOffre(id:String) {
-        AF.request(Statics.URL+"/offre/delete/\(id ?? "")" , method: .post,encoding: JSONEncoding.default)
+    
+    func DeleteCondidature(id:String) {
+        AF.request(Statics.URL+"/Condidature/delete/\(id ?? "")" , method: .post,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData(completionHandler: {
             response in
             switch response.result {
             case .success:
-                
                 print("success update")
-                
             case .failure(let encodingError):
                 print(encodingError)
             }
         })
-        
     }
-    
-    func updateOffre(name: String,description: String,id:String) {
+    func updateCondidature(name: String,description: String,id:String) {
         let parametres: [String: Any] = [
             "description":description,
             "name":name,

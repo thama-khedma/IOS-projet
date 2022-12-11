@@ -21,6 +21,10 @@
 		42264FA32922BACC00D0978E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA22922BACC00D0978E /* User.swift */; };
 		42264FA52922CA7A00D0978E /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA42922CA7A00D0978E /* UserViewModel.swift */; };
 		42264FA72922EA5700D0978E /* profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42264FA62922EA5700D0978E /* profile.swift */; };
+		6907DE372944B8140012AD00 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6907DE362944B8140012AD00 /* TabBar.swift */; };
+		6907DE3D2945379D0012AD00 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 6907DE3C2945379D0012AD00 /* CodeScanner */; };
+		6907DE3F29453C6A0012AD00 /* QRcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6907DE3E29453C6A0012AD00 /* QRcodeView.swift */; };
+		6907DE4129453CB50012AD00 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6907DE4029453CB50012AD00 /* ImageSaver.swift */; };
 		6934EACC2938D9E300653C10 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6934EACB2938D9E300653C10 /* RiveRuntime */; };
 		6934EACE2938DCAC00653C10 /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6934EACD2938DCAC00653C10 /* SideMenu.swift */; };
 		6934EAD72938DD7A00653C10 /* house.riv in Resources */ = {isa = PBXBuildFile; fileRef = 6934EAD02938DD7A00653C10 /* house.riv */; };
@@ -35,6 +39,7 @@
 		6936367E29292517005FC679 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 6936367D29292517005FC679 /* SDWebImageSwiftUI */; };
 		69483FAA2933CD9400B847EC /* test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69483FA92933CD9400B847EC /* test.swift */; };
 		695A784A2934C61B001BF867 /* EntrepriseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A78492934C61B001BF867 /* EntrepriseView.swift */; };
+		69661A0C2945F7170047AFA6 /* CondidatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69661A0B2945F7170047AFA6 /* CondidatureViewModel.swift */; };
 		697353E3293E0AFF00BF9537 /* OffreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697353E2293E0AFF00BF9537 /* OffreViewModel.swift */; };
 		697353E5293E0B1000BF9537 /* Offre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697353E4293E0B1000BF9537 /* Offre.swift */; };
 		6979F189292CA33300846977 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6979F188292CA33300846977 /* credentials.plist */; };
@@ -49,6 +54,7 @@
 		69A972B42932803E0006CD4F /* bottombar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A972B32932803E0006CD4F /* bottombar.swift */; };
 		69AEEAEE292C1F64002CF68E /* EntryField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69AEEAED292C1F64002CF68E /* EntryField.swift */; };
 		69DDA082293CF2BD006A94E1 /* Offers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69DDA081293CF2BD006A94E1 /* Offers.swift */; };
+		69F7954D29454C4100E1C4FB /* Addoffre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7954C29454C4100E1C4FB /* Addoffre.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +74,9 @@
 		42264FA22922BACC00D0978E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		42264FA42922CA7A00D0978E /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		42264FA62922EA5700D0978E /* profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile.swift; sourceTree = "<group>"; };
+		6907DE362944B8140012AD00 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		6907DE3E29453C6A0012AD00 /* QRcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRcodeView.swift; sourceTree = "<group>"; };
+		6907DE4029453CB50012AD00 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		6934EACD2938DCAC00653C10 /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		6934EAD02938DD7A00653C10 /* house.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = house.riv; sourceTree = "<group>"; };
 		6934EAD12938DD7A00653C10 /* confetti.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = confetti.riv; sourceTree = "<group>"; };
@@ -79,6 +88,7 @@
 		6934EAE12938E74C00653C10 /* shapes.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = shapes.riv; sourceTree = "<group>"; };
 		69483FA92933CD9400B847EC /* test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test.swift; sourceTree = "<group>"; };
 		695A78492934C61B001BF867 /* EntrepriseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntrepriseView.swift; sourceTree = "<group>"; };
+		69661A0B2945F7170047AFA6 /* CondidatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CondidatureViewModel.swift; sourceTree = "<group>"; };
 		697353E2293E0AFF00BF9537 /* OffreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffreViewModel.swift; sourceTree = "<group>"; };
 		697353E4293E0B1000BF9537 /* Offre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offre.swift; sourceTree = "<group>"; };
 		6979F188292CA33300846977 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = credentials.plist; path = ../../../../Downloads/credentials.plist; sourceTree = "<group>"; };
@@ -94,6 +104,7 @@
 		69A972B32932803E0006CD4F /* bottombar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bottombar.swift; sourceTree = "<group>"; };
 		69AEEAED292C1F64002CF68E /* EntryField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryField.swift; sourceTree = "<group>"; };
 		69DDA081293CF2BD006A94E1 /* Offers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Offers.swift; sourceTree = "<group>"; };
+		69F7954C29454C4100E1C4FB /* Addoffre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Addoffre.swift; sourceTree = "<group>"; };
 		FDE0305D6897162ADBD1518F /* Pods_thammakhedma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_thammakhedma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -106,6 +117,7 @@
 				6934EACC2938D9E300653C10 /* RiveRuntime in Frameworks */,
 				6936367B2929245E005FC679 /* SwiftyJSON in Frameworks */,
 				0ECE7B7B534D9261ED8F9F89 /* Pods_thammakhedma.framework in Frameworks */,
+				6907DE3D2945379D0012AD00 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +198,9 @@
 				6934EACD2938DCAC00653C10 /* SideMenu.swift */,
 				6934EADE2938E05A00653C10 /* OnboardingView.swift */,
 				69DDA081293CF2BD006A94E1 /* Offers.swift */,
+				6907DE362944B8140012AD00 /* TabBar.swift */,
+				6907DE3E29453C6A0012AD00 /* QRcodeView.swift */,
+				69F7954C29454C4100E1C4FB /* Addoffre.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +211,7 @@
 				42264FA42922CA7A00D0978E /* UserViewModel.swift */,
 				69A972A3293175340006CD4F /* EntrepriseViewModel.swift */,
 				697353E2293E0AFF00BF9537 /* OffreViewModel.swift */,
+				69661A0B2945F7170047AFA6 /* CondidatureViewModel.swift */,
 			);
 			path = ModelView;
 			sourceTree = "<group>";
@@ -204,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				42264F9D2922910100D0978E /* Statics.swift */,
+				6907DE4029453CB50012AD00 /* ImageSaver.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -263,6 +280,7 @@
 				6936367A2929245E005FC679 /* SwiftyJSON */,
 				6936367D29292517005FC679 /* SDWebImageSwiftUI */,
 				6934EACB2938D9E300653C10 /* RiveRuntime */,
+				6907DE3C2945379D0012AD00 /* CodeScanner */,
 			);
 			productName = thammakhedma;
 			productReference = 42264F7C292285FD00D0978E /* thammakhedma.app */;
@@ -296,6 +314,7 @@
 				693636792929245E005FC679 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				6936367C29292517005FC679 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				6934EACA2938D9E300653C10 /* XCRemoteSwiftPackageReference "rive-ios" */,
+				6907DE3B2945379D0012AD00 /* XCRemoteSwiftPackageReference "CodeScanner" */,
 			);
 			productRefGroup = 42264F7D292285FD00D0978E /* Products */;
 			projectDirPath = "";
@@ -382,13 +401,18 @@
 				69AEEAEE292C1F64002CF68E /* EntryField.swift in Sources */,
 				42264F82292285FD00D0978E /* ContentView.swift in Sources */,
 				42264F972922896E00D0978E /* ForgetView.swift in Sources */,
+				69661A0C2945F7170047AFA6 /* CondidatureViewModel.swift in Sources */,
+				6907DE372944B8140012AD00 /* TabBar.swift in Sources */,
+				6907DE3F29453C6A0012AD00 /* QRcodeView.swift in Sources */,
 				69A972A229316F4D0006CD4F /* Entreprises.swift in Sources */,
 				697353E3293E0AFF00BF9537 /* OffreViewModel.swift in Sources */,
 				69A972A029316A430006CD4F /* AddEntreprise.swift in Sources */,
+				6907DE4129453CB50012AD00 /* ImageSaver.swift in Sources */,
 				697353E5293E0B1000BF9537 /* Offre.swift in Sources */,
 				69A972B029321A1F0006CD4F /* Loader.swift in Sources */,
 				69A972B42932803E0006CD4F /* bottombar.swift in Sources */,
 				69A972AE293219E70006CD4F /* MapView.swift in Sources */,
+				69F7954D29454C4100E1C4FB /* Addoffre.swift in Sources */,
 				42264F91292286F000D0978E /* GettingStartedView.swift in Sources */,
 				42264F932922876D00D0978E /* LoginView.swift in Sources */,
 				42264F9B29228ACE00D0978E /* HomePageView.swift in Sources */,
@@ -527,12 +551,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"thammakhedma/Preview Content\"";
+				DEVELOPMENT_TEAM = 65C59Y79VT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = thammakhedma/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR code";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "";
@@ -549,6 +576,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = LetCreateAnApp.thammakhedma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -561,12 +589,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"thammakhedma/Preview Content\"";
+				DEVELOPMENT_TEAM = 65C59Y79VT;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = thammakhedma/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to scan QR code";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSLocationUsageDescription = "";
@@ -583,6 +614,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = LetCreateAnApp.thammakhedma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -613,6 +645,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6907DE3B2945379D0012AD00 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 		6934EACA2938D9E300653C10 /* XCRemoteSwiftPackageReference "rive-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/rive-app/rive-ios";
@@ -640,6 +680,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6907DE3C2945379D0012AD00 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6907DE3B2945379D0012AD00 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
 		6934EACB2938D9E300653C10 /* RiveRuntime */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6934EACA2938D9E300653C10 /* XCRemoteSwiftPackageReference "rive-ios" */;

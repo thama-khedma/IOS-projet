@@ -54,17 +54,8 @@ class EntrepriseViewModel: ObservableObject {
             }
         
     }
-    func updateUser(name: String,email: String,user: String,latitud: String,longitud: String) {
-        let parametres: [String: Any] = [
-            "name":name,
-            "email":email,
-            "user":user,
-            "location":[
-               "type": "Point",
-               "coordinates" : [latitud,longitud]
-            ]
-        ]
-        AF.request(Statics.URL+"/entreprise/update/\(id ?? "")" , method: .patch,parameters:parametres ,encoding: JSONEncoding.default)
+    func DeleteEntreprise(id:String) {
+        AF.request(Statics.URL+"/entreprise/delete/\(id ?? "")" , method: .post,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData(completionHandler: {
@@ -74,6 +65,27 @@ class EntrepriseViewModel: ObservableObject {
                 
                 print("success update")
                 
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        })
+        
+    }
+    
+    func updateEntreprise(name: String,email: String,description: String,id:String) {
+        let parametres: [String: Any] = [
+            "description":description,
+            "name":name,
+            "email":email
+        ]
+        AF.request(Statics.URL+"/entreprise/update/\(id ?? "")" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<500)
+            .validate(contentType: ["application/json"])
+            .responseData(completionHandler: {
+            response in
+            switch response.result {
+            case .success:
+                print("success update")
             case .failure(let encodingError):
                 print(encodingError)
             }
