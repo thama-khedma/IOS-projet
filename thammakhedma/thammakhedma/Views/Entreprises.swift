@@ -340,29 +340,30 @@ struct Detail : View {
                     
                     VStack(alignment: .leading){
                         
-
-                        
-                        ScrollView{
-                            VStack(alignment: .leading, spacing: 10){
-                                
                                 HStack{
                                     
-                                    VStack(alignment: .leading){
+                                    VStack(alignment: .leading, spacing: 12){
                                         
-                                        Text(name).fontWeight(.heavy).font(.largeTitle)
-                                    }
+                                        Text(name).fontWeight(.bold)
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                    }.padding()
                                     Spacer()
-                                    Text("$299").foregroundColor(Color("Color1")).font(.largeTitle)}
-                            }.padding()
+                                    }
+                          
                             VStack(alignment: .leading, spacing: 15){
 
                                 HStack(spacing: 5){
-                                    Text(destination).foregroundColor(Color("Color1"))
-                                }
+                                    Text("destination : ").fontWeight(.heavy)
+                                    Text(destination).foregroundColor(.gray)
+                                }.offset(x:30,y:180)
                                 
-                                Text("contact").fontWeight(.heavy)
+                                HStack(spacing: 5){
+                                    Text("contact : ").fontWeight(.heavy)
+                                    
+                                    Text(email).foregroundColor(.gray).fontWeight(.bold)
+                                }.offset(x:30,y:90)
                                 
-                                Text(email).foregroundColor(Color("Color1"))
                                 
                                 /* HStack(spacing: 6){
                                  
@@ -379,52 +380,61 @@ struct Detail : View {
                             }.padding(.horizontal,15)
                             
                             VStack(alignment: .leading, spacing: 10){
-                                Text("Description").fontWeight(.heavy)
-                                Text(description).foregroundColor(.gray)
+                                HStack(){
+                                    Text("Description : ").fontWeight(.heavy)
+                                    Text(description).foregroundColor(.gray)
+                                }.offset(x:-130,y:-220)
                                     NavigationLink(destination: PlayerView(name: name,id: id,email:email,description: description), isActive: $showupdate)
                                 {
-                                        HStack(spacing: 8){
-                                            
-                                            Button(action: {
-                                                showupdate = true
-                                                refresh = true
-                                            }) {
+                                    HStack(spacing: 8){
+                                        
+                                        Button(action: {
+                                            showupdate = true
+                                            refresh = true
+                                        }) {
                                                 Image(systemName: "gear.circle")
                                                     .resizable()
                                                     .frame(width: 50.0, height: 50.0)
-                                                
+                                                    
                                             }.background(Color("Color"))
+                                              
                                             
                                         }.padding(.top, 6)
+                                       
                                     }
                                 .background(Color("Color"))
                             }.background(Color("Color")).padding()
+                            .offset(x:160,y:380)
                             NavigationLink(destination: Addoffre(entreprise: name), isActive: $showaddoffre){
                                 HStack(spacing: 8){
                                     
-                                   /* Button(action: {
-                                        showupdate = true
-                                    }) {
+                                    /* Button(action: {
+                                     showupdate = true
+                                     }) {
+                                     
+                                     Image(systemName: "gear.circle")
+                                     .resizable()
+                                     .frame(width: 50.0, height: 50.0)
+                                     
+                                     }*/
+                                    VStack{
+                                        Button("Add offre", action: {showaddoffre = true}
+                                               
+                                               
+                                        )
+                                        .foregroundColor(.white)
+                                        .fontWeight(.bold)
+                                        .padding(.vertical)
+                                        .padding(.horizontal, 50)
+                                        .background(Color("Color1"))
+                                        .clipShape(Capsule())
+                                        // shadow...
+                                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                                         
-                                        Image(systemName: "gear.circle")
-                                            .resizable()
-                                            .frame(width: 50.0, height: 50.0)
-                                        
-                                    }*/
-                                    Button("Add offre", action: {showaddoffre = true}
-                                    )
-                                    .foregroundColor(.white)
-                                    .fontWeight(.bold)
-                                    .padding(.vertical)
-                                    .padding(.horizontal, 50)
-                                    .background(Color("Color1"))
-                                    .clipShape(Capsule())
-                                    // shadow...
-                                    .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                                    
-                                }.padding(.top, 6)
+                                    }}.padding(.top, 6)
+                                    .offset(x:110,y:450)
                             }
-                        }
+                        
                     }
                     
                 }.background(Color("Color"))
@@ -533,40 +543,6 @@ struct Ent : View {
             ScrollView(.vertical, showsIndicators: false) {
                 
                 VStack{
-                    
-
-                    
-                    HStack{
-                        
-                        Text("Best to pick")
-                            .fontWeight(.bold)
-                            .font(.title)
-                        
-                        Spacer()
-                    }
-                    .padding(.top,22)
-                    
-                    VStack{
-                        Image("main")
-                        .resizable()
-                        .frame(width: 360, height: 200)
-                        Text("SpaceX")
-                            .fontWeight(.bold)
-                            .font(.title)
-                            .padding(.top,-30)
-                        Text("Astrophysics")
-                            .foregroundColor(.gray)
-                            .padding(.top,8)
-                            .padding(.bottom)
-                    }
-                    .background(
-                        Color.primary.opacity(0.06)
-                            .frame(width: UIScreen.main.bounds.width - 30)
-                            .cornerRadius(25)
-                            .padding(.top,10)
-                    )
-                    .padding(.top,25)
-                    
                     HStack{
                         
                         Text("Recommended For You")
@@ -576,45 +552,81 @@ struct Ent : View {
                     }
                     .padding(.top,30)
                     .padding(.bottom, 20)
-                    
-                    ForEach(furnitures,id: \.self){furniture in
+                    ScrollView(.horizontal, showsIndicators: false) {
                         
-                        HStack(){
-                            
-                            ForEach(furniture){i in
-                                Button(action: {
-                                    self.showupdate.toggle()
-                                    
-                                    self.name = i.name
-                                    self.id = i.id
-                                    self.email = i.email
-                                    self.destination=i.destination
-                                    self.description=i.description
-                                    
-                                }) {
-                                    VStack{
-                                        Image(i.image)
-                                            .resizable()
-                                            .frame(width: 420, height: 250)
-                                        
-                                        
-                                        Text(i.name)
-                                            .fontWeight(.bold)
-                                        
-                                        Text(i.email)
-                                            .padding(.top, 6)
-                                            .sheet(isPresented: $showupdate) {
-                                                Detail(name:self.name,id:self.id,email:self.email,description:self.description,destination:self.destination)}
-                                    }
-                                    .padding(30)
-                                    .frame(width: UIScreen.main.bounds.width)
-                                    .offset(x: self.op)
-                                    .background(Color.primary.opacity(0.06))
-                                    .cornerRadius(10)
-                                    
-                                }
+                        HStack(spacing:25){
+                            ForEach(furnitures,id: \.self){furniture in
                                 
-                            }
+                                HStack(){
+                                    
+                                    ForEach(furniture){i in
+                                        Button(action: {
+                                            self.showupdate.toggle()
+                                            
+                                            self.name = i.name
+                                            self.id = i.id
+                                            self.email = i.email
+                                            self.destination=i.destination
+                                            self.description=i.description
+                                            
+                                        }) {
+                                            VStack(){
+                                                
+                                                VStack(spacing: 20){
+                                                    Image(i.image)
+                                                    
+                                                }.frame(width: UIScreen.main.bounds.width / 1.3)
+                                                    .offset(y:-40)
+                                                
+                                                VStack(){
+                                                    Text(i.name)
+                                                }
+                                                    .padding(.top)
+                                                    .font(.title)
+                                                    .offset(x:-70)
+                                                
+                                                VStack(){
+                                                    Text(i.email)
+                                                }.fontWeight(.bold)
+                                             
+                                                    .padding(.top)
+                                                
+                                                
+                                                    .sheet(isPresented: $showupdate) {
+                                                        
+                                                        
+                                                        Detail(name:self.name,id:self.id,email:self.email,description:self.description,destination:self.destination)}
+                                                
+                                                VStack(){
+                                                    Image("map")
+                                                        .renderingMode(.original)
+                                                        .padding()
+                                                    
+                                                        .clipShape(Circle())
+                                                    
+                                                    Text(i.destination)
+                                                    
+                                                    Spacer()
+                                                    
+                                                    
+                                                }.offset(x:-10 , y:30)
+                                            }
+                                            .padding(.horizontal)
+                                            .padding(.bottom)
+                                            
+                                            
+                                            .padding(.horizontal, 30)
+                                            .padding(.vertical, 25)
+                                            
+                                            .frame(width: UIScreen.main.bounds.width / 1.5)
+                                            .offset(x: 20 , y:10)
+                                            .background(Color.primary.opacity(0.06))
+                                            .cornerRadius(10)
+                                            
+                                        }
+                                        
+                                    }
+                                }}
                             
                         }
                     }
