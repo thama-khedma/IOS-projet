@@ -19,7 +19,11 @@ struct profile_Previews: PreviewProvider {
         profile()
     }
 }
-
+class SwifTUrViewUHC: UIHostingController<profile>{
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder,rootView: profile())
+    }
+}
 struct Home1 : View {
     @State var index = 0
     @State var username:String = UserViewModel.currentUser?.firstName ?? ""

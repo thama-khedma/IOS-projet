@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import LocalAuthentication
 struct LoginView: View {
     
 
@@ -102,6 +102,7 @@ struct CShape1 : Shape {
         }
     }
 }
+import GoogleSignIn
 
 struct Login : View {
     
@@ -122,6 +123,7 @@ struct Login : View {
     var currentUser: User?
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = UserViewModel()
+    
     var body: some View{
         
         ZStack(alignment: .bottom) {
@@ -289,7 +291,7 @@ struct Login : View {
             }
             
             Button(action: {
-                
+                loginWithFaceID()
             }) {
                 
                 Image("twitter")
@@ -300,6 +302,86 @@ struct Login : View {
             }
         }.offset(x:1,y:130)
     }
+    /*
+    func loginWithFaceID(){
+            
+            let context = LAContext()
+            var error: NSError?
+            
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "This is for security reasons"){ success,
+                AuthentificationError in
+                
+                if success{
+                    
+                    viewModel.LogIn(email: "admin", password: "admin",complited: {(user ) in
+                        if let  _ = user {
+                            print("logged in ")
+                            isLogin=true
+                        }else{
+                            print("not loged in ")
+                            isLogin=false
+                        }
+                    })
+                    
+                }
+                else{
+                    
+                    return
+                    
+                }
+                
+            }
+            
+            else
+            {
+                return
+                
+            }
+        }
+        }*/
+    func loginWithFaceID(){
+            
+            let context = LAContext()
+            var error: NSError?
+            
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error){
+                
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "This is for security reasons"){ success,
+                    AuthentificationError in
+                    
+                    if success{
+                        
+                        viewModel.LogIn(email: "admin", password: "admin",complited: {(user ) in
+                            if let  _ = user {
+                                print("logged in ")
+                                isLogin=true
+                            }else{
+                                print("not loged in ")
+                                isLogin=false
+                            }
+                        })
+
+                    }
+                    else{
+                        
+                        
+                        return
+
+                    }
+                    
+                }
+            }
+            else
+            {
+               
+                print(isLogin)
+                return
+
+            }
+        }
+
 }
 
 // SignUP Page..

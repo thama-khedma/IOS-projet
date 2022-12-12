@@ -226,16 +226,7 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .help:
-                        ContentView()
-                            .safeAreaInset(edge: .top) {
-                                Color.clear.frame(height: 104)
-                            }
-                            .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                            .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z: 0), perspective: 1)
-                            .offset(x: isOpen ? 265 : 0)
-                            .scaleEffect(isOpen ? 0.9 : 1)
-                            .scaleEffect(show ? 0.92 : 1)
-                            .ignoresSafeArea()
+                        Text("chat")
                     case .history:
                         Text("chat")
                     case .notifications:
@@ -388,18 +379,16 @@ struct Detail : View {
                             }.padding(.horizontal,15)
                             
                             VStack(alignment: .leading, spacing: 10){
-                                
                                 Text("Description").fontWeight(.heavy)
                                 Text(description).foregroundColor(.gray)
-                              
-                                    NavigationLink(destination: PlayerView(name: name,id: id,email:email,description: description), isActive: $showupdate){
+                                    NavigationLink(destination: PlayerView(name: name,id: id,email:email,description: description), isActive: $showupdate)
+                                {
                                         HStack(spacing: 8){
                                             
                                             Button(action: {
                                                 showupdate = true
                                                 refresh = true
                                             }) {
-                                                
                                                 Image(systemName: "gear.circle")
                                                     .resizable()
                                                     .frame(width: 50.0, height: 50.0)
@@ -407,9 +396,8 @@ struct Detail : View {
                                             }.background(Color("Color"))
                                             
                                         }.padding(.top, 6)
-                                    }.background(Color("Color"))
-                                    
-                               
+                                    }
+                                .background(Color("Color"))
                             }.background(Color("Color")).padding()
                             NavigationLink(destination: Addoffre(entreprise: name), isActive: $showaddoffre){
                                 HStack(spacing: 8){
@@ -633,9 +621,45 @@ struct Ent : View {
                     
                 }
             }
+            .onAppear(perform: {
+                getEntrepriss(complited: {(success , respnse)in
+                    if success{
+                         furnitures = respnse!
+                    }else {
+                        print("error cant connect ")
+                    }
+                    
+                })
+            })
             
             Spacer()
         }
+    }
+    
+    func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
+        AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
+            .validate(statusCode: 200..<500)
+            .validate(contentType: ["application/json"])
+            .responseData {
+                response in
+                switch response.result {
+                case .success:
+                    furnitures = []
+                    for i in JSON(response.data!){
+                        furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "main",name: i.1["name"].stringValue, email: i.1["email"].stringValue,description: i.1["description"].stringValue,destination: i.1["adresse"].stringValue)])
+                        /*furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "r11",name: i.1["name"].stringValue, email: i.1["email"].stringValue, description: "description")])*/
+                    }
+                    complited(true,furnitures)
+                    
+                case let .failure(error):
+                    
+                    debugPrint(error)
+                    
+                complited(false,nil)
+                    
+                }
+            }
+        
     }
 }
 

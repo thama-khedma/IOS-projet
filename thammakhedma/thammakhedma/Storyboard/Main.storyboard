@@ -22,6 +22,7 @@
                                 <buttonConfiguration key="configuration" style="filled" image="google.png" title="Button"/>
                                 <connections>
                                     <action selector="googleLogin:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QXG-Z1-vDh"/>
+                                    <segue destination="wZx-qf-h9e" kind="show" id="dLk-Sx-Imd"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -35,6 +36,16 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="32.824427480916029" y="-27.464788732394368"/>
+        </scene>
+        <!--SwifT Ur ViewUHC-->
+        <scene sceneID="eOt-dk-X1H">
+            <objects>
+                <hostingController id="wZx-qf-h9e" customClass="SwifTUrViewUHC" customModule="thammakhedma" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="4n8-Ay-mMI"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XRb-Xd-f5S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="700" y="-27"/>
         </scene>
     </scenes>
     <resources>

@@ -20,6 +20,7 @@ struct EntrepriseLocation: View {
     @State private var isShowingDetailView = false
     var body: some View {
         Home5()
+            .preferredColorScheme(.dark)
 }
 }
 
@@ -97,24 +98,6 @@ struct Home5 : View {
                     ZStack(alignment: .topTrailing){
                         
                         VStack(spacing: 20){
-                            
-                            HStack{
-                                
-                                VStack(alignment: .leading,spacing: 15){
-                                    
-                                    Text("Destination")
-                                        .fontWeight(.bold)
-                                    Text(self.name)
-                                    
-                                    Text("Distance - "+self.distance+" KM")
-                                    
-                                    
-                                    Text("latitud - "+self.latitud + "sex")
-                                    Text("longitud - "+self.longitud + "sex")
-                                }
-                                
-                                Spacer()
-                            }
                             VStack{
                                 
                                 HStack{
@@ -194,7 +177,6 @@ struct Home5 : View {
                             }
                             .cornerRadius(35)
                             .padding(.horizontal,20)
-                            
                             // Button...
                             NavigationLink(destination: Entreprises().navigationBarBackButtonHidden(true),isActive: $next ){
                                 Button(action: {
@@ -225,17 +207,12 @@ struct Home5 : View {
                     .background(Color("Color"))
                 }
             }
-            
             if self.loading{
-                
                 Loader()
             }
-                        
-
         }
         .edgesIgnoringSafeArea(.all)
         .alert(isPresented: self.$alert) { () -> Alert in
-            
             Alert(title: Text("Error"), message: Text("Please Enable Location In Settings !!!"), dismissButton: .destructive(Text("Ok")))
         }
     }
