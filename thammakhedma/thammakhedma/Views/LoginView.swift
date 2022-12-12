@@ -11,9 +11,11 @@ struct LoginView: View {
     
 
     var body: some View {
-       
-        Home()
-            .preferredColorScheme(.dark)
+        
+            Home()
+                .preferredColorScheme(.dark)
+        
+        
     }
 }
 
@@ -31,10 +33,7 @@ struct Home : View {
     var body: some View{
         
         GeometryReader{_ in
-            
             VStack{
-
-                
                 ZStack{
                     
                     SignUP(index: self.$index)
@@ -42,60 +41,8 @@ struct Home : View {
                         .zIndex(Double(self.index))
                     
                     Login(index: self.$index)
-
                 }
                 
-                HStack(spacing: 15){
-                    
-                    Rectangle()
-                    .fill(Color("Color1"))
-                    .frame(height: 1)
-                    
-                    Text("OR")
-                    
-                    Rectangle()
-                    .fill(Color("Color1"))
-                    .frame(height: 1)
-                }
-                .padding(.horizontal, 30)
-                .padding(.top, 50)
-                // because login button is moved 25 in y axis and 25 padding = 50
-                
-                HStack(spacing: 25){
-                    
-                    Button(action: {
-                        
-                    }) {
-                        
-                        Image("apple")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                    
-                    Button(action: {
-                        
-                    }){
-                        
-                        Image("fb")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                    
-                    Button(action: {
-                        
-                    }) {
-                        
-                        Image("twitter")
-                        .resizable()
-                        .renderingMode(.original)
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                    }
-                }
                 .padding(.top, 30)
             }
             .padding(.vertical)
@@ -170,7 +117,8 @@ struct Login : View {
     @State private var passwordforget = false
     @State private var isLogin = false
     @State private var isShowingContentView = false
-    
+    @State private var isGoogle = false
+
     var currentUser: User?
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = UserViewModel()
@@ -210,6 +158,7 @@ struct Login : View {
                     
                     Divider().background(Color.white.opacity(0.5))
                 }
+                .offset(x:1,y:-70)
                 .padding(.horizontal)
                 .padding(.top, 190)
                 
@@ -227,6 +176,7 @@ struct Login : View {
                     /*
                     EntryField(sfSymbolName: "eye.slash.fill", placeholder: "Password", prompt: viewModel.passwordPrompt, field: $viewModel.password, isSecure: true)*/
                 }
+                .offset(x:1,y:-70)
                 .padding(.horizontal)
                 .padding(.top, 30)
                 
@@ -250,6 +200,7 @@ struct Login : View {
                         }
                             .foregroundColor(Color.white.opacity(0.6))
                     }
+                .offset(x:1,y:-150)
                 
                 .padding(.horizontal)
                 .padding(.top, 100)
@@ -277,7 +228,6 @@ struct Login : View {
                     
                     viewModel.LogIn(email: viewModel.email, password: viewModel.password,complited: {(user ) in
                         if let  _ = user {
-                           
                             print("logged in ")
                             isLogin=true
                         }else{
@@ -288,18 +238,67 @@ struct Login : View {
                     
                 }
                 )
+                
                 .foregroundColor(.white)
                 .fontWeight(.bold)
                 .padding(.vertical)
                 .padding(.horizontal, 50)
                 .background(Color("Color1"))
                 .clipShape(Capsule())
-                // shadow...
                 .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                 
             }
 
         }
+        
+        HStack(spacing: 15){
+            Rectangle()
+            .fill(Color("Color1"))
+            .frame(height: 1)
+            Text("OR")
+            
+            Rectangle()
+            .fill(Color("Color1"))
+            .frame(height: 1)
+        }.offset(x:1,y:180)
+        
+        // because login button is moved 25 in y axis and 25 padding = 50
+        
+        HStack(spacing: 25){
+            NavigationLink(destination: GoogleAuthentification().navigationBarBackButtonHidden(true), isActive: $isGoogle){
+                Button(action: {
+                    isGoogle = true
+                }) {
+                    
+                    Image("apple")
+                        .resizable()
+                        .renderingMode(.original)
+                        .frame(width: 50, height: 50)
+                        .clipShape(Circle())
+                }
+            }
+            Button(action: {
+                
+            }){
+                
+                Image("fb")
+                    .resizable()
+                    .renderingMode(.original)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+            }
+            
+            Button(action: {
+                
+            }) {
+                
+                Image("twitter")
+                    .resizable()
+                    .renderingMode(.original)
+                    .frame(width: 50, height: 50)
+                    .clipShape(Circle())
+            }
+        }.offset(x:1,y:130)
     }
 }
 

@@ -114,7 +114,6 @@ class UserViewModel: ObservableObject {
                     var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName)
                     currentUser.id = id
                     Self.currentUser = currentUser
-                  
                     print("success \(JSON )")
                     complited(currentUser)
                 case .failure(let error):

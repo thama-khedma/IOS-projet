@@ -226,7 +226,16 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .help:
-                        Text("chat")
+                        ContentView()
+                            .safeAreaInset(edge: .top) {
+                                Color.clear.frame(height: 104)
+                            }
+                            .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                            .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z: 0), perspective: 1)
+                            .offset(x: isOpen ? 265 : 0)
+                            .scaleEffect(isOpen ? 0.9 : 1)
+                            .scaleEffect(show ? 0.92 : 1)
+                            .ignoresSafeArea()
                     case .history:
                         Text("chat")
                     case .notifications:
