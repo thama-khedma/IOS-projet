@@ -107,11 +107,12 @@ class UserViewModel: ObservableObject {
                     let lastName = userResponse.object(forKey: "last_name") as? String ?? ""
                     let password = userResponse.object(forKey: "password") as? String ?? ""
                     let firstName = userResponse.object(forKey: "first_name") as? String ?? ""
+                    let image = userResponse.object(forKey: "image") as? String ?? ""
                     let id = userResponse.object(forKey: "_id")  as? String ?? ""
                     print("success  \(email )")
                     print("success  \(lastName )")
                     print("success  \(password )")
-                    var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName)
+                    var currentUser = User(firstname: firstName, password: password, email: email, lastName: lastName,image: image)
                     currentUser.id = id
                     Self.currentUser = currentUser
                     print("success \(JSON )")
@@ -202,6 +203,78 @@ class UserViewModel: ObservableObject {
             }
         
     }
+    func update(user: User,image: UIImage ) {
+            print(user)
+            let parametres: [String: Any] = [
+                "first_name": user.firstName,
+                "last_name": user.lastName,
+                "email": user.email,
+                "password": user.password,
+                "image" : user.image
+                
+            ]
+            
+            
+            
+            let imgData = image.jpegData(compressionQuality: 0.2)!
+            
+            
+            
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
+                for ( key,value) in parametres {
+                    
+                    multipartFormData.append(  (value as! String).data(using: .utf8)!, withName: key)
+                } //Optional for extra parameters
+            },
+                      to:Statics.URL+"/user/update\(user.id ?? "")").responseData(completionHandler: { response in
+                switch response.result {
+                case .success:
+                    
+                    print("success image")
+                    
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+            })
+        }
+    
+    func image(user: User,image: UIImage ) {
+            print(user)
+            let parametres: [String: Any] = [
+                "first_name": user.firstName,
+                "last_name": user.lastName,
+                "email": user.email,
+                "password": user.password,
+                "image" : user.image
+                
+            ]
+            
+            
+            
+            let imgData = image.jpegData(compressionQuality: 0.2)!
+            
+            
+            
+            AF.upload(multipartFormData: { multipartFormData in
+                multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
+                for ( key,value) in parametres {
+                    
+                    multipartFormData.append(  (value as! String).data(using: .utf8)!, withName: key)
+                } //Optional for extra parameters
+            },
+                      to:Statics.URL+"/user/compte").responseData(completionHandler: { response in
+                switch response.result {
+                case .success:
+                    
+                    print("success image")
+                    
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+            })
+            
+        }
     
     func updateUser(user: User) {
         print(user)

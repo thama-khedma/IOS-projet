@@ -351,8 +351,6 @@ struct CardView : View {
                 Text(self.data.name)
                     .fontWeight(.bold)
               
-                Text(self.data.entreprise_name+"aaa")
-                    .fontWeight(.bold)
                 
                 Text(self.data.description)
                     .font(.caption)
@@ -376,7 +374,7 @@ struct CardView : View {
                     .sheet(isPresented: $showupdate) {
                         offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description, entreprise_name: self.data.entreprise_name)
                     }
-                    Text("In-App\nPurchases")
+                    Text("JOB-OFFer")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }

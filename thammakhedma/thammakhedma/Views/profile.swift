@@ -59,11 +59,45 @@ struct Home1 : View {
                     
                     VStack{
                         
-                        HStack{
+                        HStack{if let selectedImage = selectedImage {
                             
+                            Image(uiImage:selectedImage) .resizable()
+                                .cornerRadius(7)
+                                .padding(1) // Width of the border
+                                .background(Color.gray.opacity(0.10))
+                                .cornerRadius(10)
+                                
+                                .clipShape(Circle())
+                                
+                                .scaledToFit()
+                               
+                                .frame(width: 100, height: 100)
+                                .offset(x:3,y:40)
+                            
+                        }else{
+                            AsyncImage(url: URL(string: "http://127.0.0.1:3000/img/"+(UserViewModel.currentUser?.image ??  "") ),
+                                       content:{ image in
+                                image  .resizable()
+                                    .aspectRatio( contentMode: .fill)
+                                    .clipped()
+                                    .clipShape(Rectangle())
+                                    .frame( width:80, height: 80).cornerRadius(20.0)
+                            },placeholder: { })}
+                            HStack {
+                                
+                                Image(systemName: "camera").font(.system(size: 40, weight:.medium)).foregroundColor(Color(uiColor: UIColor(red: 0.88, green: 0.85, blue: 0.77, alpha: 1))).onTapGesture {
+                                    self.showImagePicker = true
+                                }.offset(x:5,y:50)}.onChange(of: self.selectedImage)
+                            { newVal in
+                                self.selectedImage = newVal
+                            }.onAppear
+                            {
+                                self.selectedImage = nil
+                            }
                             Spacer(minLength: 0)
                             
                             VStack(spacing: 10){
+                                
                                 
                                 Text("profile")
                                     .foregroundColor(self.index == 1 ? .white : .gray)
@@ -169,7 +203,7 @@ struct Home1 : View {
                         UserViewModel.currentUser?.lastName = lastname
                         UserViewModel.currentUser?.password = password
                         
-                        viewModel.updateUser(user: UserViewModel.currentUser!)
+                        viewModel.update(user: UserViewModel.currentUser!, image: selectedImage!)
                         })
                         .foregroundColor(.white)
                         .fontWeight(.bold)
@@ -207,7 +241,12 @@ struct Home1 : View {
         }
             
             Spacer(minLength: 0)
+        }.offset(x:0,y:-60)
+        .background(Color("Color").edgesIgnoringSafeArea(.all)).frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+        {
+            
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)
+            
         }
-        .background(Color("Color").edgesIgnoringSafeArea(.all))
     }
 }

@@ -477,7 +477,6 @@ struct Account : View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
-
 struct Ent : View {
 
     @Environment(\.colorScheme) var scheme
@@ -583,12 +582,12 @@ struct Ent : View {
                                                 }
                                                     .padding(.top)
                                                     .font(.title)
-                                                    .offset(x:-70)
+                                                    .offset(x:-100)
                                                 
                                                 VStack(){
                                                     Text(i.email)
                                                 }.fontWeight(.bold)
-                                             
+                                                    .offset(x:-120)
                                                     .padding(.top)
                                                 
                                                 
@@ -601,23 +600,19 @@ struct Ent : View {
                                                     Image("map")
                                                         .renderingMode(.original)
                                                         .padding()
-                                                    
+                                                       
                                                         .clipShape(Circle())
                                                     
                                                     Text(i.destination)
-                                                    
+                                                        
                                                     Spacer()
                                                     
                                                     
-                                                }.offset(x:-10 , y:30)
+                                                }.offset(x:-60)
                                             }
-                                            .padding(.horizontal)
-                                            .padding(.bottom)
                                             
                                             
-                                            .padding(.horizontal, 30)
-                                            .padding(.vertical, 25)
-                                            
+                                          
                                             .frame(width: UIScreen.main.bounds.width / 1.5)
                                             .offset(x: 20 , y:10)
                                             .background(Color.primary.opacity(0.06))

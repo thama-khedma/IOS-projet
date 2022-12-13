@@ -272,7 +272,7 @@ struct Login : View {
                     isGoogle = true
                 }) {
                     
-                    Image("apple")
+                    Image("Logo Google")
                         .resizable()
                         .renderingMode(.original)
                         .frame(width: 50, height: 50)
@@ -294,7 +294,7 @@ struct Login : View {
                 loginWithFaceID()
             }) {
                 
-                Image("twitter")
+                Image("Logo Apple")
                     .resizable()
                     .renderingMode(.original)
                     .frame(width: 50, height: 50)
@@ -400,6 +400,8 @@ struct SignUP : View {
     @State private var isShowingDetailView = false
     @State private var redirectLogin = false
     @ObservedObject var viewModel = UserViewModel()
+    @State var selectedImage: UIImage?
+    @State var showImagePicker : Bool = false
     var body: some View{
         
         ZStack(alignment: .bottom) {
@@ -407,7 +409,33 @@ struct SignUP : View {
             VStack{
                 
                 HStack{
-                    
+                    if let selectedImage = selectedImage {
+                                                                  
+                                                                  Image(uiImage:selectedImage) .resizable()
+                                                                      .cornerRadius(7)
+                                                                      .padding(1) // Width of the border
+                                                                      .background(Color.gray.opacity(0.10))
+                                                                      .cornerRadius(10)
+                                                                      
+                                                                      .clipShape(Circle())
+                                                                      
+                                                                      .scaledToFit()
+                                                                     
+                                                                      .frame(width: 100, height: 100)
+                                                                      .offset(x:3,y:40)
+                                                                  
+                    }
+                    HStack {
+                        
+                        Image(systemName: "camera").font(.system(size: 40, weight:.medium)).foregroundColor(Color(uiColor: UIColor(red: 0.88, green: 0.85, blue: 0.77, alpha: 1))).onTapGesture {
+                            self.showImagePicker = true
+                        }.offset(x:5,y:50)}.onChange(of: self.selectedImage)
+                    { newVal in
+                        self.selectedImage = newVal
+                    }.onAppear
+                    {
+                        self.selectedImage = nil
+                    }
                     Spacer(minLength: 0)
                     
                     VStack(spacing: 10){
@@ -477,7 +505,7 @@ struct SignUP : View {
             // Button...
             NavigationLink(destination: LoginView().navigationBarBackButtonHidden(true),isActive: $redirectLogin){
                 Button("SignUp", action: {
-                    viewModel.SignUp(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName))
+                    viewModel.image(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName,image: ""), image: selectedImage!)
                     redirectLogin=true
                     
                 })
@@ -496,6 +524,11 @@ struct SignUP : View {
             // hiding view when its in background...
             // only button...
             .opacity(self.index == 1 ? 1 : 0)
+        }.frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+        {
+            
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)
+            
         }
     }
 }

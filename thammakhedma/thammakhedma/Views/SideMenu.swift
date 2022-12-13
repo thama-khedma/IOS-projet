@@ -17,10 +17,14 @@ struct SideMenu: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Image(systemName: "person")
-                    .padding(12)
-                    .background(.white.opacity(0.2))
-                    .mask(Circle())
+                AsyncImage(url: URL(string: "http://127.0.0.1:3000/img/"+(UserViewModel.currentUser?.image ??  "") ),
+                           content:{ image in
+                    image  .resizable()
+                        .aspectRatio( contentMode: .fill)
+                        .clipped()
+                        .clipShape(Rectangle())
+                        .frame( width:80, height: 80).cornerRadius(20.0)
+                },placeholder: { })
                 VStack(alignment: .leading, spacing: 2) {
                     Text(username)
                     Text(lastname)

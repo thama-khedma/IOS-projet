@@ -48,10 +48,10 @@ class ViewController: UIViewController {
             let givenName:String = user.profile?.givenName ?? ""
             let familyName:String = user.profile?.familyName ?? ""
             print(emailAddress,fullName,givenName)
-            var currentUser = User(firstname: givenName, password: "123456789", email: emailAddress, lastName: familyName)
+            var currentUser = User(firstname: givenName, password: "123456789", email: emailAddress, lastName: familyName,image: "")
             ViewController.CurrentUser = currentUser
             print(ViewController.CurrentUser,emailAddress,fullName,currentUser)
-            self.SignUp(user: User(firstname: givenName, password:"123456789", email: emailAddress, lastName: familyName))
+            self.SignUp(user: User(firstname: givenName, password:"123456789", email: emailAddress, lastName: familyName,image: ""))
         }
     }
     
