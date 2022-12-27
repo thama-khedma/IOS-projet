@@ -20,37 +20,19 @@ struct QRcodeView: View {
 
     var body: some View {
         NavigationView {
-            Form {
-               /* TextField("Name", text: $name)
-                    .textContentType(.name)
-                    .font(.title)
-                TextField("Email address", text: $emailAddress)
-                    .textContentType(.emailAddress)
-                    .font(.title)*/
                 Image(uiImage: qrCode)
+            
                     .resizable()
                     .interpolation(.none)
-                    .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .foregroundColor(.white)
-                    .padding(100)
-                    .padding(.vertical,150)
-                    .contextMenu {
-                        Button {
-                            let imageSaver = ImageSaver()
-                            imageSaver.writeToPhotoAlbum(image: qrCode)
-                        } label: { Label("Save to Photos", systemImage: "square.and.arrow.down") }
-                    }
-            }
-            .navigationTitle("Your code")
+                    .foregroundColor(.red)
+            
             .onAppear(perform: updateCode)
-            /*.onChange(of: name) { _ in updateCode() }
-            .onChange(of: emailAddress) { _ in updateCode() }*/
         }
     }
 
     func updateCode() {
         qrCode = generateQRCode(from: "\(offre)\n\(entreprise)\n\(user)")
+        
     }
 
     func generateQRCode(from string: String) -> UIImage {

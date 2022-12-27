@@ -43,6 +43,10 @@ struct Home5 : View {
     @State var data : Data = .init(count: 0)
     @State var search = false
     @State var next : Bool = false
+    @State var selectedImage: UIImage?
+    @State private var shouldPresentImagePicker = false
+    @State private var image: Image? = Image("1")
+    @State var showImagePicker : Bool = false
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = EntrepriseViewModel()
     @State var  id:String =  UserViewModel.currentUser?.id ?? ""
@@ -99,13 +103,38 @@ struct Home5 : View {
                         
                         VStack(spacing: 20){
                             VStack{
-                                
+                                if let selectedImage = selectedImage {
+                                Image(uiImage:selectedImage) .resizable()
+                                .cornerRadius(7)
+                                .padding(1) // Width of the border
+                                .background(Color.gray.opacity(0.10))
+                                .cornerRadius(10)
+                                                                                  
+                                .clipShape(Circle())
+                                                                                  
+                                .scaledToFit()
+                                                                                 
+                                            .frame(width: 100, height: 100)
+                                                                                  .offset(x:3,y:40)
+                                                                              
+                                }
+                                HStack {
+                                    
+                                    Image(systemName: "camera").font(.system(size: 40, weight:.medium)).foregroundColor(Color(uiColor: UIColor(red: 0.88, green: 0.85, blue: 0.77, alpha: 1))).onTapGesture {
+                                        self.showImagePicker = true
+                                    }.offset(x:5,y:50)}.onChange(of: self.selectedImage)
+                                { newVal in
+                                    self.selectedImage = newVal
+                                }.onAppear
+                                {
+                                    self.selectedImage = nil
+                                }
                                 HStack{
                                     
                                     Spacer(minLength: 0)
                                     
                                     VStack(spacing: 10){
-                                        
+                                       
                                         Text("Company")
                                             .foregroundColor(self.index == 1 ? .white : .gray)
                                             .font(.title)
@@ -117,9 +146,9 @@ struct Home5 : View {
                                     }
                                 }
                                 .padding(.top, 30)// for top curve...
-                                
+                               
                                 VStack{
-                                    
+                              
                                     HStack(spacing: 15){
                                         TextField("company name", text: $viewModel.name)
                                     }
@@ -141,13 +170,8 @@ struct Home5 : View {
                                 }
                                 .padding(.horizontal)
                                 .padding(.top, 60)
-                                
                                 VStack{
-                                    
                                     HStack(spacing: 15){
-                                        
-                                        
-                                        
                                         TextField("description", text: $viewModel.description)
                                     }
                                     
@@ -170,33 +194,29 @@ struct Home5 : View {
                             // shadow...
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
                             .onTapGesture {
-                                
-                                
                                 self.index = 1
-                                
                             }
                             .cornerRadius(35)
                             .padding(.horizontal,20)
                             // Button...
                             NavigationLink(destination: Entreprises().navigationBarBackButtonHidden(true),isActive: $next ){
-                                Button(action: {
-                                    print(self.latitud,String(self.longitud),viewModel.name,viewModel.email,id,String(self.name))
-                                
-                                    viewModel.AddEntreprise(name: viewModel.name, email: viewModel.email,id: id,adresse:String(self.name),description:viewModel.description,latitud: String(self.longitud),longitud:String(self.latitud) )
+                                Button(action: {print("aaaa"+viewModel.name+viewModel.email+id+viewModel.description+String(self.name))
+                                    viewModel.image(name: viewModel.name, email: viewModel.email, id:id, adresse: String(self.name), description: viewModel.description, latitud: String(self.longitud), longitud: String(self.latitud), image: selectedImage!)
                                      next = true
-                                    print(self.latitud,String(self.longitud))
-                                    
                                 }) {
+                                    
                                     
                                     Text("Creat Location")
                                         .foregroundColor(Color("Color2"))
                                         .padding(.vertical, 10)
                                         .frame(width: UIScreen.main.bounds.width / 2)
                                 }
+                                
                                 .background(Color("Color1"))
                                 .clipShape(Capsule())
                                 
                             }
+                            
                         }
                         
 
@@ -210,6 +230,11 @@ struct Home5 : View {
             if self.loading{
                 Loader()
             }
+        }.frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+        {
+            
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)
+            
         }
         .edgesIgnoringSafeArea(.all)
         .alert(isPresented: self.$alert) { () -> Alert in

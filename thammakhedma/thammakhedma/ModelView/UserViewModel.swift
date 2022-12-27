@@ -93,7 +93,6 @@ class UserViewModel: ObservableObject {
     
     func LogIn(email: String,password: String, complited: @escaping(User?)-> Void )
     {
-        
         AF.request(Statics.URL+"/user/Login" , method: .post, parameters: ["email": email,"password": password] ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<300)
             .validate(contentType: ["application/json"])
@@ -213,13 +212,7 @@ class UserViewModel: ObservableObject {
                 "image" : user.image
                 
             ]
-            
-            
-            
             let imgData = image.jpegData(compressionQuality: 0.2)!
-            
-            
-            
             AF.upload(multipartFormData: { multipartFormData in
                 multipartFormData.append(imgData, withName: "image",fileName: "file.jpg", mimeType: "image/jpg")
                 for ( key,value) in parametres {
@@ -227,17 +220,16 @@ class UserViewModel: ObservableObject {
                     multipartFormData.append(  (value as! String).data(using: .utf8)!, withName: key)
                 } //Optional for extra parameters
             },
-                      to:Statics.URL+"/user/update\(user.id ?? "")").responseData(completionHandler: { response in
+                      to:Statics.URL+"/user/updateUser/\(user.id ?? "")").responseData(completionHandler: { response in
                 switch response.result {
                 case .success:
-                    
                     print("success image")
-                    
                 case .failure(let encodingError):
                     print(encodingError)
                 }
             })
         }
+    
     
     func image(user: User,image: UIImage ) {
             print(user)
@@ -246,8 +238,7 @@ class UserViewModel: ObservableObject {
                 "last_name": user.lastName,
                 "email": user.email,
                 "password": user.password,
-                "image" : user.image
-                
+                "image" : ""
             ]
             
             
@@ -273,7 +264,6 @@ class UserViewModel: ObservableObject {
                     print(encodingError)
                 }
             })
-            
         }
     
     func updateUser(user: User) {

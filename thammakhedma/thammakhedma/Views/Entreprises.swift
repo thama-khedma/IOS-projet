@@ -145,9 +145,7 @@ struct Entreprises: View {
             }else {
                 print("error cant connect ")
             }
-            
         })
-       
     }
     func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
         AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
@@ -159,7 +157,7 @@ struct Entreprises: View {
                 case .success:
                     furnitures = []
                     for i in JSON(response.data!){
-                        furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "main",name: i.1["name"].stringValue, email: i.1["email"].stringValue,description: i.1["description"].stringValue,destination: i.1["adresse"].stringValue)])
+                        furnitures.append([Furniture(id:i.1["_id"].stringValue, image: i.1["image"].stringValue,name: i.1["name"].stringValue, email: i.1["email"].stringValue,description: i.1["description"].stringValue,destination: i.1["adresse"].stringValue)])
                         /*furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "r11",name: i.1["name"].stringValue, email: i.1["email"].stringValue, description: "description")])*/
                     }
                     complited(true,furnitures)
@@ -178,6 +176,13 @@ struct Entreprises: View {
     @State var isOpen = false
     @AppStorage("selectedMenu") var selectedMenu: SelectedMenu = .home
    /* var button = RiveViewModel(fileName: "menu_button", stateMachineName: "State Machine", autoplay: false, animationName: "open")*/
+    @State var detail = false
+    @State var name = ""
+    @State var id = ""
+    @State var email = ""
+    @State var description = ""
+    @State var destination = ""
+    
     var body: some View {
         
         ZStack {
@@ -191,8 +196,16 @@ struct Entreprises: View {
             ZStack{
                     switch selectedMenu {
                     case .home:
-                        
-                            TabView2()
+                        ZStack{//detail: self.$detail
+                            Detail1(name: $name, id: $id, email: $email, description: $description, destination: $destination,detail: $detail)
+                            // expanding view when ever detail view is tapped...
+                                .frame(width: self.detail ? nil : 100, height: self.detail ? nil : 100)
+                                .opacity(self.detail ? 1 : 0)
+                            TabView2(name: $name, id: $id, email: $email, description: $description, destination: $destination,detail: $detail)
+                                .opacity(self.detail ? 0 : 1)
+                        }.animation(.default)
+                        // for changing status bar color...
+                        .preferredColorScheme(self.detail ? .dark : .light)
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -202,7 +215,6 @@ struct Entreprises: View {
                             .scaleEffect(isOpen ? 0.9 : 1)
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
-                        
                     case .search:
                         AddEntreprise()
                             .safeAreaInset(edge: .top) {
@@ -275,7 +287,12 @@ struct TabView2 : View {
     @Environment(\.colorScheme) var scheme
     @State var show = false
     @State var isOpen = false
-    
+    @Binding var name: String
+    @Binding var id: String
+    @Binding var email: String
+    @Binding var description: String
+    @Binding var destination: String
+    @Binding var detail : Bool
     var body: some View{
         
         VStack(){
@@ -285,7 +302,7 @@ struct TabView2 : View {
             ZStack{
                 switch selectedTab {
                 case .chat:
-                    Ent()
+                    Ent(name: self.$name, id: self.$id, email: self.$email,  destination: self.$destination,description: self.$description,detail: self.$detail)
                 case .search:
                     AddEntreprise()
                 case .timer:
@@ -294,7 +311,7 @@ struct TabView2 : View {
                     Text("chat")
                 case .user:
                     profile()
-
+                        .preferredColorScheme(.dark)
                 }
                 
                 
@@ -318,8 +335,245 @@ struct TabView2 : View {
             }
             
         }
-       
+   
+struct RoundShape : Shape {
+    
+    func path(in rect: CGRect) -> Path {
+        
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: [.topLeft,.topRight], cornerRadii: CGSize(width: 45, height: 45))
+        
+        return Path(path.cgPath)
+    }
+}
 
+struct Detail1 : View {
+    @Binding var name: String
+    @Binding var id: String
+    @Binding var email: String
+    @Binding var description: String
+    @Binding var destination: String
+    @Binding var detail : Bool
+    @State var showaddoffre : Bool = false
+    @ObservedObject var viewModel = EntrepriseViewModel()
+    @State var index = 0
+    var body: some View{
+        NavigationView{
+            ZStack{
+                Color.black.edgesIgnoringSafeArea(.all)
+                VStack{
+                    
+                    HStack{
+                        
+                        Image("nasa")
+                        
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: UIScreen.main.bounds.width / 1.5, height: UIScreen.main.bounds.height / 2)
+                        
+                        Button(action: {
+                            // closing the detail view when close button is pressed...
+                            self.detail.toggle()
+                        }) {
+                            Image(systemName: "xmark")
+                                .font(.title)
+                                .foregroundColor(Color("Color1"))
+                                .padding(.horizontal)
+                            
+                        }
+                    }.offset(y:-100)
+                        .padding(.horizontal)
+                        .padding(.bottom, -290)
+                        .zIndex(5)
+                    // zindex sets views postion on the stack...
+                    // moving bottom view up...
+                    ZStack(alignment: .topLeading){
+                        VStack{
+                            // for phones having lesser screen size...
+                            ScrollView(UIScreen.main.bounds.height < 750 ? .vertical : .init(), showsIndicators: false) {
+                                VStack{
+                                    HStack(spacing: 0){
+                                        Button(action: {
+                                            self.index = 0
+                                        }) {
+                                            
+                                            
+                                            Text("Details")
+                                                .font(.system(size: 25))
+                                                .foregroundColor(Color.white)
+                                                .padding(.vertical, 10)
+                                                .padding(.horizontal, 25)
+                                                .background(self.index == 0 ? Color("Color1") : Color.clear)
+                                                .cornerRadius(8)
+                                            
+                                        }
+                                        
+                                        Button(action: {
+                                            self.index = 1
+                                            
+                                        }) {
+                                            Text("Description")
+                                                .font(.system(size: 25))
+                                                .foregroundColor(Color.white)
+                                                .padding(.vertical, 10)
+                                                .padding(.horizontal, 25)
+                                                .background(self.index == 1 ? Color("Color1") : Color.clear)
+                                                .cornerRadius(8)
+                                            
+                                        }
+                                        Spacer()
+                                    }
+                                    if self.index == 0{ScrollView{
+                                        VStack{
+                                            Text("adress")
+                                                .font(.title)
+                                                .foregroundColor(Color.white.opacity(0.6))
+                                            Text(self.destination)
+                                            
+                                                .font(.title)
+                                                .foregroundColor(.white)
+                                            Text("email")
+                                                .foregroundColor(Color.white.opacity(0.6))
+                                                .padding(.top)
+                                                .font(.title)
+                                            Text(self.email)
+                                                .font(.title)
+                                                .foregroundColor(.white)
+                                            HStack(spacing: 20){
+                                                VStack(spacing: 12){
+                                                    Text("description")
+                                                        .foregroundColor(Color.white.opacity(0.6))
+                                                        .padding(.top)
+                                                        .font(.title)
+                                                    Text(self.description)
+                                                        .font(.title)
+                                                        .foregroundColor(.white)
+                                                    
+                                                }
+                                            }
+                                            .padding(.top)}.offset(y:30)
+                                        NavigationLink(destination: Addoffre(entreprise: self.name), isActive: $showaddoffre){
+                                            VStack{/*Button(action: {
+                                                showaddoffre = true
+                                            }) {
+                                                Text("creat offer")
+                                            }
+                                            .font(.title)
+                                            .foregroundColor(.white)
+                                            .padding(.vertical)
+                                            .frame(width: UIScreen.main.bounds.width / 1.5)
+                                            .background(Color("Color1"))
+                                            
+                                            */
+                                                Button("Add offre", action: {
+                                                    
+                                                    showaddoffre = true
+                                                    
+                                                }
+                                                       
+                                                       
+                                                )
+                                                .font(.title)
+                                                .foregroundColor(.white)
+                                                .padding(.vertical)
+                                                .frame(width: UIScreen.main.bounds.width / 1.5)
+                                                .background(Color("Color1"))
+                                                .cornerRadius(10)
+                                                // shadow...
+                                                .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                                                
+                                            }}.offset(x:0,y:70)
+                                        
+                                        
+                                    
+                                    }
+                                    }
+                                    else{
+                                        
+                                        
+                                        
+                                        VStack{
+                                            HStack(spacing: 15){
+                                                Image(systemName: "person.3.sequence.fill")
+                                                    .foregroundColor(Color("Color1"))
+                                                TextField("Company name", text: $name)
+                                            }
+                                            
+                                            Divider().background(Color.white.opacity(0.5))
+                                        }
+                                        .padding(.horizontal)
+                                        .padding(.top, 60)
+                                        VStack{
+                                            HStack(spacing: 15){
+                                                Image(systemName: "mail.stack.fill")
+                                                    .foregroundColor(Color("Color1"))
+                                                TextField("Company Email", text: $email)
+                                            }
+                                            Divider().background(Color.white.opacity(0.5))
+                                        }
+                                        .padding(.horizontal)
+                                        .padding(.top, 60)
+                                        VStack{
+                                            HStack(spacing: 15){
+                                                Image(systemName: "mail.stack.fill")
+                                                    .foregroundColor(Color("Color1"))
+                                                //Text(id)
+                                                TextField("Company description", text: $description)
+                                            }
+                                            Divider().background(Color.white.opacity(0.5))
+                                        }
+                                        .padding(.horizontal)
+                                        .padding(.top, 60)
+                                        Button("update company", action: {
+                                            viewModel.updateEntreprise(name: name, email: email, description: description, id:id)
+                                        })
+                                        .foregroundColor(.white)
+                                        .fontWeight(.bold)
+                                        .padding(.vertical)
+                                        .padding(.horizontal, 50)
+                                        .background(Color("Color1"))
+                                        .clipShape(Capsule())
+                                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                                        .offset(y: 25)
+                                        .opacity(self.index == 1 ? 1 : 0)
+                                        Button("Delete company", action: {viewModel.DeleteEntreprise(id: id)})
+                                            .foregroundColor(.white)
+                                            .fontWeight(.bold)
+                                            .padding(.vertical)
+                                            .padding(.horizontal, 50)
+                                            .background(Color("Color1"))
+                                            .clipShape(Capsule())
+                                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                                            .offset(y: 25)
+                                            .opacity(self.index == 1 ? 1 : 0)
+                                        
+                                        
+                                        // Button...
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                    }//////////////
+                                }
+                                .padding(.horizontal, 25)
+                            }
+                            // due to bottom padding -50
+                            .padding(.top, 50)
+                            
+                            
+                        }
+                        .background(Color("Color2").edgesIgnoringSafeArea(.all))
+                        .clipShape(RoundShape())
+                        
+                    }
+                    
+                }
+            }
+            .edgesIgnoringSafeArea(.bottom)
+        }
+    }
+}
 struct Detail : View {
     @State var name: String
     @State var id: String
@@ -329,19 +583,12 @@ struct Detail : View {
     @State var showupdate : Bool = false
     @State var showaddoffre : Bool = false
     @State var refresh: Bool = false
-
     var body : some View{
         NavigationView{
             VStack(spacing: 8){
-                
-                
-                
                 GeometryReader{geo in
-                    
                     VStack(alignment: .leading){
-                        
                                 HStack{
-                                    
                                     VStack(alignment: .leading, spacing: 12){
                                         
                                         Text(name).fontWeight(.bold)
@@ -380,7 +627,7 @@ struct Detail : View {
                             }.padding(.horizontal,15)
                             
                             VStack(alignment: .leading, spacing: 10){
-                                HStack(){
+                                HStack{
                                     Text("Description : ").fontWeight(.heavy)
                                     Text(description).foregroundColor(.gray)
                                 }.offset(x:-130,y:-220)
@@ -406,17 +653,6 @@ struct Detail : View {
                             }.background(Color("Color")).padding()
                             .offset(x:160,y:380)
                             NavigationLink(destination: Addoffre(entreprise: name), isActive: $showaddoffre){
-                                HStack(spacing: 8){
-                                    
-                                    /* Button(action: {
-                                     showupdate = true
-                                     }) {
-                                     
-                                     Image(systemName: "gear.circle")
-                                     .resizable()
-                                     .frame(width: 50.0, height: 50.0)
-                                     
-                                     }*/
                                     VStack{
                                         Button("Add offre", action: {showaddoffre = true}
                                                
@@ -431,9 +667,9 @@ struct Detail : View {
                                         // shadow...
                                         .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                                         
-                                    }}.padding(.top, 6)
-                                    .offset(x:110,y:450)
-                            }
+                                    }
+                                                                }.offset(x:110,y:200)
+
                         
                     }
                     
@@ -444,52 +680,40 @@ struct Detail : View {
         }
     }
 }
-struct Cart : View {
-    
+/*struct opact : View {
+    @State var detail = false
+    @State var name: String
+    @State var id: String
+    @State var email: String
+    @State var description: String
+    @State var destination: String
     var body: some View{
-        
-        VStack{
-            
-            Text("Cart")
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        ZStack{//detail: self.$detail
+            Detail1(name: "", id: "", email: "", description: "", destination: "",detail: self.$detail)
+            // expanding view when ever detail view is tapped...
+                .frame(width: self.detail ? nil : 100, height: self.detail ? nil : 100)
+                .opacity(self.detail ? 1 : 0)
+            TabView2(detail: self.$detail)
+                .opacity(self.detail ? 0 : 1)
+        }.animation(.default)
+        // for changing status bar color...
+        .preferredColorScheme(self.detail ? .dark : .light)
     }
-}
-
-struct Search : View {
-    var body: some View{
-        
-        VStack{
-            
-            Text("Search")
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
-
-struct Account : View {
-    var body: some View{
-        
-        VStack{
-            
-            Text("Account")
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-    }
-}
+}*/
 struct Ent : View {
 
     @Environment(\.colorScheme) var scheme
     @State var search = ""
     @State var showupdate : Bool = false
-    @State var name : String = ""
-    @State var id : String = ""
-    @State var email : String = ""
+    @Binding var name : String
+    @Binding var id : String
+    @Binding var email : String
     @State var op : CGFloat = 0
-    @State var destination : String = ""
-    @State var description : String = ""
+    @Binding var destination : String
+    @Binding var description : String
     @State var refresh: Bool = false
-    
+    @Binding var detail : Bool
+
     var body: some View{
         
         VStack{
@@ -540,10 +764,8 @@ struct Ent : View {
             .padding()
             
             ScrollView(.vertical, showsIndicators: false) {
-                
                 VStack{
                     HStack{
-                        
                         Text("Recommended For You")
                             .fontWeight(.bold)
                             .font(.title)
@@ -551,80 +773,67 @@ struct Ent : View {
                     }
                     .padding(.top,30)
                     .padding(.bottom, 20)
+                    //
                     ScrollView(.horizontal, showsIndicators: false) {
-                        
                         HStack(spacing:25){
                             ForEach(furnitures,id: \.self){furniture in
-                                
                                 HStack(){
-                                    
                                     ForEach(furniture){i in
-                                        Button(action: {
+                                       /* Button(action: {
                                             self.showupdate.toggle()
-                                            
                                             self.name = i.name
                                             self.id = i.id
                                             self.email = i.email
                                             self.destination=i.destination
                                             self.description=i.description
                                             
-                                        }) {
-                                            VStack(){
-                                                
-                                                VStack(spacing: 20){
-                                                    Image(i.image)
-                                                    
-                                                }.frame(width: UIScreen.main.bounds.width / 1.3)
-                                                    .offset(y:-40)
-                                                
-                                                VStack(){
-                                                    Text(i.name)
+                                        }) {*/
+                                            ZStack(alignment: .bottom){
+                                                Color("Color")
+                                                    .frame(height: UIScreen.main.bounds.height / 3.5)
+                                                    .cornerRadius(20)
+                                                VStack(spacing: 50){
+                                                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/imag/"+(i.image ??  "") ),
+                                                               content:{ image in
+                                                        image  .resizable()
+                                                            .resizable()
+                                                            .scaledToFit()
+                                                            .frame(width: 330, height: 200)                                                    },placeholder: { })
+                                                    HStack{
+                                                        VStack(alignment: .leading, spacing: 12) {
+                                                            Text(i.destination)
+                                                                .fontWeight(.bold)
+                                                                
+                                                            Text(i.name)
+                                                                .fontWeight(.bold)
+                                                                .font(.title)
+                                                        }
+                                                        .foregroundColor(.white)
+                                                        Spacer(minLength: 0)
+                                                    }
                                                 }
-                                                    .padding(.top)
-                                                    .font(.title)
-                                                    .offset(x:-100)
-                                                
-                                                VStack(){
-                                                    Text(i.email)
-                                                }.fontWeight(.bold)
-                                                    .offset(x:-120)
-                                                    .padding(.top)
-                                                
-                                                
-                                                    .sheet(isPresented: $showupdate) {
-                                                        
-                                                        
-                                                        Detail(name:self.name,id:self.id,email:self.email,description:self.description,destination:self.destination)}
-                                                
-                                                VStack(){
-                                                    Image("map")
-                                                        .renderingMode(.original)
-                                                        .padding()
-                                                       
-                                                        .clipShape(Circle())
-                                                    
-                                                    Text(i.destination)
-                                                        
-                                                    Spacer()
-                                                    
-                                                    
-                                                }.offset(x:-60)
+                                                .padding(.horizontal)
+                                                .padding(.vertical, 40)
+                                                .padding(.bottom)
                                             }
-                                            
-                                            
-                                          
-                                            .frame(width: UIScreen.main.bounds.width / 1.5)
-                                            .offset(x: 20 , y:10)
-                                            .background(Color.primary.opacity(0.06))
-                                            .cornerRadius(10)
-                                            
-                                        }
-                                        
+                                       // }
+                                    .onTapGesture {
+                                            // assigning data when ever image is tapped....
+                                        self.detail.toggle()
+                                        self.showupdate.toggle()
+                                        self.name = i.name
+                                        self.id = i.id
+                                        self.email = i.email
+                                        self.destination=i.destination
+                                        self.description=i.description
+                                    }
                                     }
                                 }}
                             
                         }
-                    }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 25)
+                    }//
                     
                 }
             }
@@ -635,14 +844,11 @@ struct Ent : View {
                     }else {
                         print("error cant connect ")
                     }
-                    
                 })
             })
-            
             Spacer()
         }
     }
-    
     func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
         AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
@@ -653,15 +859,12 @@ struct Ent : View {
                 case .success:
                     furnitures = []
                     for i in JSON(response.data!){
-                        furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "main",name: i.1["name"].stringValue, email: i.1["email"].stringValue,description: i.1["description"].stringValue,destination: i.1["adresse"].stringValue)])
+                        furnitures.append([Furniture(id:i.1["_id"].stringValue, image: i.1["image"].stringValue,name: i.1["name"].stringValue, email: i.1["email"].stringValue,description: i.1["description"].stringValue,destination: i.1["adresse"].stringValue)])
                         /*furnitures.append([Furniture(id:i.1["_id"].stringValue, image: "r11",name: i.1["name"].stringValue, email: i.1["email"].stringValue, description: "description")])*/
                     }
                     complited(true,furnitures)
-                    
                 case let .failure(error):
-                    
                     debugPrint(error)
-                    
                 complited(false,nil)
                     
                 }

@@ -410,18 +410,17 @@ struct SignUP : View {
                 
                 HStack{
                     if let selectedImage = selectedImage {
-                                                                  
-                                                                  Image(uiImage:selectedImage) .resizable()
-                                                                      .cornerRadius(7)
-                                                                      .padding(1) // Width of the border
-                                                                      .background(Color.gray.opacity(0.10))
-                                                                      .cornerRadius(10)
+                    Image(uiImage:selectedImage) .resizable()
+                    .cornerRadius(7)
+                    .padding(1) // Width of the border
+                    .background(Color.gray.opacity(0.10))
+                    .cornerRadius(10)
                                                                       
-                                                                      .clipShape(Circle())
+                    .clipShape(Circle())
                                                                       
-                                                                      .scaledToFit()
+                    .scaledToFit()
                                                                      
-                                                                      .frame(width: 100, height: 100)
+                                .frame(width: 100, height: 100)
                                                                       .offset(x:3,y:40)
                                                                   
                     }
@@ -507,7 +506,6 @@ struct SignUP : View {
                 Button("SignUp", action: {
                     viewModel.image(user: User(firstname: viewModel.firstName, password:viewModel.password, email: viewModel.email, lastName: viewModel.lastName,image: ""), image: selectedImage!)
                     redirectLogin=true
-                    
                 })
                 .foregroundColor(.white)
                 .fontWeight(.bold)
@@ -518,17 +516,17 @@ struct SignUP : View {
                 // shadow...
                 .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                 
+            }.frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+            {
+                
+                ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)
+                
             }
             // moving view down..
             .offset(y: 25)
             // hiding view when its in background...
             // only button...
             .opacity(self.index == 1 ? 1 : 0)
-        }.frame(alignment: .leading).sheet(isPresented: $showImagePicker)
-        {
-            
-            ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)
-            
         }
     }
 }

@@ -21,7 +21,7 @@ struct Addoffre: View {
     @State private var passwordforget = false
     @State private var isOffre = false
     @State private var isShowingContentView = false
-    
+    @State var detail : Bool = false
     var currentUser: User?
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = OffreViewModel()
@@ -36,24 +36,37 @@ struct Addoffre: View {
                         VStack(spacing: 10){
                             
                             Text("Add offre")
-                                .foregroundColor(self.index == 0 ? .white : .gray)
-                                .font(.title)
-                                .fontWeight(.bold)
-                            
-                            Capsule()
-                                .fill(self.index == 0 ? Color.blue : Color.clear)
-                                .frame(width: 100, height: 5)
+                                .font(.system(size: 25))
+                                .foregroundColor(Color.white)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 25)
+                                .background( Color("Color1"))
+                                .cornerRadius(8)
                         }
                         
                         Spacer(minLength: 0)
                     }
                     .padding(.top, 30)// for top curve...
-                    
+                    VStack{
+                        
+                        HStack(){
+                            Image(systemName: "person.3.sequence.fill")
+                                .foregroundColor(Color("Color1"))
+                            Text(entreprise)
+                                .font(.title)
+                                .foregroundColor(.white)
+                        }
+                        
+                       
+                       
+                    }
+                   
                     VStack{
                         
                         HStack(spacing: 15){
-                            Text(entreprise)
-                            TextField("Email Address", text:$name)
+                            TextField("offre name", text:$name)
+                                .font(.title)
+                                .foregroundColor(.white)
                         }
                         
                         Divider().background(Color.white.opacity(0.5))
@@ -63,8 +76,9 @@ struct Addoffre: View {
                     
                     VStack{
                         HStack(spacing: 15){
-                            Text(user)
-                            TextField("Email Address", text:$description)
+                            TextField("offre description", text:$description)
+                                .font(.title)
+                                .foregroundColor(.white)
                         }
                         
                         Divider().background(Color.white.opacity(0.5))
@@ -104,14 +118,15 @@ struct Addoffre: View {
                     Button("Add Offre", action: {
                         isOffre=true
                         viewModel.AddOffre(name: self.name, description: self.description, entreprise: self.entreprise, userid: self.user)
+                        
                     }
                     )
+                    .font(.title)
                     .foregroundColor(.white)
-                    .fontWeight(.bold)
                     .padding(.vertical)
-                    .padding(.horizontal, 50)
+                    .frame(width: UIScreen.main.bounds.width / 1.5)
                     .background(Color("Color1"))
-                    .clipShape(Capsule())
+                    .cornerRadius(10)
                     // shadow...
                     .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                     
@@ -119,5 +134,10 @@ struct Addoffre: View {
                 .preferredColorScheme(.dark)
             }
         }
+    }
+}
+struct Addoffre_Previews: PreviewProvider {
+    static var previews: some View {
+        Entreprises()
     }
 }

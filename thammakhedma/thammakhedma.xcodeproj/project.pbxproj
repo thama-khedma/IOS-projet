@@ -25,6 +25,8 @@
 		6907DE3D2945379D0012AD00 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 6907DE3C2945379D0012AD00 /* CodeScanner */; };
 		6907DE3F29453C6A0012AD00 /* QRcodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6907DE3E29453C6A0012AD00 /* QRcodeView.swift */; };
 		6907DE4129453CB50012AD00 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6907DE4029453CB50012AD00 /* ImageSaver.swift */; };
+		691765DC295B57190043D166 /* CandidatureCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691765DB295B57190043D166 /* CandidatureCard.swift */; };
+		691765DE295B57860043D166 /* Styles in Resources */ = {isa = PBXBuildFile; fileRef = 691765DD295B57860043D166 /* Styles */; };
 		6934EACC2938D9E300653C10 /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 6934EACB2938D9E300653C10 /* RiveRuntime */; };
 		6934EACE2938DCAC00653C10 /* SideMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6934EACD2938DCAC00653C10 /* SideMenu.swift */; };
 		6934EAD72938DD7A00653C10 /* house.riv in Resources */ = {isa = PBXBuildFile; fileRef = 6934EAD02938DD7A00653C10 /* house.riv */; };
@@ -81,6 +83,8 @@
 		6907DE362944B8140012AD00 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		6907DE3E29453C6A0012AD00 /* QRcodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRcodeView.swift; sourceTree = "<group>"; };
 		6907DE4029453CB50012AD00 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
+		691765DB295B57190043D166 /* CandidatureCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidatureCard.swift; sourceTree = "<group>"; };
+		691765DD295B57860043D166 /* Styles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Styles; sourceTree = "<group>"; };
 		6934EACD2938DCAC00653C10 /* SideMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenu.swift; sourceTree = "<group>"; };
 		6934EAD02938DD7A00653C10 /* house.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = house.riv; sourceTree = "<group>"; };
 		6934EAD12938DD7A00653C10 /* confetti.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = confetti.riv; sourceTree = "<group>"; };
@@ -161,6 +165,7 @@
 		42264F7E292285FD00D0978E /* thammakhedma */ = {
 			isa = PBXGroup;
 			children = (
+				691765DD295B57860043D166 /* Styles */,
 				69B8A7152946954A00DC64FE /* Storyboard */,
 				6934EACF2938DD7A00653C10 /* RiveAssets */,
 				6979F18C292CB28D00846977 /* Info.plist */,
@@ -212,6 +217,7 @@
 				69F7954C29454C4100E1C4FB /* Addoffre.swift */,
 				69B8A71A294698BF00DC64FE /* GoogleAuthentification.swift */,
 				6956E0502947B4FB00A43B85 /* ImagePicker.swift */,
+				691765DB295B57190043D166 /* CandidatureCard.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -352,6 +358,7 @@
 			files = (
 				6934EADD2938DD7A00653C10 /* icons.riv in Resources */,
 				6934EAD92938DD7A00653C10 /* check.riv in Resources */,
+				691765DE295B57860043D166 /* Styles in Resources */,
 				6934EAD72938DD7A00653C10 /* house.riv in Resources */,
 				6979F189292CA33300846977 /* credentials.plist in Resources */,
 				6934EADC2938DD7A00653C10 /* button.riv in Resources */,
@@ -449,6 +456,7 @@
 				42264F80292285FD00D0978E /* thammakhedmaApp.swift in Sources */,
 				42264FA52922CA7A00D0978E /* UserViewModel.swift in Sources */,
 				69483FAA2933CD9400B847EC /* test.swift in Sources */,
+				691765DC295B57190043D166 /* CandidatureCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

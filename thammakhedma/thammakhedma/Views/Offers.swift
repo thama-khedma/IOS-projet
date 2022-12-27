@@ -276,13 +276,13 @@ struct UpdateOfferView: View {
                             HStack(spacing: 15){
                                 Image(systemName: "mail.stack.fill")
                                     .foregroundColor(Color("Color1"))
-                                TextField("Company description", text: $description)
+                                TextField("Company offre", text: $description)
                             }
                             Divider().background(Color.white.opacity(0.5))
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
-                        Button("update company", action: {
+                        Button("update offre", action: {
                             viewModel.updateOffre(name: name,description: description,id: id)
                             })
                             .foregroundColor(.white)
@@ -294,7 +294,7 @@ struct UpdateOfferView: View {
                             .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                         .offset(y: 25)
                         .opacity(self.index == 1 ? 1 : 0)
-                        Button("Delete company", action: {viewModel.DeleteOffre(id: id)})
+                        Button("Delete offre", action: {viewModel.DeleteOffre(id: id)})
                             .foregroundColor(.white)
                             .fontWeight(.bold)
                             .padding(.vertical)
@@ -342,10 +342,10 @@ struct CardView : View {
     @State var showupdate : Bool = false
     var body: some View{
         
+            
         HStack(alignment: .top, spacing: 20){
-            
             Image(self.data.image)
-            
+                
             VStack(alignment: .leading, spacing: 6) {
                 
                 Text(self.data.name)
@@ -374,9 +374,10 @@ struct CardView : View {
                     .sheet(isPresented: $showupdate) {
                         offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description, entreprise_name: self.data.entreprise_name)
                     }
-                    Text("JOB-OFFer")
+                    Text("JOB-OFFER")
                         .font(.caption)
                         .foregroundColor(.gray)
+                    
                 }
                 
             }
@@ -384,6 +385,7 @@ struct CardView : View {
             Spacer(minLength: 0)
         }.background(Color("Color2"))
             .cornerRadius(23)
+        
     }
 }
 

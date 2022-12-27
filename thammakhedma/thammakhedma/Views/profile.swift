@@ -121,7 +121,7 @@ struct Home1 : View {
                                 TextField("First name", text: $username)
                             }
                             
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
@@ -135,7 +135,7 @@ struct Home1 : View {
                                 TextField("Last name", text: $lastname)
                             }
                             
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
@@ -150,7 +150,7 @@ struct Home1 : View {
                                 TextField("Email Address", text: $email)
                             }
                             
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
@@ -168,7 +168,7 @@ struct Home1 : View {
                             }
                             
                             
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
@@ -242,7 +242,9 @@ struct Home1 : View {
             
             Spacer(minLength: 0)
         }.offset(x:0,y:-60)
-        .background(Color("Color").edgesIgnoringSafeArea(.all)).frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+        .background(Color("Color").edgesIgnoringSafeArea(.all))
+        .frame(alignment: .leading)
+        .sheet(isPresented: $showImagePicker)
         {
             
             ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)

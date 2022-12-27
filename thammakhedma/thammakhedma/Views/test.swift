@@ -16,25 +16,15 @@ struct test_Previews: PreviewProvider {
 
 
 struct test: View {
-    
-    
     @State private var enableBlogger = true
-    
     @State var firstName: String = ""
     @State var lastName: String = ""
-    
-    
-    
     @State var view = UILabel()
-    
-    
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
-    
-    var body: some View {
+        var body: some View {
         NavigationView {
             Form {
-
                 Section(header: Text("Update Information")) {
                     
                     
