@@ -44,13 +44,6 @@ struct SideMenu: View {
             
             browse
             
-            Text("HISTORY")
-                .font(.subheadline).bold()
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 24)
-                .padding(.top, 40)
-                .opacity(0.7)
-            
             history
             
             Spacer()
@@ -105,37 +98,7 @@ struct SideMenu: View {
     
     var history: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(menuItems2) { item in
-                Rectangle()
-                    .frame(height: 1)
-                    .opacity(0.1)
-                    .padding(.horizontal, 16)
-                
-                HStack(spacing: 14) {
-                    item.icon.view()
-                        .frame(width: 32, height: 32)
-                        .opacity(0.6)
-                    Text(item.text)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                        .fill(.blue)
-                        .frame(maxWidth: selectedMenu == item.menu ? .infinity : 0)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                )
-                .background(Color("Color2"))
-                .onTapGesture {
-                    withAnimation(.timingCurve(0.2, 0.8, 0.2, 1)) {
-                        selectedMenu = item.menu
-                    }
-                    try? item.icon.setInput("active", value: true)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        try? item.icon.setInput("active", value: false)
-                    }
-                }
-            }
+
         }
         .font(.headline)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -158,19 +121,12 @@ struct MenuItem: Identifiable {
 
 var menuItems = [
     MenuItem(text: "Home", icon: RiveViewModel(fileName: "icons", stateMachineName: "HOME_interactivity", artboardName: "HOME"), menu: .home),
-    MenuItem(text: "Search", icon: RiveViewModel(fileName: "icons", stateMachineName: "SEARCH_Interactivity", artboardName: "SEARCH"), menu: .search),
-    MenuItem(text: "Favorites", icon: RiveViewModel(fileName: "icons", stateMachineName: "STAR_Interactivity", artboardName: "LIKE/STAR"), menu: .favorites),
+    MenuItem(text: "Job", icon: RiveViewModel(fileName: "icons", stateMachineName: "SEARCH_Interactivity", artboardName: "SEARCH"), menu: .search),
+    MenuItem(text: "Add Company", icon: RiveViewModel(fileName: "icons", stateMachineName: "STAR_Interactivity", artboardName: "LIKE/STAR"), menu: .favorites),
     MenuItem(text: "Help", icon: RiveViewModel(fileName: "icons", stateMachineName: "CHAT_Interactivity", artboardName: "CHAT"), menu: .help)
 ]
 
-var menuItems2 = [
-    MenuItem(text: "History", icon: RiveViewModel(fileName: "icons", stateMachineName: "TIMER_Interactivity", artboardName: "TIMER"), menu: .history),
-    MenuItem(text: "Notifications", icon: RiveViewModel(fileName: "icons", stateMachineName: "BELL_Interactivity", artboardName: "BELL"), menu: .notifications)
-]
 
-var menuItems3 = [
-    MenuItem(text: "Dark Mode", icon: RiveViewModel(fileName: "icons", stateMachineName: "SETTINGS_Interactivity", artboardName: "SETTINGS"), menu: .darkmode)
-]
 
 enum SelectedMenu: String {
     case home

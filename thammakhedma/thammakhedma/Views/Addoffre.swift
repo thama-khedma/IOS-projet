@@ -27,46 +27,20 @@ struct Addoffre: View {
     @ObservedObject var viewModel = OffreViewModel()
     var body: some View{
         NavigationView{
+            
             ZStack(alignment: .bottom) {
-                
+               
                 VStack{
                     
-                    HStack{
-                        
-                        VStack(spacing: 10){
-                            
-                            Text("Add offre")
-                                .font(.system(size: 25))
-                                .foregroundColor(Color.white)
-                                .padding(.vertical, 10)
-                                .padding(.horizontal, 25)
-                                .background( Color("Color1"))
-                                .cornerRadius(8)
-                        }
-                        
-                        Spacer(minLength: 0)
-                    }
-                    .padding(.top, 30)// for top curve...
+                
+                
                     VStack{
-                        
-                        HStack(){
-                            Image(systemName: "person.3.sequence.fill")
-                                .foregroundColor(Color("Color1"))
-                            Text(entreprise)
-                                .font(.title)
-                                .foregroundColor(.white)
-                        }
-                        
                        
-                       
-                    }
-                   
-                    VStack{
-                        
                         HStack(spacing: 15){
                             TextField("offre name", text:$name)
                                 .font(.title)
-                                .foregroundColor(.white)
+                                .foregroundColor(.white).opacity(0.7)
+                                .offset(x:80,y:-150)
                         }
                         
                         Divider().background(Color.white.opacity(0.5))
@@ -78,10 +52,11 @@ struct Addoffre: View {
                         HStack(spacing: 15){
                             TextField("offre description", text:$description)
                                 .font(.title)
-                                .foregroundColor(.white)
+                                .foregroundColor(.white).opacity(0.7)
+                                .offset(x:50,y:-130)
                         }
                         
-                        Divider().background(Color.white.opacity(0.5))
+                        
                         
                         /*
                          EntryField(sfSymbolName: "eye.slash.fill", placeholder: "Password", prompt: viewModel.passwordPrompt, field: $viewModel.password, isSecure: true)*/
@@ -91,7 +66,7 @@ struct Addoffre: View {
                     
                     HStack{
                         
-                    }
+                    }.cornerRadius(35)
                     
                     .padding(.horizontal)
                     .padding(.top, 150)
@@ -110,11 +85,11 @@ struct Addoffre: View {
                     self.index = 0
                     
                 }
-                .cornerRadius(35)
-                .padding(.horizontal,20)
+                .cornerRadius(20)
+                .padding(.horizontal,100)
                 
                 // Button...
-                NavigationLink(destination: offerView().navigationBarBackButtonHidden(true), isActive: $isOffre){
+                
                     Button("Add Offre", action: {
                         isOffre=true
                         viewModel.AddOffre(name: self.name, description: self.description, entreprise: self.entreprise, userid: self.user)
@@ -130,10 +105,14 @@ struct Addoffre: View {
                     // shadow...
                     .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                     
-                }
+                .offset(y:-60)
                 .preferredColorScheme(.dark)
-            }
+            }.cornerRadius(35)
         }
+        
+        
+            .padding(.top,20)
+            .padding(.horizontal,-100)
     }
 }
 struct Addoffre_Previews: PreviewProvider {

@@ -19,18 +19,19 @@ struct profile_Previews: PreviewProvider {
         profile()
     }
 }
-class SwifTUrViewUHC: UIHostingController<profile>{
+class SwifTUrViewUHC: UIHostingController<Home>{
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder,rootView: profile())
+        super.init(coder: aDecoder,rootView: Home())
     }
 }
 struct Home1 : View {
     @State var index = 0
     @State var username:String = UserViewModel.currentUser?.firstName ?? ""
-    @State var  password:String =  UserViewModel.currentUser?.password ?? ""
+    @State var  password:String = ""
     @ObservedObject var viewModel = UserViewModel()
     @State var   verifpassword:String=""
     @State var   lastname:String = UserViewModel.currentUser?.lastName ?? ""
+    @State var   image:String = UserViewModel.currentUser?.image ?? ""
     @State var  id:String =  UserViewModel.currentUser?.id ?? ""
     @State var   email:String = UserViewModel.currentUser?.email ?? ""
     @State var  description:String = ""
@@ -41,7 +42,6 @@ struct Home1 : View {
     @State var activateSecurePwd : Bool = false
     @State var logout : Bool = false
     var body: some View{
-        
         
         VStack{
             
@@ -59,54 +59,65 @@ struct Home1 : View {
                     
                     VStack{
                         
-                        HStack{if let selectedImage = selectedImage {
+                        ZStack {
                             
-                            Image(uiImage:selectedImage) .resizable()
-                                .cornerRadius(7)
-                                .padding(1) // Width of the border
-                                .background(Color.gray.opacity(0.10))
-                                .cornerRadius(10)
-                                
-                                .clipShape(Circle())
-                                
-                                .scaledToFit()
-                               
-                                .frame(width: 100, height: 100)
-                                .offset(x:3,y:40)
+                            if let selectedImage = selectedImage {
                             
-                        }else{
-                            AsyncImage(url: URL(string: "http://127.0.0.1:3000/img/"+(UserViewModel.currentUser?.image ??  "") ),
-                                       content:{ image in
-                                image  .resizable()
-                                    .aspectRatio( contentMode: .fill)
-                                    .clipped()
-                                    .clipShape(Rectangle())
-                                    .frame( width:80, height: 80).cornerRadius(20.0)
-                            },placeholder: { })}
-                            HStack {
-                                
-                                Image(systemName: "camera").font(.system(size: 40, weight:.medium)).foregroundColor(Color(uiColor: UIColor(red: 0.88, green: 0.85, blue: 0.77, alpha: 1))).onTapGesture {
+                                Image(uiImage:selectedImage) .resizable()
+                                    .cornerRadius(7)
+                                    .padding(1) // Width of the border
+                                    .background(Color.gray.opacity(0.10))
+                                    .cornerRadius(10)
+                                    
+                                    .clipShape(Circle())
+                                    
+                                    .scaledToFit()
+                                   
+                                    .frame(width: 100, height: 100)
+                                    .offset(x:3,y:40)
+                            
+                            }
+                            else
+                            {
+                                AsyncImage(url: URL(string: "http://127.0.0.1:3000/img/image_1672674226493.jpg"+(image ??  "") ),
+                                           content:{ image in
+                                    image  .resizable()
+                                        .aspectRatio( contentMode: .fill)
+                                        .clipped()
+                                        .clipShape(Rectangle())
+                                        .frame( width:80, height: 80).cornerRadius(20.0)
+                                        .offset(x:0,y:80)
+                                },placeholder: { })
+                                .onTapGesture {
                                     self.showImagePicker = true
-                                }.offset(x:5,y:50)}.onChange(of: self.selectedImage)
-                            { newVal in
+                                }
+                                
+                            }
+                            ZStack {
+                            }.onChange(of: self.selectedImage){ newVal in
                                 self.selectedImage = newVal
                             }.onAppear
                             {
                                 self.selectedImage = nil
                             }
+                            
+                            
+                            
                             Spacer(minLength: 0)
                             
                             VStack(spacing: 10){
                                 
                                 
-                                Text("profile")
+                                Text("profil")
                                     .foregroundColor(self.index == 1 ? .white : .gray)
                                     .font(.title)
                                     .fontWeight(.bold)
-                                
+                                    .offset(x:0)
+                         
                                 Capsule()
-                                    .fill(self.index == 1 ? Color.blue : Color.clear)
-                                    .frame(width: 100, height: 5)
+                                    .fill(self.index == 1 ? Color("Color1") : Color.clear)
+                                    .frame(width: 300, height: 5)
+                                    .offset(x:-0)
                             }
                         }
                         .padding(.top, 30)// for top curve...
@@ -122,7 +133,7 @@ struct Home1 : View {
                             }
                             
                             Divider().background(Color.white)
-                        }
+                        }.offset(x:20,y:60)
                         .padding(.horizontal)
                         .padding(.top, 60)
                         VStack{
@@ -136,7 +147,7 @@ struct Home1 : View {
                             }
                             
                             Divider().background(Color.white)
-                        }
+                        }.offset(x:20,y:60)
                         .padding(.horizontal)
                         .padding(.top, 60)
                         
@@ -151,7 +162,7 @@ struct Home1 : View {
                             }
                             
                             Divider().background(Color.white)
-                        }
+                        }.offset(x:20,y:60)
                         .padding(.horizontal)
                         .padding(.top, 60)
                         // replacing forget password with reenter password...
@@ -169,15 +180,14 @@ struct Home1 : View {
                             
                             
                             Divider().background(Color.white)
-                        }
+                        }.offset(x:20,y:60)
                         .padding(.horizontal)
                         .padding(.top, 60)
                         
                         
                     }
-                    .padding()
                     // bottom padding...
-                    .padding(.bottom, 65)
+                    .padding(.bottom, 200)
                     .background(Color("Color2"))
                     .clipShape(CShape2())
                     // clipping the content shape also for tap gesture...
@@ -189,9 +199,7 @@ struct Home1 : View {
                         
                         self.index = 1
                         
-                    }.overlay(
-                        RoundedRectangle(cornerRadius: 56)
-                    .stroke(Color("Color1"), lineWidth: 4))
+                    }
                     .cornerRadius(35)
                     .padding(.horizontal,20)
                     
@@ -202,6 +210,7 @@ struct Home1 : View {
                         UserViewModel.currentUser?.firstName = username
                         UserViewModel.currentUser?.lastName = lastname
                         UserViewModel.currentUser?.password = password
+                        UserViewModel.currentUser?.image = image
                         
                         viewModel.update(user: UserViewModel.currentUser!, image: selectedImage!)
                         })

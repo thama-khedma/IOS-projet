@@ -9,6 +9,7 @@ import SwiftUI
 import Alamofire
 import SwiftyJSON
 import RiveRuntime
+import MapKit
 struct PlayerView: View {
     @State var name: String
     @State var index = 0
@@ -104,7 +105,7 @@ struct PlayerView: View {
                     .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: -5)
                     .onTapGesture {
                     self.index = 1 }
-                    .cornerRadius(35)
+                    .cornerRadius(20)
                     .padding(.horizontal,20)
                     
                     // Button...
@@ -122,7 +123,6 @@ struct PlayerView: View {
     
 }
 struct Furniture : Identifiable,Hashable{
-    
     var id : String
     var image : String
     var name : String
@@ -148,7 +148,7 @@ struct Entreprises: View {
         })
     }
     func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
-        AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
+        AF.request(Statics.URL+"/Entreprise/find/139.7867190434941/35.72192853727322", method: .get ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData {
@@ -174,7 +174,7 @@ struct Entreprises: View {
     }
     @State var show = false
     @State var isOpen = false
-    @AppStorage("selectedMenu") var selectedMenu: SelectedMenu = .home
+    @AppStorage("selectedMenu") var selectedMenu: SelectedMenu = .search
    /* var button = RiveViewModel(fileName: "menu_button", stateMachineName: "State Machine", autoplay: false, animationName: "open")*/
     @State var detail = false
     @State var name = ""
@@ -182,7 +182,8 @@ struct Entreprises: View {
     @State var email = ""
     @State var description = ""
     @State var destination = ""
-    
+    @State var image = ""
+
     var body: some View {
         
         ZStack {
@@ -197,11 +198,11 @@ struct Entreprises: View {
                     switch selectedMenu {
                     case .home:
                         ZStack{//detail: self.$detail
-                            Detail1(name: $name, id: $id, email: $email, description: $description, destination: $destination,detail: $detail)
+                            Detail1(name: $name, id: $id, image: $image, email: $email, description: $description, destination: $destination,detail: $detail)
                             // expanding view when ever detail view is tapped...
                                 .frame(width: self.detail ? nil : 100, height: self.detail ? nil : 100)
                                 .opacity(self.detail ? 1 : 0)
-                            TabView2(name: $name, id: $id, email: $email, description: $description, destination: $destination,detail: $detail)
+                            TabView2(name: $name, id: $id, image: $image, email: $email, description: $description, destination: $destination,detail: $detail)
                                 .opacity(self.detail ? 0 : 1)
                         }.animation(.default)
                         // for changing status bar color...
@@ -216,7 +217,8 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .search:
-                        AddEntreprise()
+                        
+                        OfferCondidaturenavigation()
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -227,7 +229,7 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .favorites:
-                        offerView()
+                        AddEntreprise()
                             .safeAreaInset(edge: .top) {
                                 Color.clear.frame(height: 104)
                             }
@@ -238,7 +240,16 @@ struct Entreprises: View {
                             .scaleEffect(show ? 0.92 : 1)
                             .ignoresSafeArea()
                     case .help:
-                        Text("chat")
+                        Settings()
+                            .safeAreaInset(edge: .top) {
+                                Color.clear.frame(height: 104)
+                            }
+                            .mask(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                            .rotation3DEffect(.degrees(isOpen ? 30 : 0), axis: (x: 0, y: -1, z: 0), perspective: 1)
+                            .offset(x: isOpen ? 265 : 0)
+                            .scaleEffect(isOpen ? 0.9 : 1)
+                            .scaleEffect(show ? 0.92 : 1)
+                            .ignoresSafeArea()
                     case .history:
                         Text("chat")
                     case .notifications:
@@ -273,22 +284,20 @@ struct Entreprises: View {
                         UIApplication.shared.setStatusBarStyle(.darkContent, animated: true)
                     }
                 }
-            
- 
         }
         
     }
 }
-
 struct TabView2 : View {
     
-    @AppStorage("selectedTab") var selectedTab: Tab = .chat
+    @AppStorage("selectedTab") var selectedTab: Tab = .bell
     @State var index = 0
     @Environment(\.colorScheme) var scheme
     @State var show = false
     @State var isOpen = false
     @Binding var name: String
     @Binding var id: String
+    @Binding var image: String
     @Binding var email: String
     @Binding var description: String
     @Binding var destination: String
@@ -302,15 +311,16 @@ struct TabView2 : View {
             ZStack{
                 switch selectedTab {
                 case .chat:
-                    Ent(name: self.$name, id: self.$id, email: self.$email,  destination: self.$destination,description: self.$description,detail: self.$detail)
+                    Ent(name: self.$name, id: self.$id,image: self.$image, email: self.$email,  destination: self.$destination,description: self.$description, detail: self.$detail)
                 case .search:
                     AddEntreprise()
                 case .timer:
                     offerView()
                 case .bell:
-                    Text("chat")
+                    OfferCondidaturenavigation()
                 case .user:
-                    profile()
+                    Settings()
+                    
                         .preferredColorScheme(.dark)
                 }
                 
@@ -349,6 +359,7 @@ struct RoundShape : Shape {
 struct Detail1 : View {
     @Binding var name: String
     @Binding var id: String
+    @Binding var image: String
     @Binding var email: String
     @Binding var description: String
     @Binding var destination: String
@@ -361,15 +372,17 @@ struct Detail1 : View {
             ZStack{
                 Color.black.edgesIgnoringSafeArea(.all)
                 VStack{
-                    
                     HStack{
+                       
+                            
+                    }.offset(y:100)
+                    HStack{
+                        MapView2(coordinate: CLLocationCoordinate2D(latitude: 34.011_286, longitude: -116.166_868))
                         
-                        Image("nasa")
-                        
-                            .resizable()
                             .scaledToFit()
-                            .frame(width: UIScreen.main.bounds.width / 1.5, height: UIScreen.main.bounds.height / 2)
-                        
+                            .cornerRadius(20)
+                            .frame(width: 260, height: 200)
+                            .offset(y:100)
                         Button(action: {
                             // closing the detail view when close button is pressed...
                             self.detail.toggle()
@@ -379,10 +392,9 @@ struct Detail1 : View {
                                 .foregroundColor(Color("Color1"))
                                 .padding(.horizontal)
                             
-                        }
-                    }.offset(y:-100)
+                        }.offset(x:-166,y:100)
+                    }.offset(x:30,y:-50)
                         .padding(.horizontal)
-                        .padding(.bottom, -290)
                         .zIndex(5)
                     // zindex sets views postion on the stack...
                     // moving bottom view up...
@@ -465,7 +477,6 @@ struct Detail1 : View {
                                             
                                             */
                                                 Button("Add offre", action: {
-                                                    
                                                     showaddoffre = true
                                                     
                                                 }
@@ -475,16 +486,13 @@ struct Detail1 : View {
                                                 .font(.title)
                                                 .foregroundColor(.white)
                                                 .padding(.vertical)
-                                                .frame(width: UIScreen.main.bounds.width / 1.5)
+                                                .frame(width: UIScreen.main.bounds.width / 1.2)
                                                 .background(Color("Color1"))
                                                 .cornerRadius(10)
                                                 // shadow...
                                                 .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                                                 
                                             }}.offset(x:0,y:70)
-                                        
-                                        
-                                    
                                     }
                                     }
                                     else{
@@ -524,25 +532,29 @@ struct Detail1 : View {
                                         .padding(.horizontal)
                                         .padding(.top, 60)
                                         Button("update company", action: {
+                                            self.index = 0
                                             viewModel.updateEntreprise(name: name, email: email, description: description, id:id)
                                         })
+                                        .font(.title)
                                         .foregroundColor(.white)
-                                        .fontWeight(.bold)
                                         .padding(.vertical)
-                                        .padding(.horizontal, 50)
+                                        .frame(width: UIScreen.main.bounds.width / 1.2)
                                         .background(Color("Color1"))
-                                        .clipShape(Capsule())
+                                        .cornerRadius(10)
+                                        // shadow...
                                         .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                                         .offset(y: 25)
                                         .opacity(self.index == 1 ? 1 : 0)
-                                        Button("Delete company", action: {viewModel.DeleteEntreprise(id: id)})
-                                            .foregroundColor(.white)
-                                            .fontWeight(.bold)
-                                            .padding(.vertical)
-                                            .padding(.horizontal, 50)
-                                            .background(Color("Color1"))
-                                            .clipShape(Capsule())
-                                            .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
+                                        Button("Delete company", action: {detail = false
+                                            viewModel.DeleteEntreprise(id: id)})
+                                        .font(.title)
+                                        .foregroundColor(.white)
+                                        .padding(.vertical)
+                                        .frame(width: UIScreen.main.bounds.width / 1.2)
+                                        .background(Color("Color1"))
+                                        .cornerRadius(10)
+                                        // shadow...
+                                        .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                                             .offset(y: 25)
                                             .opacity(self.index == 1 ? 1 : 0)
                                         
@@ -570,7 +582,6 @@ struct Detail1 : View {
                     
                 }
             }
-            .edgesIgnoringSafeArea(.bottom)
         }
     }
 }
@@ -588,6 +599,7 @@ struct Detail : View {
             VStack(spacing: 8){
                 GeometryReader{geo in
                     VStack(alignment: .leading){
+                       
                                 HStack{
                                     VStack(alignment: .leading, spacing: 12){
                                         
@@ -599,6 +611,7 @@ struct Detail : View {
                                     }
                           
                             VStack(alignment: .leading, spacing: 15){
+                                
 
                                 HStack(spacing: 5){
                                     Text("destination : ").fontWeight(.heavy)
@@ -655,8 +668,6 @@ struct Detail : View {
                             NavigationLink(destination: Addoffre(entreprise: name), isActive: $showaddoffre){
                                     VStack{
                                         Button("Add offre", action: {showaddoffre = true}
-                                               
-                                               
                                         )
                                         .foregroundColor(.white)
                                         .fontWeight(.bold)
@@ -666,9 +677,7 @@ struct Detail : View {
                                         .clipShape(Capsule())
                                         // shadow...
                                         .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                                        
-                                    }
-                                                                }.offset(x:110,y:200)
+                                    }}.offset(x:110,y:200)
 
                         
                     }
@@ -701,19 +710,20 @@ struct Detail : View {
     }
 }*/
 struct Ent : View {
-
+    
     @Environment(\.colorScheme) var scheme
     @State var search = ""
     @State var showupdate : Bool = false
     @Binding var name : String
     @Binding var id : String
+    @Binding var image : String
     @Binding var email : String
     @State var op : CGFloat = 0
     @Binding var destination : String
     @Binding var description : String
     @State var refresh: Bool = false
     @Binding var detail : Bool
-
+    @ObservedObject var CondidatureviewModel = CondidatureViewModel()
     var body: some View{
         
         VStack{
@@ -735,7 +745,14 @@ struct Ent : View {
                     Spacer()
                     
                     Button(action: {
-                        
+                        CondidatureviewModel.getCondidatures(complited: {(success , respnse)in
+                            if success{
+                                CondidatureviewModel.condidatures = respnse!
+                            }else {
+                                print("error cant connect ")
+                            }
+                        })
+                        print(CondidatureviewModel.condidatures)
                     }) {
                         
                         Image("qr")
@@ -744,17 +761,7 @@ struct Ent : View {
                             .foregroundColor(.primary)
                     }
                     
-                    Button(action: {
-                        
-                        
-                        UIApplication.shared.windows.first?.rootViewController?.overrideUserInterfaceStyle = self.scheme == .dark ? .light : .dark
-                        
-                    }) {
-                        
-                        Image(systemName: self.scheme == .dark  ? "sun.max.fill" : "moon.fill")
-                            .font(.system(size: 22))
-                            .foregroundColor(.primary)
-                    }
+                   
                 }
                 
                 Text("Companies")
@@ -765,14 +772,28 @@ struct Ent : View {
             
             ScrollView(.vertical, showsIndicators: false) {
                 VStack{
+                    VStack{
+                        Rectangle()
+                            .fill(Color("Color1"))
+                            .frame(height: 2)
+                        
+                    }.offset(y:25)
                     HStack{
+                        
                         Text("Recommended For You")
                             .fontWeight(.bold)
                             .font(.title)
+                            .offset(x:40)
                         Spacer()
                     }
                     .padding(.top,30)
                     .padding(.bottom, 20)
+                    VStack{
+                        Rectangle()
+                            .fill(Color("Color1"))
+                            .frame(height: 2)
+                        
+                    }.offset(y:-20)
                     //
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing:25){
@@ -788,54 +809,78 @@ struct Ent : View {
                                             self.description=i.description
                                             
                                         }) {*/
-                                            ZStack(alignment: .bottom){
+                                            ZStack(){
                                                 Color("Color")
-                                                    .frame(height: UIScreen.main.bounds.height / 3.5)
+                                                    .frame(height: UIScreen.main.bounds.height / 2.5)
                                                     .cornerRadius(20)
-                                                VStack(spacing: 50){
-                                                    AsyncImage(url: URL(string: "http://127.0.0.1:3000/imag/"+(i.image ??  "") ),
-                                                               content:{ image in
-                                                        image  .resizable()
-                                                            .resizable()
-                                                            .scaledToFit()
-                                                            .frame(width: 330, height: 200)                                                    },placeholder: { })
+                                                VStack(){
+                                                    
+                                                    MapView2(coordinate: CLLocationCoordinate2D(latitude: 139.7867190434941, longitude: 35.72192853727322))
+                                                        .scaledToFit()
+                                                        .cornerRadius(20)
+                                                        .frame(width: 260, height: 200)
                                                     HStack{
                                                         VStack(alignment: .leading, spacing: 12) {
+                                                            VStack{
+                                                                Image("map")
+                                                            }.offset(x:35,y:30)
                                                             Text(i.destination)
                                                                 .fontWeight(.bold)
+                                                                .offset(x:60,y:0)
                                                                 
                                                             Text(i.name)
                                                                 .fontWeight(.bold)
                                                                 .font(.title)
+                                                                .offset(x:90,y:0)
+                                                            
+                                                            
                                                         }
                                                         .foregroundColor(.white)
                                                         Spacer(minLength: 0)
+                                                       
                                                     }
+                                                    
+                                               
                                                 }
                                                 .padding(.horizontal)
                                                 .padding(.vertical, 40)
                                                 .padding(.bottom)
+                                                
+                                              
                                             }
+                                        
                                        // }
-                                    .onTapGesture {
-                                            // assigning data when ever image is tapped....
+                                            .onTapGesture {
                                         self.detail.toggle()
                                         self.showupdate.toggle()
                                         self.name = i.name
                                         self.id = i.id
                                         self.email = i.email
+                                        self.image = i.image
                                         self.destination=i.destination
                                         self.description=i.description
-                                    }
-                                    }
+                                            }
+                                        
+                                     
+                                    }}
                                 }}
+                      
                             
                         }
                         .padding(.horizontal, 10)
                         .padding(.vertical, 25)
+                        .opacity(10)
                     }//
                     
+                
+            }.refreshable{ getEntrepriss(complited: {(success , respnse)in
+                if success{
+                     furnitures = respnse!
+                }else {
+                    print("error cant connect ")
                 }
+            })
+              
             }
             .onAppear(perform: {
                 getEntrepriss(complited: {(success , respnse)in
@@ -845,12 +890,14 @@ struct Ent : View {
                         print("error cant connect ")
                     }
                 })
+                
+            
             })
             Spacer()
         }
     }
     func getEntrepriss(complited: @escaping(Bool, [[Furniture]]?) -> Void) {
-        AF.request(Statics.URL+"/entreprise/", method: .get ,encoding: JSONEncoding.default)
+        AF.request(Statics.URL+"/Entreprise/find/139.7867190434941/35.72192853727322", method: .get ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)
             .validate(contentType: ["application/json"])
             .responseData {
@@ -869,7 +916,6 @@ struct Ent : View {
                     
                 }
             }
-        
     }
 }
 

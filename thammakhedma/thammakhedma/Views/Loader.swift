@@ -29,7 +29,6 @@ struct Loader : View {
                             self.show.toggle()
                         }
                 }
-                
                 Text("Please Wait....")
             }
             .padding(.vertical, 25)

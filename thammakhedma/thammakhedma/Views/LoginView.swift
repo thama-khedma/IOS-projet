@@ -119,11 +119,15 @@ struct Login : View {
     @State private var isLogin = false
     @State private var isShowingContentView = false
     @State private var isGoogle = false
-
+    @State private var visible = false
     var currentUser: User?
     @State private var isShowingRegisterView = false
     @ObservedObject var viewModel = UserViewModel()
     
+    
+    @AppStorage("lastUserEmail") var lastUserEmail: String = ""
+    @AppStorage("lastUserPassword") var lastUserPassword: String = ""
+
     var body: some View{
         
         ZStack(alignment: .bottom) {
@@ -166,11 +170,26 @@ struct Login : View {
                 
                 VStack{
                     HStack(spacing: 15){
-                        
-                        Image(systemName: "eye.slash")
-                        .foregroundColor(Color("Color1"))
-                        
-                        SecureField("Password", text:$viewModel.password)
+                        Button(action: {
+                            visible.toggle()
+                        }) {
+                            
+                            Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                                .foregroundColor(Color("Color1"))
+                            
+                        }
+                        HStack(spacing: 15){
+                            VStack{
+                                if self.visible{
+                                    TextField("Password", text: $viewModel.password)
+                                        .autocapitalization(.none)
+                                }
+                                else{
+                                    SecureField("Password", text: $viewModel.password)
+                                        .autocapitalization(.none)
+                                }
+                            }
+                        }
                     }
                     
                     Divider().background(Color.white.opacity(0.5))
@@ -230,7 +249,11 @@ struct Login : View {
                     
                     viewModel.LogIn(email: viewModel.email, password: viewModel.password,complited: {(user ) in
                         if let  _ = user {
+                            
                             print("logged in ")
+                            lastUserEmail = viewModel.email
+                            lastUserPassword = viewModel.password
+
                             isLogin=true
                         }else{
                             print("not loged in ")
@@ -353,15 +376,19 @@ struct Login : View {
                     
                     if success{
                         
-                        viewModel.LogIn(email: "admin", password: "admin",complited: {(user ) in
-                            if let  _ = user {
-                                print("logged in ")
-                                isLogin=true
-                            }else{
-                                print("not loged in ")
-                                isLogin=false
-                            }
-                        })
+                        if lastUserEmail != "" && lastUserPassword != ""
+                        {
+                            viewModel.LogIn(email: lastUserEmail, password: lastUserPassword,complited: {(user ) in
+                                if let  _ = user {
+                                    print("logged in ")
+                                    isLogin=true
+                                }else{
+                                    print("not loged in ")
+                                    isLogin=false
+                                }
+                            })
+
+                        }
 
                     }
                     else{
@@ -516,7 +543,8 @@ struct SignUP : View {
                 // shadow...
                 .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                 
-            }.frame(alignment: .leading).sheet(isPresented: $showImagePicker)
+            }.frame(alignment: .leading)
+            .sheet(isPresented: $showImagePicker)
             {
                 
                 ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedImage)

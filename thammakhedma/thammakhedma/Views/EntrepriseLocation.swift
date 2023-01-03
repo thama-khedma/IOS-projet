@@ -103,32 +103,7 @@ struct Home5 : View {
                         
                         VStack(spacing: 20){
                             VStack{
-                                if let selectedImage = selectedImage {
-                                Image(uiImage:selectedImage) .resizable()
-                                .cornerRadius(7)
-                                .padding(1) // Width of the border
-                                .background(Color.gray.opacity(0.10))
-                                .cornerRadius(10)
-                                                                                  
-                                .clipShape(Circle())
-                                                                                  
-                                .scaledToFit()
-                                                                                 
-                                            .frame(width: 100, height: 100)
-                                                                                  .offset(x:3,y:40)
-                                                                              
-                                }
-                                HStack {
-                                    
-                                    Image(systemName: "camera").font(.system(size: 40, weight:.medium)).foregroundColor(Color(uiColor: UIColor(red: 0.88, green: 0.85, blue: 0.77, alpha: 1))).onTapGesture {
-                                        self.showImagePicker = true
-                                    }.offset(x:5,y:50)}.onChange(of: self.selectedImage)
-                                { newVal in
-                                    self.selectedImage = newVal
-                                }.onAppear
-                                {
-                                    self.selectedImage = nil
-                                }
+                                
                                 HStack{
                                     
                                     Spacer(minLength: 0)
@@ -201,7 +176,8 @@ struct Home5 : View {
                             // Button...
                             NavigationLink(destination: Entreprises().navigationBarBackButtonHidden(true),isActive: $next ){
                                 Button(action: {print("aaaa"+viewModel.name+viewModel.email+id+viewModel.description+String(self.name))
-                                    viewModel.image(name: viewModel.name, email: viewModel.email, id:id, adresse: String(self.name), description: viewModel.description, latitud: String(self.longitud), longitud: String(self.latitud), image: selectedImage!)
+                                    /*viewModel.image(name: viewModel.name, email: viewModel.email, id:id, adresse: String(self.name), description: viewModel.description, latitud: String(self.longitud), longitud: String(self.latitud), image: selectedImage!)*/
+                                    viewModel.AddEntreprise(name: viewModel.name, email: viewModel.email, id:id, adresse: String(self.name), description: viewModel.description, latitud: String(self.longitud), longitud: String(self.latitud))
                                      next = true
                                 }) {
                                     

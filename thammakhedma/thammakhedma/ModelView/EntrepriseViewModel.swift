@@ -39,7 +39,7 @@ class EntrepriseViewModel: ObservableObject {
             "location":[
                "type": "Point",
                "coordinates" : [latitud,longitud]
-            ]
+            ],
         ]
         AF.request(Statics.URL+"/entreprise/Add" , method: .post,parameters:parametres ,encoding: JSONEncoding.default)
             .validate(statusCode: 200..<500)

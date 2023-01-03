@@ -24,7 +24,7 @@ struct QRcodeView: View {
             
                     .resizable()
                     .interpolation(.none)
-                    .foregroundColor(.red)
+                    
             
             .onAppear(perform: updateCode)
         }

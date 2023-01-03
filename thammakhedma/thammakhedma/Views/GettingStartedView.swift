@@ -11,6 +11,7 @@ import RiveRuntime
 struct GettingStartedView: View {
     @State var showModal = false
     @Binding var show: Bool
+    @State var animation = false
     @State private var nextpage = false
     var body: some View {
         NavigationView{
@@ -25,14 +26,17 @@ struct GettingStartedView: View {
                     Button("Login", action: {nextpage = true})
                         .foregroundColor(.white)
                         .fontWeight(.bold)
-                        .padding(.vertical)
-                        .padding(.horizontal, 50)
-                        .background(Color("Color"))
+                        .fontWeight(.regular)
+                        .padding(.vertical , 12)
+                        .lineLimit(200)
+                        .padding(.horizontal, 100)
+                        .background(.ultraThinMaterial, in: Capsule())
                         .clipShape(Capsule())
                         .navigationBarBackButtonHidden(true)
                         .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
                     
-                }
+                }.offset(y:240)
+                    
                 
                 
             }
@@ -40,10 +44,15 @@ struct GettingStartedView: View {
     }
     var content: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Thamma Khedma ?")
-                .font(.custom("Poppins Bold", size: 60))
-                .frame(width: 260, alignment: .leading)
-
+            Image("Log")
+                .offset(x:-10,y:-50)
+            Text("Thama khedma")
+                
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(Color .gray)
+                .offset(x:160,y:-80)
+                .lineLimit(200)
             
             Spacer()
             

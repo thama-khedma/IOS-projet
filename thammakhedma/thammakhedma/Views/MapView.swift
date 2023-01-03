@@ -10,6 +10,19 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
+
+struct MapView2: View {
+    var coordinate: CLLocationCoordinate2D
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 35.7219 , longitude: 139.78671),
+        span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+    )
+
+    var body: some View {
+        Map(coordinateRegion: $region)
+    }
+}
+
 struct MapView : UIViewRepresentable {
     
     
@@ -70,7 +83,6 @@ struct MapView : UIViewRepresentable {
             
             let region = MKCoordinateRegion(center: locations.last!.coordinate, latitudinalMeters: 10000, longitudinalMeters: 10000)
             self.parent.source = locations.last!.coordinate
-            
             self.parent.map.region = region
         }
         

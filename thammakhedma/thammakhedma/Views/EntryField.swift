@@ -13,13 +13,37 @@ struct EntryField: View {
     var prompt: String
     @Binding var field: String
     var isSecure = false
+    @State var visible = false
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Image(systemName: sfSymbolName)
                     .foregroundColor(Color("Color1"))
                 if isSecure {
-                    SecureField(placeholder, text: $field)
+                    HStack(spacing: 15){
+                        
+                        VStack{
+                            
+                            if self.visible{
+                                
+                                TextField(placeholder, text: $field)
+                                    .autocapitalization(.none)
+                            }
+                            else{
+                                
+                                SecureField(placeholder, text: $field)
+                                    .autocapitalization(.none)
+                            }
+                        }
+                        
+                        Button(action: {
+                            visible.toggle()
+                        }) {
+                            
+                            Image(systemName: self.visible ? "eye.slash.fill" : "eye.fill")
+                        }
+                        
+                    }
                 } else {
                     TextField(placeholder, text: $field)
                 }

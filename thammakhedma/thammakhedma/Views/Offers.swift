@@ -8,7 +8,7 @@
 import SwiftUI
 import Alamofire
 import SwiftyJSON
-
+import MapKit
 
 struct offerdata : Identifiable {
     
@@ -22,6 +22,8 @@ struct offerdata : Identifiable {
 var data = [offerdata]()
 
 struct offerView: View {
+    
+
     init(){
         
          getoffer(complited: {(success , respnse)in
@@ -65,6 +67,54 @@ struct offerView_Previews: PreviewProvider {
         offerView()
     }
 }
+
+struct CircleImage: View {
+    var image: Image
+
+    var body: some View {
+        image
+            .clipShape(Circle())
+            .overlay {
+                Circle().stroke(.white, lineWidth: 4)
+                
+            }
+            .scaledToFit()
+            
+            .frame(width: 200, height: 200)
+            
+    }
+}
+struct LandmarkDetail: View {
+
+    var body: some View {
+        VStack {
+
+            VStack(alignment: .leading) {
+                Text("landmark.name")
+                    .font(.title)
+
+                HStack {
+                    Text("landmark.park")
+                    Spacer()
+                    Text("landmark.state")
+                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+
+                Divider()
+
+                Text("About \("landmark.name")")
+                    .font(.title2)
+                Text("landmark.description")
+            }
+            .padding()
+
+            Spacer()
+        }
+    }
+}
+
+
 struct offreDetail : View {
     @State var name: String
     @State var id: String
@@ -75,38 +125,80 @@ struct offreDetail : View {
     @State var showupdate : Bool = false
     @State var apply : Bool = false
     @ObservedObject var viewModel = CondidatureViewModel()
-
     var body : some View{
         NavigationView{
-            
-            VStack{
+            VStack {
+                MapView2(coordinate: CLLocationCoordinate2D(latitude: 34.011_286, longitude: -116.166_868))
+                    .ignoresSafeArea(edges: .top)
+                    .frame(height: 300)
+               Image("Joob")
+                   
+                    .scaledToFit()
+                    .offset(y:-70)
+                    .frame(width: 100, height: 100)
                 
-                GeometryReader{geo in
+                .offset(y: -130)
+                .padding(.bottom, -130)
+                VStack(alignment: .leading) {
+                    Text("offer")
+                        .font(.title)
                     
+                    HStack {
+                        Text(name)
+                        Spacer()
+                    }
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    
+                    Divider()
+                    
+                    Text("About \(name)")
+                        .font(.title2)
+                    Text(description)
+                    
+                }
+                .padding()
+                  NavigationLink(destination: UpdateOfferView(name: name,id: id,description: description), isActive: $showupdate){
+                    Button(action: {
+                        showupdate=true
+                    }) {
+                        
+                        Image(systemName: "gear.circle") .resizable()
+                            .frame(width: 50.0, height: 50.0)
+                    }
+                }.offset(y:80)
+                NavigationLink(destination: QRcodeView(offre: name, entreprise: entreprise_name, user: userid), isActive: $apply){
+                    Button(action: {
+                    apply=true
+                        viewModel.AddCondidature(entreprise_name: entreprise_name, offre_decription: description, user: userid, offre: name)
+                    }) {
+                        
+                        HStack(spacing: 6){
+                            Text("apply for the offer")
+                            Image("arrow").renderingMode(.original)
+                        }.foregroundColor(.white)
+                            .padding()
+                        
+                    }.background(Color("Color"))
+                    .cornerRadius(8)}.offset(y:100)
+                Spacer()
+            }/*
+            VStack{
+                GeometryReader{geo in
                     VStack(alignment: .leading){
                         VStack(alignment: .leading, spacing: 10){
-                            
                             HStack{
-                                
-                                
                                 VStack(alignment: .leading){
-                                    
                                     Text("name").fontWeight(.heavy).font(.largeTitle)
                                     Text(name).fontWeight(.heavy).font(.largeTitle)
-                                    
                                 }.padding()
-                                
                                 Spacer()
-                                
                             }
-                            
                         }.padding()
                         
                         VStack(alignment: .leading, spacing: 10){
-                            
                             Text("Description").fontWeight(.heavy)
                             Text(description).foregroundColor(.gray)
-                            
                             HStack(spacing: 8){
                                 NavigationLink(destination: UpdateOfferView(name: name,id: id,description: description), isActive: $showupdate){
                                     Button(action: {
@@ -124,10 +216,8 @@ struct offreDetail : View {
                                     }) {
                                         
                                         HStack(spacing: 6){
-                                            
                                             Text("apply for the offer")
                                             Image("arrow").renderingMode(.original)
-                                            
                                         }.foregroundColor(.white)
                                             .padding()
                                         
@@ -137,43 +227,54 @@ struct offreDetail : View {
                                 }.padding(.top, 6)
                             }
                         }.padding()
-                        
                     }
-                    
                 }.background(Color("Color"))
                     .padding(.top, -75)
-                
-            }
-            /*  VStack(spacing: 8){
-             GeometryReader{geo in
-             VStack(alignment: .leading){
-             ScrollView{
-             VStack(alignment: .leading, spacing: 15){
-             Text("contact").fontWeight(.heavy)
-             Text(email).foregroundColor(.gray)
-             }.padding(.horizontal,15)
-             VStack(alignment: .leading, spacing: 10){
-             Text("Description").fontWeight(.heavy)
-             Text(description).foregroundColor(.gray)
-             }.padding()
-             }
-             }
-             
-             }.background(Color("Color"))
-             .padding(.top, -75)
-             
-             }*/
+            }*/
         }
     }
 }
 struct offer : View {
-    
+    @State var searchQuery = ""
     // for sticky header view...
     @State var time = Timer.publish(every: 0.1, on: .current, in: .tracking).autoconnect()
     
     @State var show = false
     @Environment(\.colorScheme) var scheme
-
+    
+    @Namespace var animation
+    init(){
+        
+         getoffer(complited: {(success , respnse)in
+             if success{
+                 let data = respnse!
+             }else {
+                 print("error cant connect ")
+             }
+             
+         })
+        
+     }
+     
+     func getoffer(complited: @escaping(Bool, [offerdata]?) -> Void) {
+         AF.request(Statics.URL+"/offre/offre", method: .get ,encoding: JSONEncoding.default)
+             .validate(statusCode: 200..<500)
+             .validate(contentType: ["application/json"])
+             .responseData {
+                 response in
+                 switch response.result {
+                 case .success:
+                     data = []
+                     for i in JSON(response.data!){
+                         data.append(offerdata(id: i.1["_id"].stringValue, image: "g3", name: i.1["name"].stringValue, description: i.1["description"].stringValue,entreprise_name: i.1["entreprise"].stringValue))
+                     }
+                     complited(true,data)
+                 case let .failure(error):
+                     debugPrint(error)
+                 complited(false,nil)
+                 }
+             }
+     }
     var body: some View{
         
         ZStack(alignment: .top, content: {
@@ -195,44 +296,69 @@ struct offer : View {
                     .frame(height: UIScreen.main.bounds.height / 8.0)
                         
                     VStack{
-                        
+                        HStack(spacing: 15) {
+                            Image(systemName: "magnifyingglass")
+                                .font(.system(size: 23, weight: .bold))
+                                .foregroundColor(Color.gray)
+
+                            TextField("Search", text: $searchQuery)
+                        }
+                        .padding(.vertical, 10)
+                        .padding(.horizontal)
+                        .background(Color.black.opacity(0.05))
+                        .cornerRadius(8)
+                        .padding()
+
                         HStack{
-                            
+
                             Text("job Offers")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .offset(x:50,y:0)
                             Spacer()
                             
-                            Button(action: {
-                                UIApplication.shared.windows.first?.rootViewController?.overrideUserInterfaceStyle = self.scheme == .dark ? .light : .dark
-                                
-                            }) {
-                                
-                                Image(systemName: self.scheme == .dark  ? "sun.max.fill" : "moon.fill")
-                                    .font(.system(size: 22))
-                                    .foregroundColor(.primary)
-                            }
-                        }
+                          
+                        }.padding(.horizontal,-20)
                         
                         VStack(spacing: 20){
-                            ForEach(data){i in
-                                CardView(data: i)
+
+                            ForEach(searchQuery == "" ? data : data.filter{$0.name.lowercased().contains(searchQuery.lowercased())}){i in
+                                CardView(data: i, animation: animation)
                             }
-                        }
-                        .padding(.top)
+                        }.onAppear(perform: {
+                            getoffer(complited: {(success , respnse)in
+                                if success{
+                                    let data = respnse!
+                                }else {
+                                    print("error cant connect ")
+                                }
+                                
+                            })
+                            
+                        
+                        })
                     }
                     .padding()
                     
                     Spacer()
                 }
             }
-            )
+            ).refreshable {
+                getoffer(complited: {(success , respnse)in
+                    if success{
+                        let data = respnse!
+                    }else {
+                        print("error cant connect ")
+                    }
+                    
+                })
+            }
             
 
         })
         .edgesIgnoringSafeArea(.top)
     }
+    
 }
 struct UpdateOfferView: View {
     @State var name: String
@@ -262,23 +388,26 @@ struct UpdateOfferView: View {
                 ZStack(alignment: .bottom) {
                     VStack{
                         VStack{
-                            HStack(spacing: 15){
+                            HStack(){
                                 Image(systemName: "person.3.sequence.fill")
                                     .foregroundColor(Color("Color1"))
                                 TextField("Company name", text: $name)
+                               
                             }
-                            
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal,20)
                         .padding(.top, 60)
                         VStack{
                             HStack(spacing: 15){
                                 Image(systemName: "mail.stack.fill")
+                                
                                     .foregroundColor(Color("Color1"))
+                                
                                 TextField("Company offre", text: $description)
+                                
                             }
-                            Divider().background(Color.white.opacity(0.5))
+                            Divider().background(Color.white)
                         }
                         .padding(.horizontal)
                         .padding(.top, 60)
@@ -324,7 +453,7 @@ struct UpdateOfferView: View {
                     
       
 
-                }
+                }.offset(y:100)
             }
             .padding(.top,35)
             
@@ -340,25 +469,38 @@ struct CardView : View {
     
     var data : offerdata
     @State var showupdate : Bool = false
+    
+    var animation: Namespace.ID
+
     var body: some View{
         
             
-        HStack(alignment: .top, spacing: 20){
-            Image(self.data.image)
+        HStack(spacing: 15){
+            
+            Image("Joob")
+
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 60, height: 60)
+                .offset(x:10)
+            
+            VStack(alignment: .leading, spacing: 8, content: {
                 
-            VStack(alignment: .leading, spacing: 6) {
-                
-                Text(self.data.name)
+               Text(self.data.name)
                     .fontWeight(.bold)
+                    .offset(x:80)
               
                 
                 Text(self.data.description)
                     .font(.caption)
-                    .foregroundColor(.gray)
-                
+                    .font(.system(size: 40))
+                    .fontWeight(.bold)
+                    .padding(.vertical)
+                    .offset(x:80,y:20)
                 HStack(spacing: 12){
                     
-                    Button(action: {
+                    /*
+                     Button(action: {
                         self.showupdate.toggle()
 
                     }) {
@@ -374,17 +516,43 @@ struct CardView : View {
                     .sheet(isPresented: $showupdate) {
                         offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description, entreprise_name: self.data.entreprise_name)
                     }
-                    Text("JOB-OFFER")
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                    
+                    */
+                }
+                .sheet(isPresented: $showupdate) {
+                    offreDetail(name:self.data.name,id:self.data.id,email:self.data.description,description:self.data.description, entreprise_name: self.data.entreprise_name)
                 }
                 
-            }
+
+            })
+            
+            .padding(.vertical,30)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            
             
             Spacer(minLength: 0)
-        }.background(Color("Color2"))
-            .cornerRadius(23)
+                    }.onTapGesture {
+                        self.showupdate.toggle()
+                    }
+               
+                    .offset(x:40,y:2)
+        VStack{
+            Rectangle()
+                .fill(Color("Color1"))
+                .frame(height: 2)
+            
+            }.offset(x:30)
+      
+        .background(
+            Color.white
+                .opacity(0)
+                .ignoresSafeArea()
+        )
+        .cornerRadius(80)
+        
+        .padding(.horizontal,-40)
+        
+
         
     }
 }

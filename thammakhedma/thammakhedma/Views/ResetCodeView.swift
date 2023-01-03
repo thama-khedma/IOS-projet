@@ -14,54 +14,65 @@ struct ResetCodeView: View {
     @State private var Reset = false
     var body: some View {
         
-        VStack(alignment: .leading ,spacing: 150){
+        VStack(alignment: .leading ,spacing: 200){
             // Top View
 
                     
-                    VStack( spacing: 100) {
-                        Spacer()
-                        
+                    VStack( spacing: 50) {
+                            Image("Codereset")
                         Text("Code")
-                                .font(.callout)
-                                .bold()
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
                                 
                         TextField("Enter CODE...", text: $viewModel.code)
-                                .padding()
-                                .background()
-                                .cornerRadius(20.0)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(5)
+
+                            .font(.system(size: 20))
                         Text("new password")
-                                .font(.callout)
-                                .bold()
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                            .foregroundColor(Color.white)
                                 
                         TextField("new password...", text: $viewModel.password)
-                                .padding()
-                                .background()
-                                .cornerRadius(20.0)
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(5)
+
+                            .font(.system(size: 20))
                         
                         
                         
-                    }.padding([.leading,.trailing],27.5)
-                    
+                    }.padding(.horizontal, 25)
                     
                 
             HStack{	
                 NavigationLink(destination: LoginView(),isActive: $Reset){
-                    Button("enter",action:  {
+                    Button(action: {
                         viewModel.ResetCode(code: viewModel.code ,password: viewModel.password , onSuccess: {Reset = true} , onError: {
                             (errorMessage)in
                         })
-                        
                     })
-                    .foregroundColor(.white)
-                    .fontWeight(.bold)
-                    .padding(.vertical)
-                    .padding(.horizontal, 50)
-                    .background(Color("Color1"))
-                    .clipShape(Capsule())
-                    
-                    // shadow...
-                    .shadow(color: Color.white.opacity(0.1), radius: 5, x: 0, y: 5)
-                    
+                    {
+                        Text("Reset Password")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .padding(.vertical)
+                            .frame(width: UIScreen.main.bounds.width - 50)
+                            .background(
+                                Color("Color1")
+                                //LinearGradient(gradient: .init(colors: [Color("PrimaryColor"), Color("LightColor")]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+
+                    }
+                    .cornerRadius(8)
+                    .padding(.horizontal, 25)
+                    .padding(.top, -140)
                     
                 }
                 
@@ -74,8 +85,7 @@ struct ResetCodeView: View {
         }
        
         .background(Color("Color").edgesIgnoringSafeArea(.all))
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .ignoresSafeArea()
+       
 
     }
     

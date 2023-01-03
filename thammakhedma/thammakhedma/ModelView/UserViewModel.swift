@@ -14,6 +14,7 @@ class UserViewModel: ObservableObject {
     @Published var lastName : String  = ""
     @Published var password : String  = ""
     @Published var email : String  = ""
+    @Published var image : String  = ""
     var code : String = ""
     @Published var newPassword : String = ""
     @Published var isEmailCriteriaValid = false

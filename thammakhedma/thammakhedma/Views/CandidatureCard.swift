@@ -14,23 +14,12 @@ struct CandidatureCard: View {
     var body: some View {
        
         VStack(alignment: .leading, spacing: 8) {
-            
-            Text(offre)
+            Text(entreprise)
                 .font(.title)
                 .foregroundColor(Color.white)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 25)
                 .layoutPriority(1)
-            Text(entreprise)
-                .font(.title)
-                .opacity(0.7)
-                .padding(.horizontal, 25)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(user)
-                .font(.title)
-                .opacity(0.7)
-                .padding(.horizontal, 25)
-            Spacer()
             QRcodeView(offre: offre, entreprise: entreprise, user: user)
                 .frame(width: 260, height: 250)
         }
